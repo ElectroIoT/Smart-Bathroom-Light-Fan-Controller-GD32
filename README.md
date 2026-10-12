@@ -5,7 +5,7 @@
 <p align="center">
   <img alt="MCU" src="https://img.shields.io/badge/MCU-GD32F103C8T6-1b4b8f">
   <img alt="Language" src="https://img.shields.io/badge/firmware-C-blue">
-  <img alt="Tests" src="https://img.shields.io/badge/logic%20tests-64x4%20%2B%2037x2%20passing-brightgreen">
+  <img alt="Tests" src="https://img.shields.io/badge/logic%20tests-64x4%20%2B%2037x2%20%2B%2030x2%20passing-brightgreen">
   <img alt="Hardware" src="https://img.shields.io/badge/hardware%20test-pending-orange">
 </p>
 
@@ -63,6 +63,7 @@ Example: motion at 0:00 and again at 4:00 → light off at 11:00, fan off at 14:
 | Light override button | PB0 / B0 (to GND) |
 | Fan enable/disable button | PB1 / B1 (to GND) |
 | FAN-ENABLED LED | PA7 / A7 |
+| Humidity sensor DHT11/DHT22 (optional) | PB12 / B12 |
 | Debug text (optional) | PA9 / A9 (TX, 9600 baud) |
 | ST-Link programming | PA13 (SWDIO), PA14 (SWCLK), GND |
 
@@ -101,6 +102,20 @@ Wire each as GPIO → 330 Ω–1 kΩ resistor → LED → GND. Keep this low-vol
 | **Watchdog** | If the firmware ever hangs, the chip resets itself within about 4 s and the relays return to OFF. |
 
 All values are in [`include/config.h`](include/config.h). Wire each button between its pin and GND (internal pull-up).
+
+## 💧 Optional humidity sensor (off by default)
+
+<p align="center">
+  <img src="docs/img/humidity-wiring.svg" alt="DHT11 or DHT22 humidity sensor wired to PB12 with a pull-up and 3.3 V" width="90%">
+</p>
+
+Set `HUMIDITY_SENSOR` in [`include/config.h`](include/config.h) to `11` (DHT11) or `22` (DHT22); `0` keeps it off (default).
+
+- **Humid (70 % or more):** the fan starts by itself (even without motion) and is held ON.
+- **Back to normal (62 % or less):** a humidity-only run stops; after a visit the normal 10-minute fan timer applies again.
+- **Safety:** humidity can hold the fan at most 60 minutes per humid period, and after 3 failed sensor reads in a row the sensor is ignored and the **fault LED glows steadily** (a broken sensor can never hold the fan on).
+- The fan enable/disable button still wins: a disabled fan is never started by humidity.
+- A reading takes about 4 ms once every 5 s, and is untested on real hardware. A DHT22 is more accurate than a DHT11.
 
 ## ⚡ Flash it
 
@@ -146,14 +161,14 @@ Settings in [`include/config.h`](include/config.h): `LIGHT_TIMEOUT_MS`, `FAN_TIM
 ```bash
 python tools/build.py test
 ```
-64 checks × 4 configurations (relay active-LOW/HIGH × PIR active-HIGH/LOW) for the core timers, plus 37 checks × 2 for warning blink, fan delay, override, fan button + persistence and watchdog: startup OFF, timeouts at the exact boundary, independent timers, repeated motion, PIR held HIGH, reset while energised, 32-bit tick rollover, status LEDs. Features file: warning blink, fan start delay, override, fan button persistence, button debounce, watchdog kicks. Step-by-step bench plan: [`docs/test_plan.md`](docs/test_plan.md).
+64 checks × 4 configurations (relay active-LOW/HIGH × PIR active-HIGH/LOW) for the core timers, plus 37 checks × 2 for warning blink, fan delay, override, fan button + persistence and watchdog, and 30 checks × 2 (DHT11, DHT22) for the humidity option: startup OFF, timeouts at the exact boundary, independent timers, repeated motion, PIR held HIGH, reset while energised, 32-bit tick rollover, status LEDs. Features file: warning blink, fan start delay, override, fan button persistence, button debounce, watchdog kicks. Step-by-step bench plan: [`docs/test_plan.md`](docs/test_plan.md).
 
 ## 📊 Project status (honest)
 
 | Item | State |
 |---|---|
 | Control logic + unit tests | ✅ passing on PC |
-| Firmware compiles for Cortex-M3 (~2.8 KB) | ✅ |
+| Firmware compiles for Cortex-M3 (~2.9 KB) | ✅ |
 | GD32 register addresses, clock default | ⚠️ not yet checked against the official manual |
 | Running on real hardware | ❌ not tested yet |
 | PIR / relay module specifics | ❓ configurable, unconfirmed |
@@ -171,7 +186,7 @@ docs/                   design, wiring, programming, test plan
 ```
 
 ## Not included (on purpose)
-No Wi-Fi, Bluetooth, mmWave, display or cloud. Humidity sensing is not included (see the design doc).
+No Wi-Fi, Bluetooth, mmWave, display or cloud. Wi-Fi, mmWave, display and cloud features are not included.
 
 ---
 <sub>Part of [ElectroIoT](https://github.com/ElectroIoT) · always verify hardware ratings before connecting mains loads.</sub>

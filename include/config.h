@@ -196,6 +196,39 @@
 #endif
 
 /* ------------------------------------------------------------------ */
+/* Optional humidity sensor (DHT11 / DHT22, one data wire)              */
+/* ------------------------------------------------------------------ */
+/* 0 = no sensor (default), 11 = DHT11, 22 = DHT22/AM2302.
+ * With a sensor: the fan is held ON while the air is humid and (optionally)
+ * started by humidity alone. A reading takes about 4 ms once every
+ * HUMIDITY_POLL_MS (short, interrupts stay enabled). */
+#ifndef HUMIDITY_SENSOR
+#define HUMIDITY_SENSOR       0
+#endif
+#ifndef HUMIDITY_PORT
+#define HUMIDITY_PORT         1
+#define HUMIDITY_PIN          12          /* PB12 (needs the sensor's pull-up) */
+#endif
+#ifndef HUMIDITY_POLL_MS
+#define HUMIDITY_POLL_MS      5000UL      /* DHT11 >= 1 s, DHT22 >= 2 s */
+#endif
+#ifndef HUMIDITY_ON_PCT
+#define HUMIDITY_ON_PCT       70          /* humid at or above this RH %       */
+#endif
+#ifndef HUMIDITY_OFF_PCT
+#define HUMIDITY_OFF_PCT      62          /* back to normal at or below this   */
+#endif
+#ifndef HUMIDITY_AUTOSTART
+#define HUMIDITY_AUTOSTART    1           /* humidity alone may start the fan  */
+#endif
+#ifndef HUMIDITY_MAX_RUN_MS
+#define HUMIDITY_MAX_RUN_MS   3600000UL   /* humidity holds the fan at most 60 min */
+#endif
+#ifndef HUMIDITY_FAIL_LIMIT
+#define HUMIDITY_FAIL_LIMIT   3           /* failed reads in a row = sensor fault */
+#endif
+
+/* ------------------------------------------------------------------ */
 /* Watchdog                                                            */
 /* ------------------------------------------------------------------ */
 /* Independent watchdog: if the main loop hangs the chip resets and the

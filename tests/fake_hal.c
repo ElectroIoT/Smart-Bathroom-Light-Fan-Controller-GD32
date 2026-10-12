@@ -20,6 +20,26 @@ bool hal_load_fan_enabled(void) { return stored_fan_enabled; }
 void hal_save_fan_enabled(bool enabled) { stored_fan_enabled = enabled; store_writes++; }
 void hal_watchdog_kick(void) { wdt_kicks++; }
 
+bool fake_sensor_ok = true;
+int fake_rh_pct = 40;
+int humidity_reads;
+
+bool hal_humidity_read(uint8_t raw[5])
+{
+    humidity_reads++;
+    if (!fake_sensor_ok) return false;
+    if (HUMIDITY_SENSOR == 22) {
+        raw[0] = (uint8_t)((fake_rh_pct * 10) >> 8);
+        raw[1] = (uint8_t)((fake_rh_pct * 10) & 0xFF);
+    } else {
+        raw[0] = (uint8_t)fake_rh_pct;
+        raw[1] = 0;
+    }
+    raw[2] = 25; raw[3] = 0;
+    raw[4] = (uint8_t)(raw[0] + raw[1] + raw[2] + raw[3]);
+    return true;
+}
+
 void fake_set_motion(bool motion)
 {
     fake_pir_level = PIR_ACTIVE_HIGH ? motion : !motion;
@@ -37,6 +57,9 @@ void fake_reset(uint32_t start_time)
     stored_fan_enabled = true;
     store_writes = 0;
     wdt_kicks = 0;
+    fake_sensor_ok = true;
+    fake_rh_pct = 40;
+    humidity_reads = 0;
     for (int i = 0; i < IND_COUNT; i++) { ind_state[i] = false; ind_toggles[i] = 0; }
 }
 

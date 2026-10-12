@@ -11,7 +11,8 @@
 <text x="500" y="125" text-anchor="middle" font-size="11" fill="#cfe0ff">BOOT0 / BOOT1: leave both at 0</text>
 <circle cx="366" cy="140" r="5" fill="#d9c27a"/>
 <line x1="366" y1="140" x2="344" y2="140" stroke="#7a8aa8" stroke-width="1.5"/>
-<rect x="292" y="130" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="317.0" y="145" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB12</text>
+<rect x="292" y="130" width="50" height="20" rx="4" fill="#ef6c00"/><text x="317.0" y="145" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PB12</text>
+<text x="284" y="145" text-anchor="end" font-size="13" font-weight="700" fill="#ef6c00">Humidity sensor (option) &#8594;</text>
 <circle cx="366" cy="164" r="5" fill="#d9c27a"/>
 <line x1="366" y1="164" x2="344" y2="164" stroke="#7a8aa8" stroke-width="1.5"/>
 <rect x="292" y="154" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="317.0" y="169" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB13</text>

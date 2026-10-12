@@ -19,6 +19,9 @@ extern bool fake_btn[BTN_COUNT];    /* true = physically pressed        */
 extern bool stored_fan_enabled;      /* simulated flash flag (survives reset) */
 extern int  store_writes;
 extern int  wdt_kicks;
+extern bool fake_sensor_ok;         /* false = humidity read fails */
+extern int  fake_rh_pct;            /* simulated relative humidity */
+extern int  humidity_reads;
 
 void fake_reset(uint32_t start_time);
 /** Simulated power cycle: clears everything except the stored flag. */

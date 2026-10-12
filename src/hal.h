@@ -26,6 +26,9 @@ bool hal_button_pressed(button_id_t id);
 bool hal_load_fan_enabled(void);
 void hal_save_fan_enabled(bool enabled);
 
+/** Read one 5-byte DHT11/DHT22 frame. false = no sensor / timeout / disabled. */
+bool hal_humidity_read(uint8_t raw[5]);
+
 /** Feed the watchdog. Call every main-loop pass. */
 void hal_watchdog_kick(void);
 

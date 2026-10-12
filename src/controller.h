@@ -29,6 +29,8 @@ typedef struct {
     uint32_t fan_start_delay_ms;  /* fan starts this long after light came ON; 0 = now */
     uint32_t override_ms;         /* manual light override duration                   */
     bool     fan_enabled;         /* restored from storage by the caller              */
+    uint32_t humid_max_run_ms;    /* humidity may hold the fan at most this long; 0 = no limit */
+    bool     humid_autostart;     /* humidity alone may start the fan                 */
 } ctrl_cfg_t;
 
 typedef struct {
@@ -46,6 +48,10 @@ typedef struct {
     bool warned;              /* warning already issued this countdown    */
     bool override_active;     /* manual light override running            */
     bool fan_enabled;
+    bool humid;               /* humidity input (set by the caller)        */
+    bool humid_expired;       /* humidity held the fan for the max time    */
+    bool fan_by_humid;        /* fan was started by humidity only          */
+    uint32_t humid_since_ms;
 
     uint32_t start_ms;
     uint32_t last_motion_ms;
@@ -68,6 +74,9 @@ void ctrl_init(ctrl_t *c, uint32_t now_ms, const ctrl_cfg_t *cfg);
  * (true = motion), i.e. polarity already applied.
  */
 void ctrl_update(ctrl_t *c, uint32_t now_ms, bool pir_active);
+
+/** Optional humidity input. true = air is humid; the fan is held on / started. */
+void ctrl_set_humid(ctrl_t *c, uint32_t now_ms, bool humid);
 
 /** Button: toggle the manual light override (ON for cfg.override_ms). */
 void ctrl_light_override_toggle(ctrl_t *c, uint32_t now_ms);

@@ -172,6 +172,63 @@ void hal_save_fan_enabled(bool enabled)
     FMC_CTL |= FMC_CTL_LK;
 }
 
+/* --- optional DHT11 / DHT22 single-wire read (UNTESTED on hardware) --- */
+#if HUMIDITY_SENSOR
+/* Microseconds elapsed since a SysTick counter snapshot (< 1 ms spans). */
+static uint32_t ticks_since(uint32_t start)
+{
+    uint32_t now = SYST_CVR;                       /* counts down */
+    return (start >= now) ? (start - now) : (start + SYST_RVR + 1UL - now);
+}
+
+/* Wait for the pin to reach `level`; returns microseconds waited, 0 = timeout. */
+static uint32_t wait_level(bool level, uint32_t timeout_us)
+{
+    uint32_t t0 = SYST_CVR, per_us = SYSCLK_HZ / 1000000UL, limit = timeout_us * per_us;
+    while (((GPIO_ISTAT(HUMIDITY_PORT) & (1UL << HUMIDITY_PIN)) != 0) != level) {
+        if (ticks_since(t0) > limit) return 0;
+    }
+    uint32_t w = ticks_since(t0) / per_us;
+    return w ? w : 1;
+}
+#endif
+
+bool hal_humidity_read(uint8_t raw[5])
+{
+#if HUMIDITY_SENSOR
+    uint32_t per_us = SYSCLK_HZ / 1000000UL;
+    unsigned i;
+
+    for (i = 0; i < 5; i++) raw[i] = 0;
+    clock_enable_port(HUMIDITY_PORT);
+
+    /* start signal: pull LOW 20 ms, then release (pull-up) */
+    gpio_write(HUMIDITY_PORT, HUMIDITY_PIN, false);
+    gpio_mode(HUMIDITY_PORT, HUMIDITY_PIN, MODE_OUT_PP_2M);
+    { uint32_t t = g_ms; while ((uint32_t)(g_ms - t) < 21UL) { } }
+    gpio_write(HUMIDITY_PORT, HUMIDITY_PIN, true);
+    gpio_mode(HUMIDITY_PORT, HUMIDITY_PIN, MODE_IN_PUPD);   /* latch HIGH = pull-up */
+
+    /* sensor answers: LOW ~80 us, HIGH ~80 us */
+    if (!wait_level(false, 100)) return false;
+    if (!wait_level(true, 120))  return false;
+    if (!wait_level(false, 120)) return false;
+
+    for (i = 0; i < 40; i++) {
+        uint32_t t0, high;
+        if (!wait_level(true, 100)) return false;           /* end of the 50 us low */
+        t0 = SYST_CVR;
+        if (!wait_level(false, 120)) return false;          /* HIGH width: 26 us=0, 70 us=1 */
+        high = ticks_since(t0) / per_us;
+        raw[i / 8] = (uint8_t)((raw[i / 8] << 1) | (high > 45UL ? 1u : 0u));
+    }
+    return true;
+#else
+    (void)raw;
+    return false;
+#endif
+}
+
 bool hal_button_pressed(button_id_t id)
 {
     bool level;

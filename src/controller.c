@@ -16,6 +16,8 @@ void ctrl_init(ctrl_t *c, uint32_t now_ms, const ctrl_cfg_t *cfg)
     c->light_on = c->fan_on = false;
     c->fan_armed = c->light_warn = c->warned = c->override_active = false;
     c->fan_enabled = cfg->fan_enabled;
+    c->humid = c->humid_expired = c->fan_by_humid = false;
+    c->humid_since_ms = now_ms;
 
     c->start_ms = c->last_motion_ms = c->light_on_since_ms = now_ms;
     c->warn_start_ms = c->override_start_ms = now_ms;
@@ -45,6 +47,7 @@ static bool debounce(ctrl_t *c, uint32_t now, bool raw)
 static void motion_event(ctrl_t *c, uint32_t now)
 {
     c->last_motion_ms = now;
+    c->fan_by_humid = false;          /* a person is here: normal fan timer */
     c->warned = false;                /* new countdown, new warning */
     c->light_warn = false;
     if (!c->light_on) {
@@ -98,8 +101,12 @@ static void pir_logic(ctrl_t *c, uint32_t now, bool pir_active)
                 c->warned = false;
             }
         }
-        if (c->fan_on && since >= c->cfg.fan_timeout_ms)
-            c->fan_on = false;
+        bool humid_hold = c->humid && !c->humid_expired && c->fan_enabled;
+        if (c->fan_on && !humid_hold &&
+            (since >= c->cfg.fan_timeout_ms || c->fan_by_humid)) {
+            c->fan_on = false;    /* timer done, or humidity-only run ended */
+            c->fan_by_humid = false;
+        }
     } else {
         c->warned = false;            /* PIR active: no warning pending */
     }
@@ -127,12 +134,34 @@ void ctrl_update(ctrl_t *c, uint32_t now, bool pir_active)
         pir_logic(c, now, pir_active);
     }
 
+    /* humidity may hold / start the fan, but only for a limited time */
+    if (c->humid && !c->humid_expired && c->cfg.humid_max_run_ms &&
+        elapsed(now, c->humid_since_ms) >= c->cfg.humid_max_run_ms)
+        c->humid_expired = true;
+    if (c->cfg.humid_autostart && c->humid && !c->humid_expired &&
+        c->fan_enabled && !c->fan_on &&
+        elapsed(now, c->start_ms) >= c->cfg.warmup_ms) {
+        c->fan_on = true;
+        c->fan_by_humid = true;
+    }
+
     if (c->override_active &&
         elapsed(now, c->override_start_ms) >= c->cfg.override_ms)
         c->override_active = false;
 
     c->light_out = (c->light_on && !c->light_warn) || c->override_active;
     c->fan_out   = c->fan_on && c->fan_enabled;
+}
+
+void ctrl_set_humid(ctrl_t *c, uint32_t now, bool humid)
+{
+    if (humid && !c->humid) {
+        c->humid_since_ms = now;
+        c->humid_expired = false;
+    }
+    if (!humid)
+        c->humid_expired = false;
+    c->humid = humid;
 }
 
 void ctrl_light_override_toggle(ctrl_t *c, uint32_t now)
@@ -148,6 +177,7 @@ void ctrl_set_fan_enabled(ctrl_t *c, bool enabled)
     if (!enabled) {
         c->fan_on = false;
         c->fan_armed = false;
+        c->fan_by_humid = false;
     }
     c->fan_out = c->fan_on && c->fan_enabled;
 }

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+  <rect width="1000" height="400" rx="14" fill="#f6f9ff" stroke="#c9d6ee"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#10264d">Optional humidity sensor (DHT11 / DHT22)</text>
+
+  <!-- sensor -->
+  <rect x="60" y="90" width="230" height="200" rx="10" fill="#fff" stroke="#10264d" stroke-width="2"/>
+  <text x="175" y="118" text-anchor="middle" font-size="16" font-weight="700">DHT11 / DHT22</text>
+  <text x="175" y="136" text-anchor="middle" font-size="12" fill="#666">module with 3 pins, or bare 4-pin sensor</text>
+  <g font-size="15"><text x="80" y="185">VCC (+)</text><text x="80" y="225">DATA (OUT)</text><text x="80" y="265">GND (-)</text></g>
+
+  <!-- board -->
+  <rect x="650" y="90" width="290" height="200" rx="10" fill="#fff" stroke="#10264d" stroke-width="2"/>
+  <text x="795" y="118" text-anchor="middle" font-size="16" font-weight="700">GD32 board</text>
+  <g font-size="15" text-anchor="end">
+    <text x="925" y="185">3V3 pin</text><text x="925" y="225">PB12 (B12)</text><text x="925" y="265">GND pin</text>
+  </g>
+
+  <g fill="none" stroke-width="3">
+    <path d="M290 180 H650" stroke="#ef6c00"/>
+    <path d="M290 220 H650" stroke="#1faa59"/>
+    <path d="M290 260 H650" stroke="#222"/>
+  </g>
+  <text x="470" y="172" text-anchor="middle" font-size="13" fill="#ef6c00" font-weight="700">3.3 V (use 3V3, not 5V: keeps DATA at a safe level)</text>
+  <text x="470" y="212" text-anchor="middle" font-size="13" fill="#1faa59" font-weight="700">DATA (single wire)</text>
+  <text x="470" y="252" text-anchor="middle" font-size="13" fill="#222" font-weight="700">GND</text>
+
+  <!-- pull-up -->
+  <rect x="430" y="125" width="30" height="46" fill="#fff" stroke="#444" stroke-width="2"/>
+  <line x1="445" y1="171" x2="445" y2="180" stroke="#ef6c00" stroke-width="2"/>
+  <line x1="445" y1="125" x2="445" y2="104" stroke="#444" stroke-width="2"/>
+  <path d="M445 104 H560 V220" fill="none" stroke="#444" stroke-width="2"/>
+  <text x="470" y="146" font-size="12" fill="#444">4.7-10 k&#937;</text>
+  <text x="470" y="160" font-size="12" fill="#444">pull-up</text>
+
+  <rect x="40" y="310" width="920" height="70" rx="10" fill="#fff6d6" stroke="#b58900"/>
+  <text x="58" y="334" font-size="14" font-weight="700" fill="#6b4e00">Notes</text>
+  <text x="58" y="354" font-size="13" fill="#6b4e00">&#8226; 3-pin modules already have the pull-up: skip the resistor. Enable it in config.h: HUMIDITY_SENSOR 11 (DHT11) or 22 (DHT22). Default 0 = off.</text>
+  <text x="58" y="372" font-size="13" fill="#6b4e00">&#8226; Mount the sensor away from direct water spray. Humidity above 70 % starts or holds the fan; it stops at 62 % or below. UNTESTED on real hardware.</text>
+</svg>

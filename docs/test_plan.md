@@ -30,6 +30,9 @@ With the LEDs wired: PIR LED lights when motion is seen; light/fan LEDs follow t
 4. **Warning blink:** about 30 s before the 7-minute light timeout the light relay clicks OFF for about half a second and back ON. (Use shortened test timeouts from section 4.)
 5. **Watchdog:** nothing to do; confirm the board keeps running normally.
 
+## 2d. Humidity sensor (only if fitted)
+Set `HUMIDITY_SENSOR` to 11 or 22, rebuild, flash. Breathe on the sensor or hold it over steam: above 70 % RH the fan relay should start and stay on; at 62 % or below it stops. Disconnect the DATA wire for 20 s: the fault LED must glow steadily and the fan must not stay on. Reconnect: the LED clears.
+
 ## 3. Relay logic test (module powered, **no mains, no load**)
 1. Wire relay module VCC/GND/IN1/IN2 only; contacts unconnected.
 2. Confirm at power-up both relay LEDs are OFF and no click is heard. **If they are ON, flip `RELAY_ACTIVE_LOW`.**

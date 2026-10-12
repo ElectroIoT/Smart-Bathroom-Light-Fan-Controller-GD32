@@ -2,6 +2,7 @@
 #include "button.h"
 #include "config.h"
 #include "hal.h"
+#include "humidity.h"
 
 #if (LIGHT_TIMEOUT_MS == 0) || (FAN_TIMEOUT_MS == 0)
 #error "Timeouts must be greater than zero"
@@ -21,6 +22,8 @@ static uint32_t g_led_ms;
 static bool g_led_on;
 static uint32_t g_fault_ms;
 static bool g_fault_on;
+static humidity_t g_hum;
+static uint32_t g_hum_ms;
 static bool g_ind_pir, g_ind_light, g_ind_fan, g_ind_fan_en;   /* LED cache */
 
 static void relay_apply(bool light_on, bool fan_on)
@@ -68,9 +71,30 @@ static void status_leds(uint32_t now)
             g_fault_on = !g_fault_on;
             hal_indicator(IND_FAULT, g_fault_on);
         }
-    } else if (g_fault_on) {
-        g_fault_on = false;
-        hal_indicator(IND_FAULT, false);
+    } else {
+        bool sensor_fault = (HUMIDITY_SENSOR != 0) && !g_hum.valid;   /* steady ON */
+        if (g_fault_on != sensor_fault) {
+            g_fault_on = sensor_fault;
+            hal_indicator(IND_FAULT, sensor_fault);
+        }
+    }
+#else
+    (void)now;
+#endif
+}
+
+/* Poll the optional humidity sensor every HUMIDITY_POLL_MS (about 4 ms each). */
+static void humidity_poll(uint32_t now)
+{
+#if HUMIDITY_SENSOR
+    if ((uint32_t)(now - g_hum_ms) >= HUMIDITY_POLL_MS) {
+        uint8_t raw[5], rh = 0;
+        bool ok;
+        g_hum_ms = now;
+        ok = hal_humidity_read(raw) && dht_decode(raw, HUMIDITY_SENSOR, &rh);
+        humidity_update(&g_hum, ok, rh, HUMIDITY_ON_PCT, HUMIDITY_OFF_PCT, HUMIDITY_FAIL_LIMIT);
+        ctrl_set_humid(&g_ctrl, now, g_hum.humid);
+        if (!ok) hal_debug("HUMIDITY: read failed\r\n");
     }
 #else
     (void)now;
@@ -97,11 +121,15 @@ void app_init(void)
     cfg.fan_start_delay_ms = FAN_START_DELAY_MS;
     cfg.override_ms = LIGHT_OVERRIDE_MS;
     cfg.fan_enabled = hal_load_fan_enabled();
+    cfg.humid_max_run_ms = HUMIDITY_MAX_RUN_MS;
+    cfg.humid_autostart = HUMIDITY_AUTOSTART != 0;
     ctrl_init(&g_ctrl, now, &cfg);
 
     button_init(&g_btn_light, now, hal_button_pressed(BTN_LIGHT));
     button_init(&g_btn_fan, now, hal_button_pressed(BTN_FAN));
 
+    humidity_init(&g_hum);
+    g_hum_ms = now;
     g_led_ms = now;
     g_led_on = false;
     g_fault_on = false;
@@ -133,6 +161,7 @@ void app_step(void)
         hal_debug(g_ctrl.fan_enabled ? "FAN: enabled\r\n" : "FAN: DISABLED\r\n");
     }
 
+    humidity_poll(now);
     ctrl_update(&g_ctrl, now, active);
     heartbeat(now);
     status_leds(now);
