@@ -5,7 +5,7 @@
 <p align="center">
   <img alt="MCU" src="https://img.shields.io/badge/MCU-GD32F103C8T6-1b4b8f">
   <img alt="Language" src="https://img.shields.io/badge/firmware-C-blue">
-  <img alt="Tests" src="https://img.shields.io/badge/logic%20tests-51%20x%204%20passing-brightgreen">
+  <img alt="Tests" src="https://img.shields.io/badge/logic%20tests-64%20x%204%20passing-brightgreen">
   <img alt="Hardware" src="https://img.shields.io/badge/hardware%20test-pending-orange">
 </p>
 
@@ -55,13 +55,33 @@ Example: motion at 0:00 and again at 4:00 → light off at 11:00, fan off at 14:
 | PIR output | **PA0** / A0 (input, pull-down) |
 | Light relay input | **PA1** / A1 |
 | Fan relay input | **PA2** / A2 |
-| Heartbeat LED | PC13 (on-board LED) |
+| System heartbeat LED | PC13 (on-board LED) |
+| PIR status LED (outside box) | PA3 / A3 |
+| Light relay status LED | PA4 / A4 |
+| Fan relay status LED | PA5 / A5 |
+| Fault LED | PA6 / A6 |
 | Debug text (optional) | PA9 / A9 (TX, 9600 baud) |
 | ST-Link programming | PA13 (SWDIO), PA14 (SWCLK), GND |
 
 Detailed drawing with the 230 V side: [`docs/wiring_diagram.svg`](docs/wiring_diagram.svg). Full notes: [`docs/hardware_design.md`](docs/hardware_design.md).
 
 > 🛑 **Safety:** keep the low-voltage side and the 230 V side separate. No mains on breadboards. Do all bench tests with **no mains**, and have the mains wiring done or checked by a qualified electrician.
+
+## 💡 Status LEDs (outside the box)
+
+<p align="center">
+  <img src="docs/img/led-wiring.svg" alt="Four status LEDs on PA3 to PA6 with series resistors and a common ground" width="90%">
+</p>
+
+| LED | Meaning |
+|---|---|
+| On-board PC13 | System alive: fast blink during the 60 s warm-up, then a short blip every 2 s |
+| PIR (PA3) | Lit while the PIR reports motion (solid if the PIR output stays HIGH) |
+| Light (PA4) | Lit while the light relay is ON |
+| Fan (PA5) | Lit while the fan relay is ON |
+| Fault (PA6) | Fast blink = PIR stuck HIGH (clears when the PIR goes LOW) |
+
+Wire each as GPIO → 330 Ω–1 kΩ resistor → LED → GND. Keep this low-voltage wiring away from the 230 V parts. Turn the external LEDs off with `ENABLE_STATUS_LEDS 0` in `config.h`.
 
 ## ⚡ Flash it
 
@@ -107,14 +127,14 @@ Settings in [`include/config.h`](include/config.h): `LIGHT_TIMEOUT_MS`, `FAN_TIM
 ```bash
 python tools/build.py test
 ```
-51 checks × 4 configurations (relay active-LOW/HIGH × PIR active-HIGH/LOW): startup OFF, timeouts at the exact boundary, independent timers, repeated motion, PIR held HIGH, reset while energised, 32-bit tick rollover. Step-by-step bench plan: [`docs/test_plan.md`](docs/test_plan.md).
+64 checks × 4 configurations (relay active-LOW/HIGH × PIR active-HIGH/LOW): startup OFF, timeouts at the exact boundary, independent timers, repeated motion, PIR held HIGH, reset while energised, 32-bit tick rollover, status LEDs. Step-by-step bench plan: [`docs/test_plan.md`](docs/test_plan.md).
 
 ## 📊 Project status (honest)
 
 | Item | State |
 |---|---|
 | Control logic + unit tests | ✅ passing on PC |
-| Firmware compiles for Cortex-M3 (~1 KB) | ✅ |
+| Firmware compiles for Cortex-M3 (~1.5 KB) | ✅ |
 | GD32 register addresses, clock default | ⚠️ not yet checked against the official manual |
 | Running on real hardware | ❌ not tested yet |
 | PIR / relay module specifics | ❓ configurable, unconfirmed |
@@ -132,7 +152,7 @@ docs/                   design, wiring, programming, test plan
 ```
 
 ## Not included (on purpose)
-No Wi-Fi, Bluetooth, mmWave, display or cloud. Manual-override button and status LEDs are planned but not implemented.
+No Wi-Fi, Bluetooth, mmWave, display or cloud. The manual-override button is planned but not implemented.
 
 ---
 <sub>Part of [ElectroIoT](https://github.com/ElectroIoT) · always verify hardware ratings before connecting mains loads.</sub>

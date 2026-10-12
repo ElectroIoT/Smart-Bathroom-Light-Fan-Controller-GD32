@@ -57,7 +57,10 @@ Physical location (board is Blue Pill style, read from the pinout images supplie
 
 The silkscreen on your board is the final authority. Avoid PA13, PA14, PA15, PB3, PB4 (debug/JTAG), PC13 (typically on-board LED — often fine, but a weak driver), and BOOT0/BOOT1 (PB2).
 
-Not implemented in this release: manual-override button, status LEDs (config comments only).
+| LED PIR / LIGHT / FAN / FAULT | **PA3 / PA4 / PA5 / PA6** | push-pull output, active-HIGH | external LEDs outside the box: GPIO → 330 Ω–1 kΩ → LED → GND (see `docs/img/led-wiring.svg`) |
+| System LED | PC13 | on-board LED, active-LOW (assumed) | heartbeat |
+
+Not implemented in this release: manual-override button.
 
 ## 3. Power
 

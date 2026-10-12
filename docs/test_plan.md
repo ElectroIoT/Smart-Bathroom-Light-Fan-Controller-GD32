@@ -6,7 +6,7 @@ Automated tests prove the *logic*. They do not prove the hardware. Do the bench 
 ```
 python tools/build.py test
 ```
-Runs 51 checks × 4 configurations (relay active-LOW/HIGH × PIR active-HIGH/LOW). Covers: startup OFF, warm-up, motion → both ON, debounce, 7/10 min timeouts at exact boundary, independence of light and fan, spec example (0:00/4:00/11:00/14:00), motion during either countdown, PIR held HIGH, stuck-HIGH fault, reset while energised, 32-bit tick rollover, polarity.
+Runs 64 checks × 4 configurations (relay active-LOW/HIGH × PIR active-HIGH/LOW). Covers: startup OFF, warm-up, motion → both ON, debounce, 7/10 min timeouts at exact boundary, independence of light and fan, spec example (0:00/4:00/11:00/14:00), motion during either countdown, PIR held HIGH, stuck-HIGH fault, reset while energised, 32-bit tick rollover, polarity.
 Last run: all passed (this session).
 
 ## 1. Safe first power-up (no PIR, no relay, no mains)
@@ -19,6 +19,9 @@ Last run: all passed (this session).
 2. If OUT ≤ 3.3 V, connect to PA0. Else add a divider first.
 3. After the firmware's 60 s warm-up, wave a hand: PA1/PA2 should change to the ON level and stay until timeout. Debug log shows `LIGHT ON` / `FAN ON`.
 4. Set `PIR_ACTIVE_HIGH` to match if behaviour is inverted.
+
+## 2b. Status LED test
+With the LEDs wired: PIR LED lights when motion is seen; light/fan LEDs follow the relays; fault LED stays off (it blinks fast only if the PIR stays HIGH for 30 min). System LED (PC13) blinks fast for 60 s, then a blip every 2 s.
 
 ## 3. Relay logic test (module powered, **no mains, no load**)
 1. Wire relay module VCC/GND/IN1/IN2 only; contacts unconnected.
