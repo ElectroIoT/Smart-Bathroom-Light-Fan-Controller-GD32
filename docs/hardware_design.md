@@ -43,7 +43,19 @@
 | SWDIO / SWCLK | PA13 / PA14 | — | **not used by application** |
 | BOOT0 | dedicated pin | — | leave per your board; not used |
 
-Physical header location of PA0/PA1/PA2/PA9: ❓ **depends on your board's silkscreen**. Look for labels `A0`, `A1`, `A2`, `A9` (or `PA0`…). If the board labels differ or the pins are used by on-board parts, change `*_PORT/*_PIN` in `config.h` and update this table. Avoid PA13, PA14, PA15, PB3, PB4 (debug/JTAG), PC13 (typically on-board LED — often fine, but a weak driver), and BOOT0/BOOT1 (PB2).
+Physical location (board is Blue Pill style, read from the pinout images supplied by the user; USB connector at the top, see `docs/img/pinout.svg`):
+
+| Pin | Header | Position |
+|---|---|---|
+| PA0 (A0) | right | 5th from bottom |
+| PA1 (A1) | right | 6th from bottom |
+| PA2 (A2) | right | 7th from bottom |
+| PA9 (A9) | left | 6th from top |
+| PC13 | on-board LED (labelled "PC13 LED" in the pinout images; the firmware heartbeat assumes active-LOW, to be confirmed by watching it blink) | |
+| 5V / GND / 3V3 | left | bottom three pins |
+| SWD | bottom edge 4-pin header | 3V3, SWDIO, SWCLK, GND |
+
+The silkscreen on your board is the final authority. Avoid PA13, PA14, PA15, PB3, PB4 (debug/JTAG), PC13 (typically on-board LED — often fine, but a weak driver), and BOOT0/BOOT1 (PB2).
 
 Not implemented in this release: manual-override button, status LEDs (config comments only).
 

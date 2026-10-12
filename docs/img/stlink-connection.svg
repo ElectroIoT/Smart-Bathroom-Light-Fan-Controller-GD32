@@ -1,54 +1,47 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 440" font-family="Segoe UI, Arial, Helvetica, sans-serif">
   <style>
     .flow { stroke-dasharray: 10 8; animation: dash 0.8s linear infinite; }
-    .flowr { stroke-dasharray: 10 8; animation: dashr 0.8s linear infinite; }
     @keyframes dash { to { stroke-dashoffset: -18; } }
-    @keyframes dashr { to { stroke-dashoffset: 18; } }
     .pulse { animation: pulse 1.6s ease-in-out infinite; }
     @keyframes pulse { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
   </style>
   <rect width="1000" height="440" rx="14" fill="#0f1a2e"/>
-  <text x="500" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">Flashing: ST-Link V2 &#8594; GD32F103C8T6 (SWD)</text>
+  <text x="500" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">Flashing: ST-Link V2 &#8594; board 4-pin SWD header (bottom of the board)</text>
 
-  <!-- ST-Link -->
   <rect x="40" y="80" width="230" height="260" rx="12" fill="#1c2c4a" stroke="#7aa7ff" stroke-width="2"/>
   <text x="155" y="112" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">ST-Link V2</text>
   <text x="155" y="132" text-anchor="middle" font-size="12" fill="#9db8e0">(USB to PC)</text>
   <g font-size="16" fill="#e8eefc">
-    <text x="60" y="180">SWDIO</text>
-    <text x="60" y="224">SWCLK</text>
-    <text x="60" y="268">GND</text>
-    <text x="60" y="312">3.3V</text>
+    <text x="60" y="180">SWDIO</text><text x="60" y="224">SWCLK</text>
+    <text x="60" y="268">GND</text><text x="60" y="312">3.3V</text>
   </g>
   <text x="155" y="334" text-anchor="middle" font-size="11" fill="#ffd54a">use the labels printed on YOUR ST-Link</text>
 
-  <!-- GD32 board -->
   <rect x="730" y="80" width="230" height="260" rx="12" fill="#1c2c4a" stroke="#7aa7ff" stroke-width="2"/>
-  <text x="845" y="112" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">GD32 board - 4-pin SWD header</text>
-  <text x="845" y="132" text-anchor="middle" font-size="12" fill="#9db8e0">(labelled 3V3 / SWDIO / SWCLK / GND)</text>
+  <text x="845" y="112" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">GD32 board SWD header</text>
+  <text x="845" y="132" text-anchor="middle" font-size="12" fill="#9db8e0">order with USB at top: 3V3, SWDIO, SWCLK, GND</text>
   <g font-size="16" fill="#e8eefc" text-anchor="end">
-    <text x="940" y="180">SWDIO  (= PA13)</text>
-    <text x="940" y="224">SWCLK  (= PA14)</text>
-    <text x="940" y="268">GND</text>
-    <text x="940" y="312">3V3</text>
+    <text x="940" y="180">3V3</text>
+    <text x="940" y="224">SWDIO (= PA13)</text>
+    <text x="940" y="268">SWCLK (= PA14)</text>
+    <text x="940" y="312">GND</text>
   </g>
 
-  <!-- wires -->
   <g fill="none" stroke-width="4" stroke-linecap="round">
-    <line x1="270" y1="175" x2="730" y2="175" stroke="#4dd0e1" class="flow"/>
-    <line x1="270" y1="219" x2="730" y2="219" stroke="#ffd54a" class="flow"/>
-    <line x1="270" y1="263" x2="730" y2="263" stroke="#9aa5b8"/>
-    <line x1="270" y1="307" x2="730" y2="307" stroke="#ff6b6b" class="pulse"/>
+    <line x1="270" y1="175" x2="730" y2="219" stroke="#4dd0e1" class="flow"/>
+    <line x1="270" y1="219" x2="730" y2="263" stroke="#ffd54a" class="flow"/>
+    <line x1="270" y1="263" x2="730" y2="307" stroke="#9aa5b8"/>
+    <line x1="270" y1="307" x2="730" y2="175" stroke="#ff6b6b" class="pulse"/>
   </g>
-  <g font-size="13" text-anchor="middle">
-    <text x="500" y="166" fill="#4dd0e1">data (two-way)</text>
-    <text x="500" y="210" fill="#ffd54a">clock</text>
-    <text x="500" y="254" fill="#c9d0dc">ground (always connect)</text>
-    <text x="500" y="298" fill="#ff9a9a">only if the board has no other power</text>
+  <g font-size="13">
+    <text x="285" y="166" fill="#4dd0e1">SWDIO (data)</text>
+    <text x="285" y="210" fill="#ffd54a">SWCLK (clock)</text>
+    <text x="285" y="254" fill="#c9d0dc">GND (always)</text>
+    <text x="285" y="330" fill="#ff9a9a">3.3V: only if board has no other power</text>
   </g>
 
   <rect x="40" y="365" width="920" height="52" rx="10" fill="#2a2410" stroke="#b58900"/>
   <text x="60" y="388" font-size="14" fill="#ffd54a" font-weight="700">Rules:</text>
-  <text x="115" y="388" font-size="14" fill="#f3e3a8">never connect 5 V and 3.3 V sources together &#183; keep PIR and relay disconnected for the first flash &#183; no mains</text>
-  <text x="60" y="408" font-size="13" fill="#f3e3a8">Optional: ST-Link RST &#8594; board NRST for "connect under reset" if flashing fails.</text>
+  <text x="115" y="388" font-size="14" fill="#f3e3a8">connect by NAME, not by position &#183; never join 5 V and 3.3 V sources &#183; keep PIR/relay off for the first flash &#183; no mains</text>
+  <text x="60" y="408" font-size="13" fill="#f3e3a8">BOOT0 / BOOT1 stay at 0. Optional: ST-Link RST &#8594; board R (reset) pin if flashing fails.</text>
 </svg>

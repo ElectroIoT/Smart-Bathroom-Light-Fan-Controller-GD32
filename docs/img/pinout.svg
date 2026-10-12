@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 760" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+<rect width="1000" height="760" rx="14" fill="#f6f9ff" stroke="#c9d6ee"/>
+<text x="500" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#10264d">Board pinout (Blue Pill style, GD32F103C8T6) - USB at the top</text>
+<text x="500" y="56" text-anchor="middle" font-size="13" fill="#555">Schematic, not to scale. The silkscreen on your board is the final authority. Used pins are highlighted.</text>
+<rect x="350" y="80" width="300" height="610" rx="10" fill="#1f4aa8" stroke="#10264d" stroke-width="3"/>
+<rect x="460" y="68" width="80" height="40" rx="5" fill="#c9ced6" stroke="#555"/><text x="500" y="94" text-anchor="middle" font-size="12" fill="#222">micro USB</text>
+<rect x="440" y="250" width="120" height="120" rx="6" fill="#222"/><text x="500" y="305" text-anchor="middle" font-size="13" fill="#fff" font-weight="700">GD32</text><text x="500" y="323" text-anchor="middle" font-size="12" fill="#fff">F103C8T6</text>
+<rect x="462" y="440" width="76" height="26" rx="13" fill="#b0b6c0"/><text x="500" y="458" text-anchor="middle" font-size="12" fill="#222">8 MHz</text>
+<rect x="372" y="150" width="46" height="34" rx="4" fill="#e8e8e8"/><text x="395" y="171" text-anchor="middle" font-size="11" fill="#222">RESET</text>
+<rect x="590" y="160" width="40" height="46" rx="3" fill="#f3e6b0"/><text x="610" y="180" text-anchor="middle" font-size="10" fill="#222">BOOT</text><text x="610" y="194" text-anchor="middle" font-size="10" fill="#222">0 / 1</text>
+<text x="500" y="125" text-anchor="middle" font-size="11" fill="#cfe0ff">BOOT0 / BOOT1: leave both at 0</text>
+<circle cx="366" cy="140" r="5" fill="#d9c27a"/>
+<line x1="366" y1="140" x2="344" y2="140" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="292" y="130" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="317.0" y="145" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB12</text>
+<circle cx="366" cy="164" r="5" fill="#d9c27a"/>
+<line x1="366" y1="164" x2="344" y2="164" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="292" y="154" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="317.0" y="169" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB13</text>
+<circle cx="366" cy="188" r="5" fill="#d9c27a"/>
+<line x1="366" y1="188" x2="344" y2="188" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="292" y="178" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="317.0" y="193" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB14</text>
+<circle cx="366" cy="212" r="5" fill="#d9c27a"/>
+<line x1="366" y1="212" x2="344" y2="212" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="292" y="202" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="317.0" y="217" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB15</text>
+<circle cx="366" cy="236" r="5" fill="#d9c27a"/>
+<line x1="366" y1="236" x2="344" y2="236" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="301" y="226" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="321.5" y="241" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA8</text>
+<circle cx="366" cy="260" r="5" fill="#d9c27a"/>
+<line x1="366" y1="260" x2="344" y2="260" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="301" y="250" width="41" height="20" rx="4" fill="#8e5bd6"/><text x="321.5" y="265" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PA9</text>
+<text x="293" y="265" text-anchor="end" font-size="13" font-weight="700" fill="#8e5bd6">Debug TX (optional) &#8594;</text>
+<circle cx="366" cy="284" r="5" fill="#d9c27a"/>
+<line x1="366" y1="284" x2="344" y2="284" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="292" y="274" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="317.0" y="289" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA10</text>
+<circle cx="366" cy="308" r="5" fill="#d9c27a"/>
+<line x1="366" y1="308" x2="344" y2="308" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="292" y="298" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="317.0" y="313" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA11</text>
+<circle cx="366" cy="332" r="5" fill="#d9c27a"/>
+<line x1="366" y1="332" x2="344" y2="332" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="292" y="322" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="317.0" y="337" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA12</text>
+<circle cx="366" cy="356" r="5" fill="#d9c27a"/>
+<line x1="366" y1="356" x2="344" y2="356" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="292" y="346" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="317.0" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA15</text>
+<circle cx="366" cy="380" r="5" fill="#d9c27a"/>
+<line x1="366" y1="380" x2="344" y2="380" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="301" y="370" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="321.5" y="385" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB3</text>
+<circle cx="366" cy="404" r="5" fill="#d9c27a"/>
+<line x1="366" y1="404" x2="344" y2="404" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="301" y="394" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="321.5" y="409" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB4</text>
+<circle cx="366" cy="428" r="5" fill="#d9c27a"/>
+<line x1="366" y1="428" x2="344" y2="428" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="301" y="418" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="321.5" y="433" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB5</text>
+<circle cx="366" cy="452" r="5" fill="#d9c27a"/>
+<line x1="366" y1="452" x2="344" y2="452" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="301" y="442" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="321.5" y="457" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB6</text>
+<circle cx="366" cy="476" r="5" fill="#d9c27a"/>
+<line x1="366" y1="476" x2="344" y2="476" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="301" y="466" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="321.5" y="481" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB7</text>
+<circle cx="366" cy="500" r="5" fill="#d9c27a"/>
+<line x1="366" y1="500" x2="344" y2="500" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="301" y="490" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="321.5" y="505" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB8</text>
+<circle cx="366" cy="524" r="5" fill="#d9c27a"/>
+<line x1="366" y1="524" x2="344" y2="524" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="301" y="514" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="321.5" y="529" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB9</text>
+<circle cx="366" cy="548" r="5" fill="#d9c27a"/>
+<line x1="366" y1="548" x2="344" y2="548" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="310" y="538" width="32" height="20" rx="4" fill="#d32f2f"/><text x="326.0" y="553" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">5V</text>
+<text x="302" y="553" text-anchor="end" font-size="13" font-weight="700" fill="#d32f2f">PIR VCC / relay VCC (5 V) &#8594;</text>
+<circle cx="366" cy="572" r="5" fill="#d9c27a"/>
+<line x1="366" y1="572" x2="344" y2="572" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="301" y="562" width="41" height="20" rx="4" fill="#222"/><text x="321.5" y="577" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">GND</text>
+<circle cx="366" cy="596" r="5" fill="#d9c27a"/>
+<line x1="366" y1="596" x2="344" y2="596" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="301" y="586" width="41" height="20" rx="4" fill="#ef6c00"/><text x="321.5" y="601" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">3V3</text>
+<circle cx="634" cy="140" r="5" fill="#d9c27a"/>
+<line x1="634" y1="140" x2="656" y2="140" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="130" width="41" height="20" rx="4" fill="#222"/><text x="678.5" y="145" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">GND</text>
+<circle cx="634" cy="164" r="5" fill="#d9c27a"/>
+<line x1="634" y1="164" x2="656" y2="164" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="154" width="41" height="20" rx="4" fill="#222"/><text x="678.5" y="169" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">GND</text>
+<circle cx="634" cy="188" r="5" fill="#d9c27a"/>
+<line x1="634" y1="188" x2="656" y2="188" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="178" width="41" height="20" rx="4" fill="#ef6c00"/><text x="678.5" y="193" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">3V3</text>
+<circle cx="634" cy="212" r="5" fill="#d9c27a"/>
+<line x1="634" y1="212" x2="656" y2="212" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="202" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="683.0" y="217" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">NRST</text>
+<circle cx="634" cy="236" r="5" fill="#d9c27a"/>
+<line x1="634" y1="236" x2="656" y2="236" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="226" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="683.0" y="241" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB11</text>
+<circle cx="634" cy="260" r="5" fill="#d9c27a"/>
+<line x1="634" y1="260" x2="656" y2="260" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="250" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="683.0" y="265" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB10</text>
+<circle cx="634" cy="284" r="5" fill="#d9c27a"/>
+<line x1="634" y1="284" x2="656" y2="284" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="274" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="289" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB1</text>
+<circle cx="634" cy="308" r="5" fill="#d9c27a"/>
+<line x1="634" y1="308" x2="656" y2="308" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="298" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="313" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB0</text>
+<circle cx="634" cy="332" r="5" fill="#d9c27a"/>
+<line x1="634" y1="332" x2="656" y2="332" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="322" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="337" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA7</text>
+<circle cx="634" cy="356" r="5" fill="#d9c27a"/>
+<line x1="634" y1="356" x2="656" y2="356" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="346" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA6</text>
+<circle cx="634" cy="380" r="5" fill="#d9c27a"/>
+<line x1="634" y1="380" x2="656" y2="380" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="370" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="385" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA5</text>
+<circle cx="634" cy="404" r="5" fill="#d9c27a"/>
+<line x1="634" y1="404" x2="656" y2="404" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="394" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="409" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA4</text>
+<circle cx="634" cy="428" r="5" fill="#d9c27a"/>
+<line x1="634" y1="428" x2="656" y2="428" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="418" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="433" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA3</text>
+<circle cx="634" cy="452" r="5" fill="#d9c27a"/>
+<line x1="634" y1="452" x2="656" y2="452" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="442" width="41" height="20" rx="4" fill="#14a3b8"/><text x="678.5" y="457" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PA2</text>
+<text x="707" y="457" font-size="13" font-weight="700" fill="#14a3b8">&#8592; Fan relay IN2</text>
+<circle cx="634" cy="476" r="5" fill="#d9c27a"/>
+<line x1="634" y1="476" x2="656" y2="476" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="466" width="41" height="20" rx="4" fill="#e0a800"/><text x="678.5" y="481" text-anchor="middle" font-size="12" font-weight="700" fill="#000">PA1</text>
+<text x="707" y="481" font-size="13" font-weight="700" fill="#e0a800">&#8592; Light relay IN1</text>
+<circle cx="634" cy="500" r="5" fill="#d9c27a"/>
+<line x1="634" y1="500" x2="656" y2="500" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="490" width="41" height="20" rx="4" fill="#1faa59"/><text x="678.5" y="505" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PA0</text>
+<text x="707" y="505" font-size="13" font-weight="700" fill="#1faa59">&#8592; PIR OUT</text>
+<circle cx="634" cy="524" r="5" fill="#d9c27a"/>
+<line x1="634" y1="524" x2="656" y2="524" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="514" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="683.0" y="529" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PC15</text>
+<circle cx="634" cy="548" r="5" fill="#d9c27a"/>
+<line x1="634" y1="548" x2="656" y2="548" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="538" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="683.0" y="553" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PC14</text>
+<circle cx="634" cy="572" r="5" fill="#d9c27a"/>
+<line x1="634" y1="572" x2="656" y2="572" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="562" width="50" height="20" rx="4" fill="#2e9e4f"/><text x="683.0" y="577" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PC13</text>
+<text x="716" y="577" font-size="13" font-weight="700" fill="#2e9e4f">&#8592; On-board LED (heartbeat)</text>
+<circle cx="634" cy="596" r="5" fill="#d9c27a"/>
+<line x1="634" y1="596" x2="656" y2="596" stroke="#7a8aa8" stroke-width="1.5"/>
+<rect x="658" y="586" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="683.0" y="601" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">VBAT</text>
+<text x="658" y="630" font-size="11" fill="#555">PA0, PA1, PA2 sit side by side:</text>
+<text x="658" y="644" font-size="11" fill="#555">5th, 6th, 7th pin from the bottom</text>
+<rect x="409" y="620" width="14" height="22" rx="2" fill="#222"/><circle cx="416" cy="631" r="4" fill="#d9c27a"/>
+<rect x="393" y="650" width="46" height="20" rx="4" fill="#ef6c00"/><text x="416" y="664" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">3V3</text>
+<rect x="465" y="620" width="14" height="22" rx="2" fill="#222"/><circle cx="472" cy="631" r="4" fill="#d9c27a"/>
+<rect x="449" y="650" width="46" height="20" rx="4" fill="#ffd54a"/><text x="472" y="664" text-anchor="middle" font-size="11" font-weight="700" fill="#000">SWDIO</text>
+<text x="472" y="684" text-anchor="middle" font-size="10" fill="#cfe0ff">= PA13</text>
+<rect x="521" y="620" width="14" height="22" rx="2" fill="#222"/><circle cx="528" cy="631" r="4" fill="#d9c27a"/>
+<rect x="505" y="650" width="46" height="20" rx="4" fill="#ffd54a"/><text x="528" y="664" text-anchor="middle" font-size="11" font-weight="700" fill="#000">SWCLK</text>
+<text x="528" y="684" text-anchor="middle" font-size="10" fill="#cfe0ff">= PA14</text>
+<rect x="577" y="620" width="14" height="22" rx="2" fill="#222"/><circle cx="584" cy="631" r="4" fill="#d9c27a"/>
+<rect x="561" y="650" width="46" height="20" rx="4" fill="#222"/><text x="584" y="664" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">GND</text>
+<text x="500" y="606" text-anchor="middle" font-size="12" fill="#cfe0ff" font-weight="700">4-pin SWD header (to ST-Link)</text>
+<text x="500" y="736" text-anchor="middle" font-size="12" fill="#555">Pin order read from your supplied pinout images. Left header: 5V/GND/3V3 at the bottom. Right header: 3V3 and GND at the top.</text>
+</svg>

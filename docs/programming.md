@@ -8,10 +8,12 @@ Plan on **yes**. Do not assume the board's USB connector programs it: on most "m
 ## Wiring (SWD)
 ![ST-Link V2 to GD32 wiring](img/stlink-connection.svg)
 
+Board SWD header (bottom edge, USB at top), left to right: **3V3, SWDIO, SWCLK, GND**. Connect by name.
+
 | ST-Link | Board |
 |---|---|
-| SWDIO | **PA13** (header often labelled DIO / SWDIO) |
-| SWCLK | **PA14** (CLK / SWCLK) |
+| SWDIO | **SWDIO** (= PA13) |
+| SWCLK | **SWCLK** (= PA14) |
 | GND | GND |
 | 3.3V | 3.3V (only if the board is **not** otherwise powered; never connect 5 V and 3.3 V sources together) |
 | RST (optional) | NRST |

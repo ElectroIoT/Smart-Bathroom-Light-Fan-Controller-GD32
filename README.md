@@ -30,6 +30,20 @@ Every new motion restarts both countdowns. The light turning off never turns the
 
 Example: motion at 0:00 and again at 4:00 → light off at 11:00, fan off at 14:00.
 
+## 📍 Board pinout (Blue Pill style, USB at top)
+
+<p align="center">
+  <img src="docs/img/pinout.svg" alt="Pinout of the GD32F103C8T6 board with PA0, PA1, PA2, PA9, PC13 and the SWD header highlighted" width="80%">
+</p>
+
+**Where to wire (USB connector at the top):**
+- **PA0 (silk: A0)**: right-hand header, 5th pin from the bottom, PIR output.
+- **PA1 (A1)** and **PA2 (A2)**: the next two pins above PA0, relay inputs for light and fan.
+- **5V, GND, 3V3**: left-hand header, the bottom three pins (also GND and 3V3 at the top of the right header).
+- **PA9 (A9)**: left header, 6th from the top, optional debug TX.
+- **PC13**: on-board LED (heartbeat).
+- **SWD header** (bottom edge): 3V3, SWDIO, SWCLK, GND, for the ST-Link.
+
 ## 🔌 Connections
 
 <p align="center">
@@ -38,10 +52,11 @@ Example: motion at 0:00 and again at 4:00 → light off at 11:00, fan off at 14:
 
 | Signal | GD32 pin |
 |---|---|
-| PIR output | **PA0** (input, pull-down) |
-| Light relay input | **PA1** |
-| Fan relay input | **PA2** |
-| Debug text (optional) | PA9 (TX, 9600 baud) |
+| PIR output | **PA0** / A0 (input, pull-down) |
+| Light relay input | **PA1** / A1 |
+| Fan relay input | **PA2** / A2 |
+| Heartbeat LED | PC13 (on-board LED) |
+| Debug text (optional) | PA9 / A9 (TX, 9600 baud) |
 | ST-Link programming | PA13 (SWDIO), PA14 (SWCLK), GND |
 
 Detailed drawing with the 230 V side: [`docs/wiring_diagram.svg`](docs/wiring_diagram.svg). Full notes: [`docs/hardware_design.md`](docs/hardware_design.md).
