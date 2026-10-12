@@ -24,13 +24,13 @@
 
   <!-- GD32 board -->
   <rect x="730" y="80" width="230" height="260" rx="12" fill="#1c2c4a" stroke="#7aa7ff" stroke-width="2"/>
-  <text x="845" y="112" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">GD32F103C8T6 board</text>
-  <text x="845" y="132" text-anchor="middle" font-size="12" fill="#9db8e0">(header labels vary - check silkscreen)</text>
+  <text x="845" y="112" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">GD32 board - 4-pin SWD header</text>
+  <text x="845" y="132" text-anchor="middle" font-size="12" fill="#9db8e0">(labelled 3V3 / SWDIO / SWCLK / GND)</text>
   <g font-size="16" fill="#e8eefc" text-anchor="end">
-    <text x="940" y="180">PA13 (SWDIO / DIO)</text>
-    <text x="940" y="224">PA14 (SWCLK / CLK)</text>
+    <text x="940" y="180">SWDIO  (= PA13)</text>
+    <text x="940" y="224">SWCLK  (= PA14)</text>
     <text x="940" y="268">GND</text>
-    <text x="940" y="312">3.3V</text>
+    <text x="940" y="312">3V3</text>
   </g>
 
   <!-- wires -->

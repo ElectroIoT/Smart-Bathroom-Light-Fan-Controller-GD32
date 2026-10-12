@@ -66,7 +66,7 @@ flowchart LR
    ```bash
    python tools/build.py firmware
    ```
-2. **Wire an ST-Link V2:** SWDIO → PA13, SWCLK → PA14, GND → GND (3.3 V only if the board is not otherwise powered).
+2. **Wire an ST-Link V2** to the board's 4-pin SWD header (labelled 3V3, SWDIO, SWCLK, GND): match each signal by name. Connect 3V3 only if the board is not otherwise powered.
 3. **Flash** with STM32CubeProgrammer (`build/firmware.bin` at `0x08000000`) or OpenOCD:
    ```bash
    openocd -f interface/stlink.cfg -f target/stm32f1x.cfg -c "program build/firmware.elf verify reset exit"
