@@ -1,4 +1,4 @@
-# Bathroom light & exhaust-fan controller (GD32F103C8T6)
+# Smart Bathroom Light & Exhaust Fan Controller (GD32F103C8T6, PIR)
 
 Replaces a PIR's fixed delay with two independent non-blocking timers:
 
