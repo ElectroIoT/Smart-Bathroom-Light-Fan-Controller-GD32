@@ -50,3 +50,9 @@ Debugging: `openocd ...` then `arm-none-eabi-gdb build/firmware.elf` → `target
 4. Remove everything on PA13/PA14 (they must not be driven by other circuits).
 5. If the chip appears read-protected: "mass erase / unlock" in the tool (this erases flash).
 6. As a last resort, try a second ST-Link / lower SWD clock (e.g. `adapter speed 100`).
+
+## Working command (used successfully on 2026-10-12)
+OpenOCD xPack 0.12.0 (installed with `winget install xpack-dev-tools.openocd-xpack`), ST-Link V2, `stm32f1x` target accepted the GD32F103 without any chip-ID workaround:
+```
+openocd -f interface/stlink.cfg -c "transport select swd" -f target/stm32f1x.cfg -c "program build/firmware.elf verify reset exit"
+```

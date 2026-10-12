@@ -25,6 +25,13 @@
 4. PA13/PA14 = SWDIO/SWCLK; BOOT0 behaviour; USART0 TX = PA9.
 5. Real Flash size of *your* chip (some "C8" parts report more).
 
+### On-chip check (2026-10-12, ST-Link V2 + OpenOCD, board powered, PIR/relays not connected)
+* ✅ Cortex-M3 r2p1 detected over SWD (DPIDR 0x2ba01477); probe saw target voltage 3.19 V.
+* ✅ Flash read back as **128 KiB** (the 64 KB linker limit is therefore conservative). Firmware (1012 B) programmed and verified.
+* ✅ Running firmware matches the assumed register map: RCU_APB2EN = GPIOA + USART0 enabled; GPIOA_CTL0 = PA1/PA2 push-pull output, PA0 input; GPIOA_OCTL has PA1/PA2 = 1 (relay-OFF level for active-LOW) and PA0 pull-down; SysTick enabled with interrupt.
+* ✅ RCU_CFG0 = 0: system clock is the internal oscillator, no PLL (so the "reset-default IRC" assumption holds; its exact 8 MHz value is still to be confirmed with the stopwatch timer test).
+* Still untested: PIR input, relay switching, real 7/10 min timing.
+
 ## 2. Pin assignment (proposal — `include/config.h`)
 
 | Function | MCU pin | Direction | Notes |
