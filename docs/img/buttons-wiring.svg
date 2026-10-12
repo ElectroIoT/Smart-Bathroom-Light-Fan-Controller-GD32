@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 440" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+  <style>
+    .glow { animation: glow 1.6s ease-in-out infinite; }
+    @keyframes glow { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
+  </style>
+  <rect width="1000" height="440" rx="14" fill="#f6f9ff" stroke="#c9d6ee"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#10264d">Push buttons and the FAN-ENABLED LED</text>
+
+  <!-- Light override -->
+  <rect x="40" y="70" width="130" height="34" rx="6" fill="#6d4c41"/><text x="105" y="92" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">PB0 (B0)</text>
+  <line x1="170" y1="87" x2="420" y2="87" stroke="#444" stroke-width="2.5"/>
+  <circle cx="430" cy="87" r="6" fill="#fff" stroke="#444" stroke-width="2"/>
+  <line x1="434" y1="82" x2="500" y2="62" stroke="#444" stroke-width="3"/>
+  <circle cx="510" cy="87" r="6" fill="#fff" stroke="#444" stroke-width="2"/>
+  <line x1="516" y1="87" x2="700" y2="87" stroke="#444" stroke-width="2.5"/>
+  <rect x="700" y="72" width="70" height="30" rx="6" fill="#222"/><text x="735" y="92" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">GND</text>
+  <text x="470" y="52" text-anchor="middle" font-size="13" fill="#10264d">push button</text>
+  <text x="790" y="92" font-size="14" fill="#10264d" font-weight="700">LIGHT override</text>
+  <text x="790" y="110" font-size="12" fill="#444">press: light ON for 30 min, press again: cancel</text>
+
+  <!-- Fan enable -->
+  <rect x="40" y="170" width="130" height="34" rx="6" fill="#5d4037"/><text x="105" y="192" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">PB1 (B1)</text>
+  <line x1="170" y1="187" x2="420" y2="187" stroke="#444" stroke-width="2.5"/>
+  <circle cx="430" cy="187" r="6" fill="#fff" stroke="#444" stroke-width="2"/>
+  <line x1="434" y1="182" x2="500" y2="162" stroke="#444" stroke-width="3"/>
+  <circle cx="510" cy="187" r="6" fill="#fff" stroke="#444" stroke-width="2"/>
+  <line x1="516" y1="187" x2="700" y2="187" stroke="#444" stroke-width="2.5"/>
+  <rect x="700" y="172" width="70" height="30" rx="6" fill="#222"/><text x="735" y="192" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">GND</text>
+  <text x="470" y="152" text-anchor="middle" font-size="13" fill="#10264d">push button</text>
+  <text x="790" y="192" font-size="14" fill="#10264d" font-weight="700">FAN enable / disable</text>
+  <text x="790" y="210" font-size="12" fill="#444">each press toggles; saved in flash (survives power loss)</text>
+
+  <!-- LED -->
+  <rect x="40" y="270" width="130" height="34" rx="6" fill="#43a047"/><text x="105" y="292" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">PA7 (A7)</text>
+  <line x1="170" y1="287" x2="380" y2="287" stroke="#444" stroke-width="2.5"/>
+  <rect x="380" y="276" width="70" height="22" fill="#fff" stroke="#444" stroke-width="2"/><text x="415" y="270" text-anchor="middle" font-size="12" fill="#10264d">330-1k &#937;</text>
+  <line x1="450" y1="287" x2="560" y2="287" stroke="#444" stroke-width="2.5"/>
+  <circle cx="590" cy="287" r="22" fill="#43a047" class="glow"/>
+  <line x1="612" y1="287" x2="700" y2="287" stroke="#444" stroke-width="2.5"/>
+  <rect x="700" y="272" width="70" height="30" rx="6" fill="#222"/><text x="735" y="292" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">GND</text>
+  <text x="790" y="285" font-size="14" fill="#10264d" font-weight="700">FAN-ENABLED LED</text>
+  <text x="790" y="303" font-size="12" fill="#444">ON = fan active (works with PIR)</text>
+  <text x="790" y="319" font-size="12" fill="#444">OFF = fan disabled (e.g. on inverter)</text>
+
+  <rect x="40" y="345" width="920" height="75" rx="10" fill="#fff6d6" stroke="#b58900"/>
+  <text x="58" y="370" font-size="14" font-weight="700" fill="#6b4e00">Notes</text>
+  <text x="58" y="392" font-size="13" fill="#6b4e00">&#8226; Buttons use the internal pull-up: wire each between the pin and GND, no resistor needed. Use normally-open push buttons.</text>
+  <text x="58" y="410" font-size="13" fill="#6b4e00">&#8226; LED long leg (anode) toward the resistor, short leg to GND. Low-voltage only - keep wires apart from 230 V wiring.</text>
+</svg>

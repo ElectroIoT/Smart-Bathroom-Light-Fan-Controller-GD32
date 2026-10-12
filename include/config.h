@@ -141,6 +141,72 @@
 #define FAULT_BLINK_MS     125UL      /* toggle period of the fault LED */
 #endif
 
-/* Manual override button: NOT implemented in this release. */
+/* ------------------------------------------------------------------ */
+/* Warning blink, fan start delay, override, fan enable button          */
+/* ------------------------------------------------------------------ */
+/* Light switches OFF for LIGHT_WARN_BLINK_MS this long before it times
+ * out, so a still person can wave to restart it. 0 disables the warning. */
+#ifndef LIGHT_WARN_BEFORE_MS
+#define LIGHT_WARN_BEFORE_MS  30000UL
+#endif
+#ifndef LIGHT_WARN_BLINK_MS
+#define LIGHT_WARN_BLINK_MS   600UL
+#endif
+
+/* Fan starts this long after the light came ON (avoids the fan for a quick
+ * walk-in). Once started it runs for FAN_TIMEOUT_MS after the last motion.
+ * 0 = fan starts immediately with the light. */
+#ifndef FAN_START_DELAY_MS
+#define FAN_START_DELAY_MS    30000UL
+#endif
+
+/* Light-override button: press = light ON for this long regardless of the
+ * PIR (fan keeps its own logic). Press again to cancel. */
+#ifndef LIGHT_OVERRIDE_MS
+#define LIGHT_OVERRIDE_MS     1800000UL   /* 30 min */
+#endif
+
+/* Buttons wired between the pin and GND (internal pull-up used). */
+#ifndef BUTTON_ACTIVE_LOW
+#define BUTTON_ACTIVE_LOW     1
+#endif
+#ifndef BUTTON_DEBOUNCE_MS
+#define BUTTON_DEBOUNCE_MS    40UL
+#endif
+#ifndef BTN_LIGHT_PORT
+#define BTN_LIGHT_PORT        1
+#define BTN_LIGHT_PIN         0           /* PB0 : light override */
+#endif
+#ifndef BTN_FAN_PORT
+#define BTN_FAN_PORT          1
+#define BTN_FAN_PIN           1           /* PB1 : fan enable / disable */
+#endif
+
+/* FAN-ENABLED LED: lit = fan active (works with the PIR), off = fan
+ * disabled by the button. State is saved in flash and survives power loss. */
+#ifndef LED_FANEN_PORT
+#define LED_FANEN_PORT        0
+#define LED_FANEN_PIN         7           /* PA7 */
+#endif
+
+/* Flash page used to remember the fan enable state (last 1 KB page of the
+ * 64 KB region; the linker script keeps firmware out of it). */
+#ifndef STORE_PAGE_ADDR
+#define STORE_PAGE_ADDR       0x0800FC00UL
+#endif
+
+/* ------------------------------------------------------------------ */
+/* Watchdog                                                            */
+/* ------------------------------------------------------------------ */
+/* Independent watchdog: if the main loop hangs the chip resets and the
+ * relays go back to OFF. Runs from the internal low-speed oscillator.
+ * NOTE: the program is halted by a debugger -> chip may reset after this
+ * time unless the debug-freeze bit works on your chip. */
+#ifndef ENABLE_WATCHDOG
+#define ENABLE_WATCHDOG       1
+#endif
+#ifndef WATCHDOG_TIMEOUT_MS
+#define WATCHDOG_TIMEOUT_MS   4000UL
+#endif
 
 #endif /* CONFIG_H */

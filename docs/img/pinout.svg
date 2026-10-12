@@ -91,13 +91,16 @@
 <rect x="658" y="250" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="683.0" y="265" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB10</text>
 <circle cx="634" cy="284" r="5" fill="#d9c27a"/>
 <line x1="634" y1="284" x2="656" y2="284" stroke="#7a8aa8" stroke-width="1.5"/>
-<rect x="658" y="274" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="289" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB1</text>
+<rect x="658" y="274" width="41" height="20" rx="4" fill="#5d4037"/><text x="678.5" y="289" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PB1</text>
+<text x="707" y="289" font-size="13" font-weight="700" fill="#5d4037">&#8592; Fan enable/disable button</text>
 <circle cx="634" cy="308" r="5" fill="#d9c27a"/>
 <line x1="634" y1="308" x2="656" y2="308" stroke="#7a8aa8" stroke-width="1.5"/>
-<rect x="658" y="298" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="313" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB0</text>
+<rect x="658" y="298" width="41" height="20" rx="4" fill="#6d4c41"/><text x="678.5" y="313" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PB0</text>
+<text x="707" y="313" font-size="13" font-weight="700" fill="#6d4c41">&#8592; Light override button</text>
 <circle cx="634" cy="332" r="5" fill="#d9c27a"/>
 <line x1="634" y1="332" x2="656" y2="332" stroke="#7a8aa8" stroke-width="1.5"/>
-<rect x="658" y="322" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="337" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA7</text>
+<rect x="658" y="322" width="41" height="20" rx="4" fill="#43a047"/><text x="678.5" y="337" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PA7</text>
+<text x="707" y="337" font-size="13" font-weight="700" fill="#43a047">&#8592; FAN-ENABLED LED</text>
 <circle cx="634" cy="356" r="5" fill="#d9c27a"/>
 <line x1="634" y1="356" x2="656" y2="356" stroke="#7a8aa8" stroke-width="1.5"/>
 <rect x="658" y="346" width="41" height="20" rx="4" fill="#e53935"/><text x="678.5" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PA6</text>

@@ -1,4 +1,5 @@
 #include "app.h"
+#include "button.h"
 #include "config.h"
 #include "hal.h"
 
@@ -14,11 +15,13 @@
 #define RELAY_ON_LEVEL   (RELAY_ACTIVE_LOW ? 0 : 1)
 
 static ctrl_t g_ctrl;
+static button_t g_btn_light, g_btn_fan;
 static bool g_light_out, g_fan_out;
 static uint32_t g_led_ms;
 static bool g_led_on;
 static uint32_t g_fault_ms;
 static bool g_fault_on;
+static bool g_ind_pir, g_ind_light, g_ind_fan, g_ind_fan_en;   /* LED cache */
 
 static void relay_apply(bool light_on, bool fan_on)
 {
@@ -54,10 +57,10 @@ static void heartbeat(uint32_t now)
 static void status_leds(uint32_t now)
 {
 #if ENABLE_STATUS_LEDS
-    static bool pir, light, fan;
-    if (g_ctrl.pir_stable != pir) { pir = g_ctrl.pir_stable; hal_indicator(IND_PIR, pir); }
-    if (g_ctrl.light_on != light)  { light = g_ctrl.light_on;  hal_indicator(IND_LIGHT, light); }
-    if (g_ctrl.fan_on != fan)      { fan = g_ctrl.fan_on;      hal_indicator(IND_FAN, fan); }
+    if (g_ctrl.pir_stable != g_ind_pir)      { g_ind_pir = g_ctrl.pir_stable;      hal_indicator(IND_PIR, g_ind_pir); }
+    if (g_ctrl.light_out != g_ind_light)     { g_ind_light = g_ctrl.light_out;     hal_indicator(IND_LIGHT, g_ind_light); }
+    if (g_ctrl.fan_out != g_ind_fan)         { g_ind_fan = g_ctrl.fan_out;         hal_indicator(IND_FAN, g_ind_fan); }
+    if (g_ctrl.fan_enabled != g_ind_fan_en)  { g_ind_fan_en = g_ctrl.fan_enabled;  hal_indicator(IND_FANEN, g_ind_fan_en); }
 
     if (g_ctrl.fault_stuck) {
         if ((uint32_t)(now - g_fault_ms) >= FAULT_BLINK_MS) {
@@ -76,29 +79,64 @@ static void status_leds(uint32_t now)
 
 void app_init(void)
 {
+    ctrl_cfg_t cfg;
+    uint32_t now;
+
     g_light_out = false;
     g_fan_out = false;
-    hal_init(RELAY_OFF_LEVEL, RELAY_OFF_LEVEL);
-    ctrl_init(&g_ctrl, hal_millis(), LIGHT_TIMEOUT_MS, FAN_TIMEOUT_MS,
-              PIR_WARMUP_MS, PIR_DEBOUNCE_MS, PIR_STUCK_HIGH_MS);
-    g_led_ms = hal_millis();
+    hal_init(RELAY_OFF_LEVEL, RELAY_OFF_LEVEL);   /* relays OFF first; starts watchdog */
+    now = hal_millis();
+
+    cfg.light_timeout_ms = LIGHT_TIMEOUT_MS;
+    cfg.fan_timeout_ms = FAN_TIMEOUT_MS;
+    cfg.warmup_ms = PIR_WARMUP_MS;
+    cfg.debounce_ms = PIR_DEBOUNCE_MS;
+    cfg.stuck_high_ms = PIR_STUCK_HIGH_MS;
+    cfg.warn_before_ms = LIGHT_WARN_BEFORE_MS;
+    cfg.warn_blink_ms = LIGHT_WARN_BLINK_MS;
+    cfg.fan_start_delay_ms = FAN_START_DELAY_MS;
+    cfg.override_ms = LIGHT_OVERRIDE_MS;
+    cfg.fan_enabled = hal_load_fan_enabled();
+    ctrl_init(&g_ctrl, now, &cfg);
+
+    button_init(&g_btn_light, now, hal_button_pressed(BTN_LIGHT));
+    button_init(&g_btn_fan, now, hal_button_pressed(BTN_FAN));
+
+    g_led_ms = now;
     g_led_on = false;
     g_fault_on = false;
-    g_fault_ms = hal_millis();
+    g_fault_ms = now;
+    g_ind_pir = g_ind_light = g_ind_fan = false;
+    g_ind_fan_en = false;       /* forces the first write of the fan-enabled LED */
     hal_debug("BOOT: relays OFF, PIR warm-up\r\n");
+    hal_debug(cfg.fan_enabled ? "FAN: enabled\r\n" : "FAN: DISABLED (button)\r\n");
 }
 
 void app_step(void)
 {
-    bool level = hal_pir_level();
-    bool active = PIR_ACTIVE_HIGH ? level : !level;
+    uint32_t now;
+    bool level, active;
 
-    uint32_t now = hal_millis();
+    hal_watchdog_kick();
+    now = hal_millis();
+
+    level = hal_pir_level();
+    active = PIR_ACTIVE_HIGH ? level : !level;
+
+    if (button_update(&g_btn_light, now, hal_button_pressed(BTN_LIGHT), BUTTON_DEBOUNCE_MS)) {
+        ctrl_light_override_toggle(&g_ctrl, now);
+        hal_debug(g_ctrl.override_active ? "OVERRIDE ON\r\n" : "OVERRIDE OFF\r\n");
+    }
+    if (button_update(&g_btn_fan, now, hal_button_pressed(BTN_FAN), BUTTON_DEBOUNCE_MS)) {
+        ctrl_set_fan_enabled(&g_ctrl, !g_ctrl.fan_enabled);
+        hal_save_fan_enabled(g_ctrl.fan_enabled);
+        hal_debug(g_ctrl.fan_enabled ? "FAN: enabled\r\n" : "FAN: DISABLED\r\n");
+    }
 
     ctrl_update(&g_ctrl, now, active);
     heartbeat(now);
     status_leds(now);
-    relay_apply(g_ctrl.light_on, g_ctrl.fan_on);
+    relay_apply(g_ctrl.light_out, g_ctrl.fan_out);
 }
 
 const ctrl_t *app_state(void) { return &g_ctrl; }

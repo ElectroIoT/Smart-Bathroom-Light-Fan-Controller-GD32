@@ -78,7 +78,107 @@ static const struct { uint8_t port, pin; bool active_low; } ind_tab[IND_COUNT] =
     { LED_LIGHT_PORT,  LED_LIGHT_PIN,  STATUS_LED_ACTIVE_LOW },
     { LED_FAN_PORT,    LED_FAN_PIN,    STATUS_LED_ACTIVE_LOW },
     { LED_FAULT_PORT,  LED_FAULT_PIN,  STATUS_LED_ACTIVE_LOW },
+    { LED_FANEN_PORT,  LED_FANEN_PIN,  STATUS_LED_ACTIVE_LOW },
 };
+
+/* Button pin table, order matches button_id_t. */
+static const struct { uint8_t port, pin; } btn_tab[BTN_COUNT] = {
+    { BTN_LIGHT_PORT, BTN_LIGHT_PIN },
+    { BTN_FAN_PORT,   BTN_FAN_PIN },
+};
+
+/* --- independent watchdog (IWDG / FWDGT), UNVERIFIED vs GD32 manual --- */
+#define IWDG_BASE       0x40003000UL
+#define IWDG_KR         REG32(IWDG_BASE + 0x00UL)
+#define IWDG_PR         REG32(IWDG_BASE + 0x04UL)
+#define IWDG_RLR        REG32(IWDG_BASE + 0x08UL)
+#define IWDG_SR         REG32(IWDG_BASE + 0x0CUL)
+#define DBG_CTL0        REG32(0xE0042004UL)      /* bit 8: freeze watchdog while halted */
+
+static void watchdog_start(void)
+{
+#if ENABLE_WATCHDOG
+    /* ~40 kHz low-speed oscillator / 64 = 625 Hz (nominal; +-tolerance). */
+    uint32_t reload = (WATCHDOG_TIMEOUT_MS * 625UL) / 1000UL;
+    volatile uint32_t guard = 100000UL;
+
+    DBG_CTL0 |= (1UL << 8);       /* debug halt must not reset the chip */
+    IWDG_KR = 0x5555UL;           /* unlock PR / RLR */
+    IWDG_PR = 4UL;                /* divider 64 */
+    IWDG_RLR = (reload > 0xFFFUL) ? 0xFFFUL : reload - 1UL;
+    while (IWDG_SR != 0UL && guard--) { }
+    IWDG_KR = 0xAAAAUL;           /* load counter */
+    IWDG_KR = 0xCCCCUL;           /* start (cannot be stopped) */
+#endif
+}
+
+void hal_watchdog_kick(void)
+{
+#if ENABLE_WATCHDOG
+    IWDG_KR = 0xAAAAUL;
+#endif
+}
+
+/* --- flash storage for the fan-enable flag (FMC, UNVERIFIED vs manual) --- */
+#define FMC_KEY         REG32(0x40022004UL)
+#define FMC_STAT        REG32(0x4002200CUL)
+#define FMC_CTL         REG32(0x40022010UL)
+#define FMC_ADDR        REG32(0x40022014UL)
+#define FMC_BUSY        (1UL << 0)
+#define FMC_CTL_PG      (1UL << 0)
+#define FMC_CTL_PER     (1UL << 1)
+#define FMC_CTL_START   (1UL << 6)
+#define FMC_CTL_LK      (1UL << 7)
+#define STORE_MAGIC     0x5AA5U
+
+static bool fmc_wait(void)
+{
+    volatile uint32_t guard = 2000000UL;
+    while ((FMC_STAT & FMC_BUSY) && guard) guard--;
+    return guard != 0;
+}
+
+bool hal_load_fan_enabled(void)
+{
+    volatile const uint16_t *p = (volatile const uint16_t *)STORE_PAGE_ADDR;
+    if (p[0] == STORE_MAGIC)
+        return p[1] != 0U;
+    return true;                  /* never saved: fan enabled */
+}
+
+void hal_save_fan_enabled(bool enabled)
+{
+    volatile uint16_t *p = (volatile uint16_t *)STORE_PAGE_ADDR;
+
+    if (p[0] == STORE_MAGIC && (p[1] != 0U) == enabled)
+        return;                   /* already stored: no flash wear */
+
+    FMC_KEY = 0x45670123UL;
+    FMC_KEY = 0xCDEF89ABUL;
+    FMC_STAT = 0x34UL;            /* clear end/error flags */
+
+    FMC_CTL |= FMC_CTL_PER;       /* erase the page */
+    FMC_ADDR = STORE_PAGE_ADDR;
+    FMC_CTL |= FMC_CTL_START;
+    if (fmc_wait()) {
+        FMC_CTL &= ~FMC_CTL_PER;
+        FMC_CTL |= FMC_CTL_PG;    /* program two half-words */
+        p[0] = STORE_MAGIC;
+        (void)fmc_wait();
+        p[1] = enabled ? 1U : 0U;
+        (void)fmc_wait();
+    }
+    FMC_CTL &= ~(FMC_CTL_PG | FMC_CTL_PER);
+    FMC_CTL |= FMC_CTL_LK;
+}
+
+bool hal_button_pressed(button_id_t id)
+{
+    bool level;
+    if (id >= BTN_COUNT) return false;
+    level = (GPIO_ISTAT(btn_tab[id].port) & (1UL << btn_tab[id].pin)) != 0;
+    return BUTTON_ACTIVE_LOW ? !level : level;
+}
 
 static bool ind_enabled(unsigned id)
 {
@@ -96,6 +196,13 @@ void hal_init(bool light_off_level, bool fan_off_level)
         clock_enable_port(ind_tab[i].port);
         gpio_write(ind_tab[i].port, ind_tab[i].pin, ind_tab[i].active_low);  /* off */
         gpio_mode(ind_tab[i].port, ind_tab[i].pin, MODE_OUT_PP_2M);
+    }
+
+    /* Buttons: input with pull (pull-up when wired to GND). */
+    for (unsigned i = 0; i < BTN_COUNT; i++) {
+        clock_enable_port(btn_tab[i].port);
+        gpio_mode(btn_tab[i].port, btn_tab[i].pin, MODE_IN_PUPD);
+        gpio_write(btn_tab[i].port, btn_tab[i].pin, BUTTON_ACTIVE_LOW);
     }
 
     /* Safe state first: latch the OFF level, THEN make the pins outputs. */
@@ -123,6 +230,8 @@ void hal_init(bool light_off_level, bool fan_off_level)
     SYST_RVR = (SYSCLK_HZ / 1000UL) - 1UL;
     SYST_CVR = 0;
     SYST_CSR = 0x7UL;             /* enable, tick interrupt, CPU clock */
+
+    watchdog_start();             /* last: relays are already in their safe state */
 }
 
 uint32_t hal_millis(void) { return g_ms; }   /* aligned 32-bit read is atomic */

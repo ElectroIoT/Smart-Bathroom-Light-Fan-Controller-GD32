@@ -1,8 +1,8 @@
-/* 64 KB flash / 20 KB SRAM: figures from the project brief, NOT yet checked
+/* 64 KB flash (last page reserved) / 20 KB SRAM: figures from the project brief, NOT yet checked
  * against the datasheet. Using the smaller figures is the safe side. */
 MEMORY
 {
-  FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 64K
+  FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 63K   /* last 1 KB page is reserved for saved settings */
   RAM   (rwx) : ORIGIN = 0x20000000, LENGTH = 20K
 }
 _estack = ORIGIN(RAM) + LENGTH(RAM);

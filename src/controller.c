@@ -6,27 +6,22 @@ static uint32_t elapsed(uint32_t now, uint32_t then)
     return (uint32_t)(now - then);
 }
 
-void ctrl_init(ctrl_t *c, uint32_t now_ms,
-               uint32_t light_timeout_ms, uint32_t fan_timeout_ms,
-               uint32_t warmup_ms, uint32_t debounce_ms,
-               uint32_t stuck_high_ms)
+void ctrl_init(ctrl_t *c, uint32_t now_ms, const ctrl_cfg_t *cfg)
 {
-    c->light_timeout_ms = light_timeout_ms ? light_timeout_ms : 1u;
-    c->fan_timeout_ms   = fan_timeout_ms   ? fan_timeout_ms   : 1u;
-    c->warmup_ms        = warmup_ms;
-    c->debounce_ms      = debounce_ms;
-    c->stuck_high_ms    = stuck_high_ms;
+    c->cfg = *cfg;
+    if (!c->cfg.light_timeout_ms) c->cfg.light_timeout_ms = 1u;
+    if (!c->cfg.fan_timeout_ms)   c->cfg.fan_timeout_ms   = 1u;
 
-    c->light_on = false;
-    c->fan_on   = false;
+    c->light_out = c->fan_out = false;
+    c->light_on = c->fan_on = false;
+    c->fan_armed = c->light_warn = c->warned = c->override_active = false;
+    c->fan_enabled = cfg->fan_enabled;
 
-    c->start_ms       = now_ms;
-    c->last_motion_ms = now_ms;
-    c->high_since_ms  = now_ms;
-    c->cand_since_ms  = now_ms;
-    c->pir_stable     = false;
-    c->pir_cand       = false;
-    c->fault_stuck    = false;
+    c->start_ms = c->last_motion_ms = c->light_on_since_ms = now_ms;
+    c->warn_start_ms = c->override_start_ms = now_ms;
+    c->high_since_ms = c->cand_since_ms = now_ms;
+    c->pir_stable = c->pir_cand = false;
+    c->fault_stuck = false;
 }
 
 /* Debounce the raw level. Returns true when the stable state just changed. */
@@ -40,55 +35,119 @@ static bool debounce(ctrl_t *c, uint32_t now, bool raw)
         c->pir_cand = raw;
         c->cand_since_ms = now;
     }
-    if (elapsed(now, c->cand_since_ms) >= c->debounce_ms) {
+    if (elapsed(now, c->cand_since_ms) >= c->cfg.debounce_ms) {
         c->pir_stable = raw;
         return true;
     }
     return false;
 }
 
-void ctrl_update(ctrl_t *c, uint32_t now, bool pir_active)
+static void motion_event(ctrl_t *c, uint32_t now)
 {
-    bool changed;
-
-    /* Warm-up: PIR output is meaningless right after power-up. */
-    if (elapsed(now, c->start_ms) < c->warmup_ms) {
-        c->light_on = false;
-        c->fan_on   = false;
-        return;
+    c->last_motion_ms = now;
+    c->warned = false;                /* new countdown, new warning */
+    c->light_warn = false;
+    if (!c->light_on) {
+        c->light_on = true;
+        c->light_on_since_ms = now;
     }
+    if (c->fan_enabled && !c->fan_on)
+        c->fan_armed = true;          /* fan starts after the start delay */
+}
 
-    changed = debounce(c, now, pir_active);
+static void pir_logic(ctrl_t *c, uint32_t now, bool pir_active)
+{
+    bool changed = debounce(c, now, pir_active);
 
     if (changed) {
         if (c->pir_stable) {
-            /* Rising edge = one motion event. */
-            c->high_since_ms = now;
-            if (!c->fault_stuck) {
-                c->last_motion_ms = now;
-                c->light_on = true;
-                c->fan_on   = true;
-            }
+            c->high_since_ms = now;   /* rising edge = one motion event */
+            if (!c->fault_stuck)
+                motion_event(c, now);
         } else {
-            /* Falling edge: motion was present until now; clear any fault. */
-            c->fault_stuck = false;
-            c->last_motion_ms = now;
+            c->fault_stuck = false;   /* falling edge: clear any fault   */
+            c->last_motion_ms = now;  /* motion was present until now    */
+            c->warned = false;
         }
     }
 
-    /* PIR continuously active = motion still ongoing: hold timers, no
-     * per-pass restart. A stuck-high sensor is released after a limit. */
+    /* PIR continuously active = motion ongoing: hold timers (no per-pass
+     * restart). A stuck-HIGH sensor is released after a limit. */
     bool hold = c->pir_stable && !c->fault_stuck;
-    if (hold && elapsed(now, c->high_since_ms) >= c->stuck_high_ms) {
+    if (hold && elapsed(now, c->high_since_ms) >= c->cfg.stuck_high_ms) {
         c->fault_stuck = true;
         c->last_motion_ms = now;      /* normal timeouts start counting here */
+        c->warned = false;
         hold = false;
     }
 
     if (!hold) {
-        if (c->light_on && elapsed(now, c->last_motion_ms) >= c->light_timeout_ms)
-            c->light_on = false;
-        if (c->fan_on && elapsed(now, c->last_motion_ms) >= c->fan_timeout_ms)
+        uint32_t since = elapsed(now, c->last_motion_ms);
+
+        if (c->light_on) {
+            uint32_t lead = c->cfg.warn_before_ms;
+            /* warning blink: only if the timeout is long enough to hold it */
+            if (lead && !c->warned &&
+                c->cfg.light_timeout_ms > lead + c->cfg.warn_blink_ms &&
+                since >= c->cfg.light_timeout_ms - lead) {
+                c->warned = true;
+                c->warn_start_ms = now;
+            }
+            if (since >= c->cfg.light_timeout_ms) {
+                c->light_on = false;
+                c->warned = false;
+            }
+        }
+        if (c->fan_on && since >= c->cfg.fan_timeout_ms)
             c->fan_on = false;
+    } else {
+        c->warned = false;            /* PIR active: no warning pending */
     }
+
+    c->light_warn = c->light_on && c->warned &&
+                    elapsed(now, c->warn_start_ms) < c->cfg.warn_blink_ms;
+
+    /* fan start delay: counted from the moment the light came ON */
+    if (!c->light_on) {
+        c->fan_armed = false;
+    } else if (c->fan_armed && !c->fan_on && c->fan_enabled &&
+               elapsed(now, c->light_on_since_ms) >= c->cfg.fan_start_delay_ms) {
+        c->fan_on = true;
+        c->fan_armed = false;
+    }
+}
+
+void ctrl_update(ctrl_t *c, uint32_t now, bool pir_active)
+{
+    /* Warm-up: PIR output is meaningless right after power-up. */
+    if (elapsed(now, c->start_ms) < c->cfg.warmup_ms) {
+        c->light_on = c->fan_on = c->fan_armed = false;
+        c->light_warn = false;
+    } else {
+        pir_logic(c, now, pir_active);
+    }
+
+    if (c->override_active &&
+        elapsed(now, c->override_start_ms) >= c->cfg.override_ms)
+        c->override_active = false;
+
+    c->light_out = (c->light_on && !c->light_warn) || c->override_active;
+    c->fan_out   = c->fan_on && c->fan_enabled;
+}
+
+void ctrl_light_override_toggle(ctrl_t *c, uint32_t now)
+{
+    c->override_active = !c->override_active;
+    c->override_start_ms = now;
+    c->light_out = (c->light_on && !c->light_warn) || c->override_active;
+}
+
+void ctrl_set_fan_enabled(ctrl_t *c, bool enabled)
+{
+    c->fan_enabled = enabled;
+    if (!enabled) {
+        c->fan_on = false;
+        c->fan_armed = false;
+    }
+    c->fan_out = c->fan_on && c->fan_enabled;
 }

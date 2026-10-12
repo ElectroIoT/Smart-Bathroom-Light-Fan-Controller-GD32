@@ -11,7 +11,7 @@ import os, shutil, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BUILD = os.path.join(ROOT, "build")
-CORE = ["src/controller.c", "src/app.c"]
+CORE = ["src/controller.c", "src/button.c", "src/app.c"]
 WARN = ["-std=c99", "-Wall", "-Wextra", "-Werror", "-Os", "-Iinclude", "-Isrc"]
 
 
@@ -29,6 +29,9 @@ def run(cmd):
 
 def test():
     os.makedirs(BUILD, exist_ok=True)
+    # Core timer tests run with the optional features switched off so the
+    # original timing is checked exactly; features have their own test file.
+    off = ["-DLIGHT_WARN_BEFORE_MS=0", "-DFAN_START_DELAY_MS=0"]
     variants = {
         "default (relay active-LOW, PIR active-HIGH)": [],
         "relay active-HIGH": ["-DRELAY_ACTIVE_LOW=0"],
@@ -36,11 +39,16 @@ def test():
         "relay active-HIGH + PIR active-LOW": ["-DRELAY_ACTIVE_LOW=0", "-DPIR_ACTIVE_HIGH=0"],
     }
     ok = True
+    exe = os.path.join(BUILD, "tests.exe" if os.name == "nt" else "tests")
     for name, defs in variants.items():
-        exe = os.path.join(BUILD, "tests.exe" if os.name == "nt" else "tests")
-        run(host_cc() + WARN + defs + CORE +
+        run(host_cc() + WARN + off + defs + CORE +
             ["tests/fake_hal.c", "tests/test_main.c", "-o", exe])
-        print(f"=== {name} ===")
+        print(f"=== core timers: {name} ===")
+        ok &= subprocess.run([exe], cwd=ROOT).returncode == 0
+    for name, defs in {"relay active-LOW": [], "relay active-HIGH": ["-DRELAY_ACTIVE_LOW=0"]}.items():
+        run(host_cc() + WARN + defs + CORE +
+            ["tests/fake_hal.c", "tests/test_features.c", "-o", exe])
+        print(f"=== features (default config): {name} ===")
         ok &= subprocess.run([exe], cwd=ROOT).returncode == 0
     print("ALL TESTS PASSED" if ok else "TESTS FAILED")
     return 0 if ok else 1

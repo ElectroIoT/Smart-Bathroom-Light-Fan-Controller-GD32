@@ -60,7 +60,13 @@ The silkscreen on your board is the final authority. Avoid PA13, PA14, PA15, PB3
 | LED PIR / LIGHT / FAN / FAULT | **PA3 / PA4 / PA5 / PA6** | push-pull output, active-HIGH | external LEDs outside the box: GPIO → 330 Ω–1 kΩ → LED → GND (see `docs/img/led-wiring.svg`) |
 | System LED | PC13 | on-board LED, active-LOW (assumed) | heartbeat |
 
-Not implemented in this release: manual-override button.
+| BTN light override | **PB0** | input, pull-up | normally-open push button to GND |
+| BTN fan enable/disable | **PB1** | input, pull-up | normally-open push button to GND |
+| LED FAN-ENABLED | **PA7** | push-pull output, active-HIGH | lit = fan enabled |
+
+**Saved setting:** the fan enable flag is stored in flash page `0x0800FC00` (the last 1 KB page of the first 64 KB; the linker reserves it). ⚠️ The flash controller registers (FMC) and the independent watchdog (FWDGT) use the STM32-compatible layout and have been seen working (watchdog starts, flag page readable) but flash *writing* from the button has not yet been tested on hardware.
+
+**Humidity sensor (DHT11) - not included.** Possible (single-wire pin, e.g. PB12), but not recommended: DHT11 is only about ±5 % RH, reads at most once per second, can be damaged by condensation, and needs microsecond timing for its protocol. A DHT22 or an I2C sensor (AHT20/SHT31) is better. It would let the fan run until the humidity drops. Can be added later if wanted.
 
 ## 3. Power
 

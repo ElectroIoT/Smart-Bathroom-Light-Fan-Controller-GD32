@@ -6,7 +6,7 @@ Automated tests prove the *logic*. They do not prove the hardware. Do the bench 
 ```
 python tools/build.py test
 ```
-Runs 64 checks × 4 configurations (relay active-LOW/HIGH × PIR active-HIGH/LOW). Covers: startup OFF, warm-up, motion → both ON, debounce, 7/10 min timeouts at exact boundary, independence of light and fan, spec example (0:00/4:00/11:00/14:00), motion during either countdown, PIR held HIGH, stuck-HIGH fault, reset while energised, 32-bit tick rollover, polarity.
+Runs 64 checks × 4 configurations (relay active-LOW/HIGH × PIR active-HIGH/LOW) for the core timers (optional features off), plus 37 checks × 2 for the new features with default settings. Covers: startup OFF, warm-up, motion → both ON, debounce, 7/10 min timeouts at exact boundary, independence of light and fan, spec example (0:00/4:00/11:00/14:00), motion during either countdown, PIR held HIGH, stuck-HIGH fault, reset while energised, 32-bit tick rollover, polarity.
 Last run: all passed (this session).
 
 ## 1. Safe first power-up (no PIR, no relay, no mains)
@@ -22,6 +22,13 @@ Last run: all passed (this session).
 
 ## 2b. Status LED test
 With the LEDs wired: PIR LED lights when motion is seen; light/fan LEDs follow the relays; fault LED stays off (it blinks fast only if the PIR stays HIGH for 30 min). System LED (PC13) blinks fast for 60 s, then a blip every 2 s.
+
+## 2c. Buttons, fan disable, warning blink (no mains)
+1. **Light override:** press the PB0 button: light relay ON for 30 min with no PIR. Press again: OFF.
+2. **Fan disable:** press PB1: FAN-ENABLED LED turns OFF. Trigger the PIR: the light relay turns ON but the fan relay stays OFF. Remove power for 10 s and power up again: the LED must still be OFF (setting saved). Press again: LED ON, fan works.
+3. **Fan start delay:** with the fan enabled, trigger the PIR: fan relay starts about 30 s after the light.
+4. **Warning blink:** about 30 s before the 7-minute light timeout the light relay clicks OFF for about half a second and back ON. (Use shortened test timeouts from section 4.)
+5. **Watchdog:** nothing to do; confirm the board keeps running normally.
 
 ## 3. Relay logic test (module powered, **no mains, no load**)
 1. Wire relay module VCC/GND/IN1/IN2 only; contacts unconnected.
