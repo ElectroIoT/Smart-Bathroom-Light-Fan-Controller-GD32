@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 700" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <rect width="1100" height="700" fill="#ffffff"/>
+  <text x="550" y="28" text-anchor="middle" font-size="20" font-weight="bold">Bathroom light &amp; fan controller - wiring (DRAFT, unverified modules)</text>
+
+  <!-- zones -->
+  <rect x="15" y="45" width="640" height="560" fill="#eef5ff" stroke="#2a62c9" stroke-width="2" stroke-dasharray="8 4"/>
+  <text x="30" y="68" font-weight="bold" fill="#2a62c9" font-size="15">LOW-VOLTAGE SIDE (5 V / 3.3 V DC)</text>
+  <rect x="690" y="45" width="395" height="560" fill="#fff0f0" stroke="#c62828" stroke-width="2" stroke-dasharray="8 4"/>
+  <text x="705" y="68" font-weight="bold" fill="#c62828" font-size="15">230 V AC MAINS SIDE - DANGER</text>
+
+  <!-- power supply -->
+  <rect x="40" y="95" width="150" height="90" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="115" y="125" text-anchor="middle" font-weight="bold">5 V DC regulated</text>
+  <text x="115" y="143" text-anchor="middle">supply (rating: VERIFY)</text>
+  <text x="170" y="165" text-anchor="end">+5V</text><text x="170" y="180" text-anchor="end">GND</text>
+
+  <!-- PIR -->
+  <rect x="40" y="260" width="150" height="110" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="115" y="285" text-anchor="middle" font-weight="bold">PIR sensor</text>
+  <text x="115" y="302" text-anchor="middle">(model: UNKNOWN)</text>
+  <text x="50" y="330">VCC</text><text x="50" y="345">OUT</text><text x="50" y="360">GND</text>
+  <rect x="45" y="378" width="140" height="42" fill="#fff3cd" stroke="#b58900"/>
+  <text x="115" y="395" text-anchor="middle" fill="#7a5a00">VERIFY: OUT voltage</text>
+  <text x="115" y="411" text-anchor="middle" fill="#7a5a00">must be &#8804; 3.3 V</text>
+
+  <!-- MCU -->
+  <rect x="330" y="150" width="190" height="320" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="425" y="175" text-anchor="middle" font-weight="bold">GD32F103C8T6 board</text>
+  <text x="425" y="192" text-anchor="middle">(header labels: VERIFY)</text>
+  <text x="340" y="235">PA0 (in)  &#8592; PIR OUT</text>
+  <text x="340" y="275">PA1 (out) &#8594; relay IN1 (light)</text>
+  <text x="340" y="315">PA2 (out) &#8594; relay IN2 (fan)</text>
+  <text x="340" y="355">PA9 (TX)  &#8594; debug (optional)</text>
+  <text x="340" y="395">5V / 3V3 in (per board)</text>
+  <text x="340" y="425">GND</text>
+  <text x="340" y="455" fill="#555">PA13/PA14 = SWD (leave free)</text>
+
+  <!-- relay module -->
+  <rect x="560" y="470" width="0" height="0"/>
+  <rect x="330" y="500" width="300" height="90" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="480" y="522" text-anchor="middle" font-weight="bold">2-channel relay module (model: UNKNOWN)</text>
+  <text x="340" y="542">VCC  IN1  IN2  GND   (control side)</text>
+  <text x="340" y="560">Polarity: RELAY_ACTIVE_LOW - VERIFY on bench</text>
+  <text x="340" y="577" fill="#7a5a00">10 k pull to OFF level on IN1/IN2 (if module lacks one)</text>
+
+  <!-- wires: PSU -->
+  <g stroke-width="2" fill="none">
+    <path d="M190 165 H260 V440 H320" stroke="#d00000"/>          <!-- +5V to MCU 5V -->
+    <path d="M190 180 H245 V455 H320" stroke="#000"/>             <!-- GND bus -->
+    <path d="M260 165 V335 H190" stroke="#d00000"/>               <!-- +5V to PIR VCC (verify V) -->
+    <path d="M245 180 V360 H190" stroke="#000"/>                  <!-- GND to PIR -->
+    <path d="M190 345 H300 V235 H330" stroke="#0a7d28"/>          <!-- PIR OUT to PA0 -->
+    <path d="M520 275 H600 V490 H300 V556 H330" stroke="#0a7d28"/><!-- PA1 to IN1 -->
+    <path d="M520 315 H615 V485 H312 V572 H330" stroke="#0a7d28"/><!-- PA2 to IN2 -->
+    <path d="M260 440 V538 H330" stroke="#d00000"/>               <!-- 5V to relay VCC -->
+    <path d="M245 455 V590 H330" stroke="#000"/>                  <!-- GND to relay GND -->
+  </g>
+  <text x="195" y="160" font-size="11" fill="#d00000">+5V</text>
+  <text x="195" y="195" font-size="11">GND (common)</text>
+  <text x="205" y="338" font-size="11" fill="#0a7d28">OUT</text>
+  <rect x="236" y="212" width="86" height="16" fill="#fff3cd" stroke="#b58900"/>
+  <text x="279" y="224" text-anchor="middle" font-size="10" fill="#7a5a00">verify before power</text>
+
+  <!-- mains -->
+  <rect x="720" y="95" width="170" height="60" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="805" y="120" text-anchor="middle" font-weight="bold">230 V AC input</text>
+  <text x="805" y="138" text-anchor="middle">Phase (L) / Neutral (N) / PE</text>
+  <rect x="720" y="195" width="170" height="40" fill="#fff3cd" stroke="#b58900"/>
+  <text x="805" y="212" text-anchor="middle" fill="#7a5a00">Fuse / MCB sized for</text>
+  <text x="805" y="227" text-anchor="middle" fill="#7a5a00">relay + wire (VERIFY)</text>
+
+  <rect x="720" y="300" width="170" height="70" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="805" y="322" text-anchor="middle" font-weight="bold">Relay 1 contacts</text>
+  <text x="805" y="340" text-anchor="middle">COM &#8592; L   NO &#8594; light</text>
+  <text x="805" y="358" text-anchor="middle" fill="#7a5a00">rating vs LED inrush: VERIFY</text>
+
+  <rect x="720" y="400" width="170" height="70" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="805" y="422" text-anchor="middle" font-weight="bold">Relay 2 contacts</text>
+  <text x="805" y="440" text-anchor="middle">COM &#8592; L   NO &#8594; fan</text>
+  <text x="805" y="458" text-anchor="middle" fill="#7a5a00">inductive load rating: VERIFY</text>
+
+  <rect x="930" y="300" width="130" height="70" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="995" y="340" text-anchor="middle" font-weight="bold">LED light</text>
+  <rect x="930" y="400" width="130" height="70" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="995" y="440" text-anchor="middle" font-weight="bold">Exhaust fan</text>
+
+  <g stroke-width="3" fill="none" stroke="#c62828">
+    <path d="M805 155 V195"/>
+    <path d="M805 235 V268 H705 V335 H720"/>
+    <path d="M705 335 V435 H720"/>
+    <path d="M890 335 H930"/>
+    <path d="M890 435 H930"/>
+  </g>
+  <text x="700" y="290" font-size="11" fill="#c62828" transform="rotate(-90 700 290)">Phase (L) only switched</text>
+  <text x="705" y="500" font-size="12" fill="#c62828">Neutral and PE go directly to loads (not shown for clarity).</text>
+  <text x="705" y="518" font-size="12" fill="#c62828">Relay contacts sit in the relay module's own mains terminals.</text>
+
+  <!-- notes -->
+  <rect x="705" y="535" width="365" height="60" fill="#ffe0e0" stroke="#c62828"/>
+  <text x="715" y="555" fill="#7f0000" font-weight="bold">Mains: insulated enclosure, strain relief,</text>
+  <text x="715" y="572" fill="#7f0000" font-weight="bold">qualified electrician. No breadboards.</text>
+  <text x="715" y="588" fill="#7f0000">Bench-test with NO mains first.</text>
+
+  <text x="30" y="640" font-size="12" fill="#444">Legend: red = +5 V, black = GND, green = signal, yellow box = must be verified before power-up. Wire routes are schematic only, not physical layout.</text>
+  <text x="30" y="660" font-size="12" fill="#444">Generic drawing: the relay module, PIR and board headers are not yet identified. Do not wire from this alone; see docs/hardware_design.md.</text>
+</svg>
