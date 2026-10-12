@@ -6,6 +6,8 @@
 Plan on **yes**. Do not assume the board's USB connector programs it: on most "minimum system" boards it only supplies power (or is wired to the MCU's USB pins for your own USB code). ⚠️ GD32F103 has a built-in serial bootloader (BOOT0 high + UART) which is a no-probe fallback, but it needs a USB-to-serial adapter, so a probe is simpler. A "ST-Link V2" clone (about the size of a USB stick) works over SWD.
 
 ## Wiring (SWD)
+![ST-Link V2 to GD32 wiring](img/stlink-connection.svg)
+
 | ST-Link | Board |
 |---|---|
 | SWDIO | **PA13** (header often labelled DIO / SWDIO) |

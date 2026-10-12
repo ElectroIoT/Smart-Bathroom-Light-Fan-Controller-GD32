@@ -50,6 +50,10 @@ Detailed drawing with the 230 V side: [`docs/wiring_diagram.svg`](docs/wiring_di
 
 ## ⚡ Flash it
 
+<p align="center">
+  <img src="docs/img/stlink-connection.svg" alt="ST-Link V2 to GD32 SWD wiring: SWDIO to PA13, SWCLK to PA14, GND, 3.3V" width="100%">
+</p>
+
 ```mermaid
 flowchart LR
   A[Build<br/>python tools/build.py firmware] --> B[Wire ST-Link<br/>SWDIO→PA13, SWCLK→PA14, GND]
