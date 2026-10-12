@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1b3a"/><stop offset="1" stop-color="#1b4b8f"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffe9a0" stop-opacity="0.9"/><stop offset="1" stop-color="#ffe9a0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="300" rx="18" fill="url(#bg)"/>
+
+  <!-- light bulb -->
+  <g transform="translate(150 150)">
+    <circle r="85" fill="url(#glow)">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M0 -48 a34 34 0 0 1 22 60 v14 h-44 v-14 a34 34 0 0 1 22 -60 z" fill="#ffd54a" stroke="#fff3c4" stroke-width="3"/>
+    <rect x="-18" y="28" width="36" height="8" rx="3" fill="#cfd8dc"/>
+    <rect x="-14" y="38" width="28" height="8" rx="3" fill="#b0bec5"/>
+  </g>
+
+  <!-- title -->
+  <text x="600" y="110" text-anchor="middle" font-size="44" font-weight="700" fill="#ffffff">Smart Bathroom Light &amp; Fan Controller</text>
+  <text x="600" y="156" text-anchor="middle" font-size="24" fill="#bcd6ff">PIR motion &#183; two independent timers &#183; GD32F103C8T6</text>
+  <g font-size="20" font-weight="600">
+    <rect x="360" y="190" width="230" height="44" rx="22" fill="#ffd54a"/>
+    <text x="475" y="219" text-anchor="middle" fill="#3b2f00">Light OFF after 7 min</text>
+    <rect x="610" y="190" width="230" height="44" rx="22" fill="#4dd0e1"/>
+    <text x="725" y="219" text-anchor="middle" fill="#00363d">Fan OFF after 10 min</text>
+  </g>
+  <text x="600" y="272" text-anchor="middle" font-size="16" fill="#9db8e0">Standalone &#183; no Wi-Fi &#183; non-blocking C firmware &#183; tested logic</text>
+
+  <!-- spinning fan -->
+  <g transform="translate(1050 150)">
+    <circle r="72" fill="#12315f" stroke="#4dd0e1" stroke-width="4"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.4s" repeatCount="indefinite"/>
+      <path d="M0 0 C-10 -20 -12 -55 0 -62 C12 -55 10 -20 0 0z" fill="#4dd0e1"/>
+      <path d="M0 0 C-10 -20 -12 -55 0 -62 C12 -55 10 -20 0 0z" fill="#4dd0e1" transform="rotate(120)"/>
+      <path d="M0 0 C-10 -20 -12 -55 0 -62 C12 -55 10 -20 0 0z" fill="#4dd0e1" transform="rotate(240)"/>
+    </g>
+    <circle r="9" fill="#ffffff"/>
+  </g>
+</svg>

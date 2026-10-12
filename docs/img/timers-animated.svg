@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+  <rect width="900" height="380" rx="14" fill="#0f1a2e"/>
+  <text x="450" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#ffffff">How the two timers work (animated example, 15 min)</text>
+
+  <!-- scale: 80 px = 0 min, 820 px = 15 min, 49.33 px/min -->
+  <g stroke="#2c3e5e" stroke-width="1">
+    <line x1="80" y1="70" x2="80" y2="310"/>
+    <line x1="326.7" y1="70" x2="326.7" y2="310"/>
+    <line x1="573.3" y1="70" x2="573.3" y2="310"/>
+    <line x1="820" y1="70" x2="820" y2="310"/>
+  </g>
+  <g font-size="13" fill="#9db8e0" text-anchor="middle">
+    <text x="80" y="330">0:00</text><text x="326.7" y="330">5:00</text>
+    <text x="573.3" y="330">10:00</text><text x="820" y="330">15:00</text>
+  </g>
+
+  <!-- rows -->
+  <text x="20" y="110" font-size="15" fill="#e8eefc" font-weight="600">Motion</text>
+  <text x="20" y="180" font-size="15" fill="#ffd54a" font-weight="600">Light</text>
+  <text x="20" y="250" font-size="15" fill="#4dd0e1" font-weight="600">Fan</text>
+
+  <!-- motion events at 0:00 and 4:00 -->
+  <g>
+    <circle cx="80" cy="106" r="10" fill="#ff6b6b" opacity="0.25"/>
+    <circle cx="80" cy="106" r="10" fill="#ff6b6b">
+      <animate attributeName="opacity" values="1;1;0.2;0.2" keyTimes="0;0.04;0.06;1" dur="12s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="277.3" cy="106" r="10" fill="#ff6b6b" opacity="0.25"/>
+    <circle cx="277.3" cy="106" r="10" fill="#ff6b6b" opacity="0.2">
+      <animate attributeName="opacity" values="0.2;0.2;1;1;0.2;0.2" keyTimes="0;0.255;0.267;0.30;0.32;1" dur="12s" repeatCount="indefinite"/>
+    </circle>
+    <text x="80" y="140" font-size="12" fill="#ffb4b4" text-anchor="middle">motion 0:00</text>
+    <text x="277.3" y="140" font-size="12" fill="#ffb4b4" text-anchor="middle">motion 4:00 &#8594; restarts both</text>
+  </g>
+
+  <!-- ghost: what would happen without the 4:00 reset -->
+  <line x1="425.3" y1="150" x2="425.3" y2="200" stroke="#ffd54a" stroke-width="2" stroke-dasharray="4 4" opacity="0.6"/>
+  <text x="425.3" y="146" font-size="11" fill="#ffd54a" text-anchor="middle" opacity="0.8">would end at 7:00</text>
+
+  <!-- light bar: 0:00 -> 11:00 (width 542.7) -->
+  <rect x="80" y="165" width="542.7" height="30" rx="6" fill="#ffd54a" opacity="0.15"/>
+  <rect x="80" y="165" width="0" height="30" rx="6" fill="#ffd54a">
+    <animate attributeName="width" values="0;542.7;542.7" keyTimes="0;0.7333;1" dur="12s" repeatCount="indefinite"/>
+  </rect>
+  <text x="630" y="186" font-size="13" fill="#ffd54a" font-weight="600">OFF at 11:00</text>
+
+  <!-- fan bar: 0:00 -> 14:00 (width 690.7) -->
+  <rect x="80" y="235" width="690.7" height="30" rx="6" fill="#4dd0e1" opacity="0.15"/>
+  <rect x="80" y="235" width="0" height="30" rx="6" fill="#4dd0e1">
+    <animate attributeName="width" values="0;690.7;690.7" keyTimes="0;0.9333;1" dur="12s" repeatCount="indefinite"/>
+  </rect>
+  <text x="778" y="256" font-size="13" fill="#4dd0e1" font-weight="600">OFF 14:00</text>
+
+  <!-- playhead -->
+  <line x1="80" y1="62" x2="80" y2="312" stroke="#ffffff" stroke-width="2">
+    <animate attributeName="x1" values="80;820;820" keyTimes="0;1;1" dur="12s" repeatCount="indefinite"/>
+    <animate attributeName="x2" values="80;820;820" keyTimes="0;1;1" dur="12s" repeatCount="indefinite"/>
+  </line>
+
+  <text x="450" y="358" text-anchor="middle" font-size="14" fill="#c9d6ee">Light and fan have separate countdowns: the light turning off never turns the fan off.</text>
+</svg>

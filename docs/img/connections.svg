@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+  <rect width="1000" height="420" rx="14" fill="#f6f9ff" stroke="#c9d6ee"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#10264d">Connections at a glance (low-voltage side)</text>
+
+  <!-- PIR -->
+  <rect x="30" y="110" width="170" height="130" rx="10" fill="#fff" stroke="#10264d" stroke-width="2"/>
+  <text x="115" y="140" text-anchor="middle" font-weight="700" font-size="17">PIR sensor</text>
+  <text x="115" y="162" text-anchor="middle" font-size="12" fill="#666">(your existing one)</text>
+  <text x="45" y="196" font-size="14">VCC</text><text x="45" y="214" font-size="14">OUT</text><text x="45" y="232" font-size="14">GND</text>
+
+  <!-- MCU -->
+  <rect x="380" y="70" width="230" height="260" rx="10" fill="#fff" stroke="#10264d" stroke-width="2"/>
+  <text x="495" y="100" text-anchor="middle" font-weight="700" font-size="17">GD32F103C8T6</text>
+  <g font-size="15">
+    <text x="395" y="150">PA0  &#8592; PIR</text>
+    <text x="395" y="190">PA1  &#8594; Light relay</text>
+    <text x="395" y="230">PA2  &#8594; Fan relay</text>
+    <text x="395" y="270">PA9  &#8594; debug TX (opt.)</text>
+    <text x="395" y="305" fill="#777">PA13/PA14: ST-Link SWD</text>
+  </g>
+
+  <!-- Relay -->
+  <rect x="790" y="110" width="180" height="130" rx="10" fill="#fff" stroke="#10264d" stroke-width="2"/>
+  <text x="880" y="140" text-anchor="middle" font-weight="700" font-size="17">2-ch relay</text>
+  <text x="880" y="162" text-anchor="middle" font-size="12" fill="#666">module</text>
+  <text x="805" y="196" font-size="14">IN1 (light)</text><text x="805" y="214" font-size="14">IN2 (fan)</text><text x="805" y="232" font-size="14">VCC / GND</text>
+
+  <!-- wires -->
+  <g fill="none" stroke-width="3">
+    <path d="M200 214 H300 V145 H380" stroke="#1faa59"/>
+    <path d="M610 185 H700 V192 H790" stroke="#e0a800"/>
+    <path d="M610 225 H690 V210 H790" stroke="#14a3b8"/>
+  </g>
+  <text x="240" y="205" font-size="12" fill="#1faa59" font-weight="700">signal</text>
+
+  <!-- power -->
+  <rect x="380" y="360" width="230" height="40" rx="8" fill="#ffe9e9" stroke="#c62828"/>
+  <text x="495" y="385" text-anchor="middle" font-size="14" fill="#8a0000" font-weight="700">5 V supply + common GND to all</text>
+
+  <rect x="30" y="290" width="300" height="100" rx="10" fill="#fff6d6" stroke="#b58900"/>
+  <text x="45" y="315" font-size="14" font-weight="700" fill="#6b4e00">Check before powering:</text>
+  <text x="45" y="337" font-size="13" fill="#6b4e00">&#8226; PIR OUT must be &#8804; 3.3 V (else divider)</text>
+  <text x="45" y="357" font-size="13" fill="#6b4e00">&#8226; Relay polarity (config.h) - bench test</text>
+  <text x="45" y="377" font-size="13" fill="#6b4e00">&#8226; No mains until all bench tests pass</text>
+</svg>

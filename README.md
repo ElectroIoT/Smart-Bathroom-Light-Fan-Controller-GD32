@@ -1,51 +1,119 @@
-# Smart Bathroom Light & Exhaust Fan Controller (GD32F103C8T6, PIR)
+<p align="center">
+  <img src="docs/img/banner.svg" alt="Smart Bathroom Light and Fan Controller" width="100%">
+</p>
 
-Replaces a PIR's fixed delay with two independent non-blocking timers:
+<p align="center">
+  <img alt="MCU" src="https://img.shields.io/badge/MCU-GD32F103C8T6-1b4b8f">
+  <img alt="Language" src="https://img.shields.io/badge/firmware-C-blue">
+  <img alt="Tests" src="https://img.shields.io/badge/logic%20tests-51%20x%204%20passing-brightgreen">
+  <img alt="Hardware" src="https://img.shields.io/badge/hardware%20test-pending-orange">
+</p>
 
-| Output | Default timeout (after the most recent motion) |
+# Smart Bathroom Light & Exhaust Fan Controller
+
+Keep using your **existing PIR sensor**, but replace its fixed delay with a small microcontroller that runs **two independent timers**:
+
+| Output | Turns ON | Turns OFF |
+|---|---|---|
+| 💡 Light | on motion | **7 min** after the most recent motion |
+| 🌀 Exhaust fan | on motion | **10 min** after the most recent motion |
+
+Every new motion restarts both countdowns. The light turning off never turns the fan off. Change the times in one file: [`include/config.h`](include/config.h).
+
+> ⚠️ **Honest limitation:** a PIR cannot reliably detect a completely *still* person. The longer 7-minute window gives you far more margin than a short PIR delay, but it is not a guarantee.
+
+## ▶ How it works (animated)
+
+<p align="center">
+  <img src="docs/img/timers-animated.svg" alt="Animated timeline: motion at 0:00 and 4:00, light off at 11:00, fan off at 14:00" width="100%">
+</p>
+
+Example: motion at 0:00 and again at 4:00 → light off at 11:00, fan off at 14:00.
+
+## 🔌 Connections
+
+<p align="center">
+  <img src="docs/img/connections.svg" alt="PIR to GD32 to relay module connection overview" width="100%">
+</p>
+
+| Signal | GD32 pin |
 |---|---|
-| Light | 7 min (`LIGHT_TIMEOUT_MS = 420000`) |
-| Exhaust fan | 10 min (`FAN_TIMEOUT_MS = 600000`) |
+| PIR output | **PA0** (input, pull-down) |
+| Light relay input | **PA1** |
+| Fan relay input | **PA2** |
+| Debug text (optional) | PA9 (TX, 9600 baud) |
+| ST-Link programming | PA13 (SWDIO), PA14 (SWCLK), GND |
 
-Any motion turns both ON and restarts both countdowns. Turning the light off never turns the fan off. All settings live in [`include/config.h`](include/config.h).
+Detailed drawing with the 230 V side: [`docs/wiring_diagram.svg`](docs/wiring_diagram.svg). Full notes: [`docs/hardware_design.md`](docs/hardware_design.md).
 
-> **Limitation:** a PIR cannot reliably detect a completely stationary person. The longer timeout reduces, but does not eliminate, the light switching off on someone sitting still.
+> 🛑 **Safety:** keep the low-voltage side and the 230 V side separate. No mains on breadboards. Do all bench tests with **no mains**, and have the mains wiring done or checked by a qualified electrician.
 
-## Status (honest)
+## ⚡ Flash it
+
+```mermaid
+flowchart LR
+  A[Build<br/>python tools/build.py firmware] --> B[Wire ST-Link<br/>SWDIO→PA13, SWCLK→PA14, GND]
+  B --> C[Flash build/firmware.bin<br/>at 0x08000000]
+  C --> D[Check PA1/PA2 at<br/>relay-OFF level]
+  D --> E[Bench test, no mains]
+```
+
+1. **Build** (needs Python plus `arm-none-eabi-gcc`, or just `pip install ziglang`):
+   ```bash
+   python tools/build.py firmware
+   ```
+2. **Wire an ST-Link V2:** SWDIO → PA13, SWCLK → PA14, GND → GND (3.3 V only if the board is not otherwise powered).
+3. **Flash** with STM32CubeProgrammer (`build/firmware.bin` at `0x08000000`) or OpenOCD:
+   ```bash
+   openocd -f interface/stlink.cfg -f target/stm32f1x.cfg -c "program build/firmware.elf verify reset exit"
+   ```
+4. Measure PA1 and PA2: both must be at the relay-**OFF** level (3.3 V for active-LOW modules, 0 V for active-HIGH).
+
+Recovery steps and driver notes: [`docs/programming.md`](docs/programming.md).
+
+## 🧭 How to use
+
+1. Power up. For the first 60 s the controller ignores the PIR (PIR modules output junk while warming up). Relays stay OFF.
+2. Walk in: light and fan switch ON.
+3. Move again at any time: both countdowns restart.
+4. Stop moving: light goes off after 7 min, fan after 10 min (from the last motion).
+5. If the relays act inverted, flip `RELAY_ACTIVE_LOW` in `config.h` and re-flash.
+
+Set the PIR's own hold-time dial to its **minimum** so the microcontroller timers decide the delay.
+
+Settings in [`include/config.h`](include/config.h): `LIGHT_TIMEOUT_MS`, `FAN_TIMEOUT_MS`, `PIR_ACTIVE_HIGH`, `RELAY_ACTIVE_LOW`, pins, `PIR_WARMUP_MS`, `PIR_DEBOUNCE_MS`, `PIR_STUCK_HIGH_MS`.
+
+## 🧪 Tests
+
+```bash
+python tools/build.py test
+```
+51 checks × 4 configurations (relay active-LOW/HIGH × PIR active-HIGH/LOW): startup OFF, timeouts at the exact boundary, independent timers, repeated motion, PIR held HIGH, reset while energised, 32-bit tick rollover. Step-by-step bench plan: [`docs/test_plan.md`](docs/test_plan.md).
+
+## 📊 Project status (honest)
+
 | Item | State |
 |---|---|
-| Control logic + unit tests (51 checks × 4 configs) | ✅ passing on PC |
-| Firmware compiles/links for Cortex-M3 (1012 bytes) | ✅ |
-| GD32 register addresses, clock default, pin mapping | ⚠️ unverified — datasheet/manual lookup was not possible; see [hardware design](docs/hardware_design.md) |
-| Running on real hardware | ❌ not tested |
-| PIR / relay module specifics | ❓ unknown — configurable |
+| Control logic + unit tests | ✅ passing on PC |
+| Firmware compiles for Cortex-M3 (~1 KB) | ✅ |
+| GD32 register addresses, clock default | ⚠️ not yet checked against the official manual |
+| Running on real hardware | ❌ not tested yet |
+| PIR / relay module specifics | ❓ configurable, unconfirmed |
 
-## Hardware
-GD32F103C8T6 board · your PIR · 2-channel relay module · regulated supply · ST-Link V2 (recommended) · optional USB-serial for debug.
-Pins: PA0 PIR in, PA1 light relay, PA2 fan relay, PA9 debug TX. Wiring: [docs/wiring_diagram.svg](docs/wiring_diagram.svg).
+## 🗂 Layout
 
-## Layout
 ```
-include/config.h          all tunables, pins, polarities
-src/controller.[ch]       pure logic (no hardware)
-src/app.[ch]              glue: PIR polarity, relay polarity, safe init
-src/hal.h                 hardware interface
-src/hal_gd32f103.c        register-level GD32 implementation
-src/startup.c, linker/    vector table, linker script
-tests/                    host tests with a fake HAL
-tools/build.py            build + test without make/cmake
-docs/                     hardware design, programming, test plan, wiring
+include/config.h        all settings, pins, polarity
+src/controller.[ch]     pure timer logic (no hardware)
+src/app.[ch]            PIR/relay polarity, safe start-up
+src/hal_gd32f103.c      GD32 register-level hardware layer
+tests/                  PC tests with a fake hardware layer
+tools/build.py          build + test, no make needed
+docs/                   design, wiring, programming, test plan
 ```
 
-## Build & test
-Requires Python 3 and either `arm-none-eabi-gcc` / `gcc`, or `pip install ziglang`.
-```
-python tools/build.py test        # logic tests, 4 polarity variants
-python tools/build.py firmware    # build/firmware.elf, build/firmware.bin
-```
-Flashing and recovery: [docs/programming.md](docs/programming.md). Bench procedure: [docs/test_plan.md](docs/test_plan.md).
+## Not included (on purpose)
+No Wi-Fi, Bluetooth, mmWave, display or cloud. Manual-override button and status LEDs are planned but not implemented.
 
-**Toolchain choice:** plain C + `arm-none-eabi-gcc` with direct register access. Advantage: no dependence on an unverified STM32-compatible core, tiny, easy to read. Limitation: register map must be checked against the GD32 manual (listed in the design doc); PlatformIO has no official GD32F103 board (checked), so it is not used.
-
-## Safety
-Do not connect mains until every bench test passes, and have the 230 V wiring done or inspected by a qualified electrician. See the design doc §6.
+---
+<sub>Part of [ElectroIoT](https://github.com/ElectroIoT) · always verify hardware ratings before connecting mains loads.</sub>
