@@ -240,17 +240,48 @@ static void t_heartbeat(void)
     printf("heartbeat LED blinks, non-blocking, relays unaffected\n");
     fake_reset(0);
     app_init();
-    led_toggles = 0;
+    ind_toggles[IND_SYSTEM] = 0;
     run(PIR_WARMUP_MS);
-    CHECK(led_toggles > 100);            /* fast blink during warm-up */
-    led_toggles = 0;
+    CHECK(ind_toggles[IND_SYSTEM] > 100);            /* fast blink during warm-up */
+    ind_toggles[IND_SYSTEM] = 0;
     run(10000);
-    CHECK(led_toggles >= 8 && led_toggles <= 12);  /* ~5 blips = 10 toggles */
+    CHECK(ind_toggles[IND_SYSTEM] >= 8 && ind_toggles[IND_SYSTEM] <= 12);  /* ~5 blips = 10 toggles */
     CHECK(!light_is_on() && !fan_is_on());
+}
+
+static void t_status_leds(void)
+{
+    printf("status LEDs: PIR, light, fan, fault\n");
+    setup();
+    CHECK(!ind_state[IND_PIR] && !ind_state[IND_LIGHT] && !ind_state[IND_FAN] && !ind_state[IND_FAULT]);
+    fake_set_motion(true);
+    run(PIR_DEBOUNCE_MS + 5);
+    CHECK(ind_state[IND_PIR]);                        /* PIR LED lit while motion */
+    CHECK(ind_state[IND_LIGHT] && ind_state[IND_FAN]);
+    fake_set_motion(false);
+    run(PIR_DEBOUNCE_MS + 5);
+    CHECK(!ind_state[IND_PIR]);                       /* PIR LED off, relays still on */
+    CHECK(ind_state[IND_LIGHT] && ind_state[IND_FAN]);
+    run(LIGHT_TIMEOUT_MS + 1000);
+    CHECK(!ind_state[IND_LIGHT] && ind_state[IND_FAN]);   /* light LED off, fan LED on */
+    run(FAN_TIMEOUT_MS - LIGHT_TIMEOUT_MS);
+    CHECK(!ind_state[IND_FAN]);
+    CHECK(!ind_state[IND_FAULT]);
+
+    /* stuck PIR: fault LED blinks, then clears when PIR returns LOW */
+    fake_set_motion(true);
+    run(PIR_STUCK_HIGH_MS + 1000);
+    ind_toggles[IND_FAULT] = 0;
+    run(2000);
+    CHECK(ind_toggles[IND_FAULT] >= 10);              /* ~16 toggles at 125 ms */
+    fake_set_motion(false);
+    run(PIR_DEBOUNCE_MS + 5);
+    CHECK(!ind_state[IND_FAULT]);
 }
 
 int main(void)
 {
+    t_status_leds();
     t_heartbeat();
     t_startup_no_motion();
     t_warmup_ignores_pir();

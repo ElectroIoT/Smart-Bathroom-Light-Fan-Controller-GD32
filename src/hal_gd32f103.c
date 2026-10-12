@@ -71,17 +71,32 @@ static void clock_enable_port(unsigned port)
                   (port == 1) ? APB2EN_GPIOB : APB2EN_GPIOC;
 }
 
+/* Indicator pin table, order matches indicator_t. */
+static const struct { uint8_t port, pin; bool active_low; } ind_tab[IND_COUNT] = {
+    { LED_PORT,        LED_PIN,        LED_ACTIVE_LOW },
+    { LED_PIR_PORT,    LED_PIR_PIN,    STATUS_LED_ACTIVE_LOW },
+    { LED_LIGHT_PORT,  LED_LIGHT_PIN,  STATUS_LED_ACTIVE_LOW },
+    { LED_FAN_PORT,    LED_FAN_PIN,    STATUS_LED_ACTIVE_LOW },
+    { LED_FAULT_PORT,  LED_FAULT_PIN,  STATUS_LED_ACTIVE_LOW },
+};
+
+static bool ind_enabled(unsigned id)
+{
+    return (id == IND_SYSTEM) ? (ENABLE_HEARTBEAT_LED != 0) : (ENABLE_STATUS_LEDS != 0);
+}
+
 void hal_init(bool light_off_level, bool fan_off_level)
 {
     clock_enable_port(PIR_PORT);
     clock_enable_port(LIGHT_PORT);
     clock_enable_port(FAN_PORT);
     clock_enable_port(0);         /* PA9 debug TX */
-#if ENABLE_HEARTBEAT_LED
-    clock_enable_port(LED_PORT);
-    gpio_write(LED_PORT, LED_PIN, LED_ACTIVE_LOW);   /* LED off */
-    gpio_mode(LED_PORT, LED_PIN, MODE_OUT_PP_2M);
-#endif
+    for (unsigned i = 0; i < IND_COUNT; i++) {
+        if (!ind_enabled(i)) continue;
+        clock_enable_port(ind_tab[i].port);
+        gpio_write(ind_tab[i].port, ind_tab[i].pin, ind_tab[i].active_low);  /* off */
+        gpio_mode(ind_tab[i].port, ind_tab[i].pin, MODE_OUT_PP_2M);
+    }
 
     /* Safe state first: latch the OFF level, THEN make the pins outputs. */
     gpio_write(LIGHT_PORT, LIGHT_PIN, light_off_level);
@@ -120,13 +135,10 @@ bool hal_pir_level(void)
 void hal_light_write(bool level) { gpio_write(LIGHT_PORT, LIGHT_PIN, level); }
 void hal_fan_write(bool level)   { gpio_write(FAN_PORT, FAN_PIN, level); }
 
-void hal_led_write(bool on)
+void hal_indicator(indicator_t id, bool on)
 {
-#if ENABLE_HEARTBEAT_LED
-    gpio_write(LED_PORT, LED_PIN, LED_ACTIVE_LOW ? !on : on);
-#else
-    (void)on;
-#endif
+    if (id >= IND_COUNT || !ind_enabled(id)) return;
+    gpio_write(ind_tab[id].port, ind_tab[id].pin, ind_tab[id].active_low ? !on : on);
 }
 
 void hal_debug(const char *msg)

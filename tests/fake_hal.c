@@ -23,6 +23,7 @@ void fake_reset(uint32_t start_time)
     light_pin_driven = fan_pin_driven = false;
     light_writes = fan_writes = 0;
     init_calls = 0;
+    for (int i = 0; i < IND_COUNT; i++) { ind_state[i] = false; ind_toggles[i] = 0; }
 }
 
 void hal_init(bool light_off_level, bool fan_off_level)
@@ -39,7 +40,11 @@ uint32_t hal_millis(void) { return fake_now; }
 bool hal_pir_level(void) { return fake_pir_level; }
 void hal_light_write(bool level) { light_pin = level; light_writes++; }
 void hal_fan_write(bool level) { fan_pin = level; fan_writes++; }
-int led_toggles;
-static bool led_prev;
-void hal_led_write(bool on) { if (on != led_prev) led_toggles++; led_prev = on; }
+bool ind_state[IND_COUNT];
+int ind_toggles[IND_COUNT];
+void hal_indicator(indicator_t id, bool on)
+{
+    if (ind_state[id] != on) ind_toggles[id]++;
+    ind_state[id] = on;
+}
 void hal_debug(const char *msg) { (void)msg; }

@@ -108,6 +108,39 @@
 #define LED_ACTIVE_LOW     1
 #endif
 
-/* Manual override button / extra status LEDs: NOT implemented in this release. */
+/* External status LEDs (e.g. mounted on the outside of the enclosure).
+ * Wire each as:  GPIO -> 330 ohm..1 kOhm resistor -> LED -> GND  (active-HIGH).
+ *   PIR LED   : lit while the PIR reports motion (solid if held HIGH)
+ *   LIGHT LED : lit while the light relay is commanded ON
+ *   FAN LED   : lit while the fan relay is commanded ON
+ *   FAULT LED : fast blink = PIR stuck HIGH
+ * Put the resistor at the LED end of a long wire. 0 disables all four. */
+#ifndef ENABLE_STATUS_LEDS
+#define ENABLE_STATUS_LEDS 1
+#endif
+#ifndef LED_PIR_PORT
+#define LED_PIR_PORT       0
+#define LED_PIR_PIN        3          /* PA3 */
+#endif
+#ifndef LED_LIGHT_PORT
+#define LED_LIGHT_PORT     0
+#define LED_LIGHT_PIN      4          /* PA4 */
+#endif
+#ifndef LED_FAN_PORT
+#define LED_FAN_PORT       0
+#define LED_FAN_PIN        5          /* PA5 */
+#endif
+#ifndef LED_FAULT_PORT
+#define LED_FAULT_PORT     0
+#define LED_FAULT_PIN      6          /* PA6 */
+#endif
+#ifndef STATUS_LED_ACTIVE_LOW
+#define STATUS_LED_ACTIVE_LOW 0
+#endif
+#ifndef FAULT_BLINK_MS
+#define FAULT_BLINK_MS     125UL      /* toggle period of the fault LED */
+#endif
+
+/* Manual override button: NOT implemented in this release. */
 
 #endif /* CONFIG_H */

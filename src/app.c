@@ -17,6 +17,8 @@ static ctrl_t g_ctrl;
 static bool g_light_out, g_fan_out;
 static uint32_t g_led_ms;
 static bool g_led_on;
+static uint32_t g_fault_ms;
+static bool g_fault_on;
 
 static void relay_apply(bool light_on, bool fan_on)
 {
@@ -41,7 +43,31 @@ static void heartbeat(uint32_t now)
     if ((uint32_t)(now - g_led_ms) >= wait) {
         g_led_ms = now;
         g_led_on = !g_led_on;
-        hal_led_write(g_led_on);
+        hal_indicator(IND_SYSTEM, g_led_on);
+    }
+#else
+    (void)now;
+#endif
+}
+
+/* Status LEDs outside the enclosure: mirror state, written only on change. */
+static void status_leds(uint32_t now)
+{
+#if ENABLE_STATUS_LEDS
+    static bool pir, light, fan;
+    if (g_ctrl.pir_stable != pir) { pir = g_ctrl.pir_stable; hal_indicator(IND_PIR, pir); }
+    if (g_ctrl.light_on != light)  { light = g_ctrl.light_on;  hal_indicator(IND_LIGHT, light); }
+    if (g_ctrl.fan_on != fan)      { fan = g_ctrl.fan_on;      hal_indicator(IND_FAN, fan); }
+
+    if (g_ctrl.fault_stuck) {
+        if ((uint32_t)(now - g_fault_ms) >= FAULT_BLINK_MS) {
+            g_fault_ms = now;
+            g_fault_on = !g_fault_on;
+            hal_indicator(IND_FAULT, g_fault_on);
+        }
+    } else if (g_fault_on) {
+        g_fault_on = false;
+        hal_indicator(IND_FAULT, false);
     }
 #else
     (void)now;
@@ -57,6 +83,8 @@ void app_init(void)
               PIR_WARMUP_MS, PIR_DEBOUNCE_MS, PIR_STUCK_HIGH_MS);
     g_led_ms = hal_millis();
     g_led_on = false;
+    g_fault_on = false;
+    g_fault_ms = hal_millis();
     hal_debug("BOOT: relays OFF, PIR warm-up\r\n");
 }
 
@@ -69,6 +97,7 @@ void app_step(void)
 
     ctrl_update(&g_ctrl, now, active);
     heartbeat(now);
+    status_leds(now);
     relay_apply(g_ctrl.light_on, g_ctrl.fan_on);
 }
 

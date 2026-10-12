@@ -100,16 +100,20 @@
 <rect x="658" y="322" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="337" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA7</text>
 <circle cx="634" cy="356" r="5" fill="#d9c27a"/>
 <line x1="634" y1="356" x2="656" y2="356" stroke="#7a8aa8" stroke-width="1.5"/>
-<rect x="658" y="346" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA6</text>
+<rect x="658" y="346" width="41" height="20" rx="4" fill="#e53935"/><text x="678.5" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PA6</text>
+<text x="707" y="361" font-size="13" font-weight="700" fill="#e53935">&#8592; FAULT LED</text>
 <circle cx="634" cy="380" r="5" fill="#d9c27a"/>
 <line x1="634" y1="380" x2="656" y2="380" stroke="#7a8aa8" stroke-width="1.5"/>
-<rect x="658" y="370" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="385" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA5</text>
+<rect x="658" y="370" width="41" height="20" rx="4" fill="#00acc1"/><text x="678.5" y="385" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PA5</text>
+<text x="707" y="385" font-size="13" font-weight="700" fill="#00acc1">&#8592; Fan relay LED</text>
 <circle cx="634" cy="404" r="5" fill="#d9c27a"/>
 <line x1="634" y1="404" x2="656" y2="404" stroke="#7a8aa8" stroke-width="1.5"/>
-<rect x="658" y="394" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="409" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA4</text>
+<rect x="658" y="394" width="41" height="20" rx="4" fill="#f9a825"/><text x="678.5" y="409" text-anchor="middle" font-size="12" font-weight="700" fill="#000">PA4</text>
+<text x="707" y="409" font-size="13" font-weight="700" fill="#f9a825">&#8592; Light relay LED</text>
 <circle cx="634" cy="428" r="5" fill="#d9c27a"/>
 <line x1="634" y1="428" x2="656" y2="428" stroke="#7a8aa8" stroke-width="1.5"/>
-<rect x="658" y="418" width="41" height="20" rx="4" fill="#e6ecf7"/><text x="678.5" y="433" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PA3</text>
+<rect x="658" y="418" width="41" height="20" rx="4" fill="#d81b60"/><text x="678.5" y="433" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PA3</text>
+<text x="707" y="433" font-size="13" font-weight="700" fill="#d81b60">&#8592; PIR LED (outside box)</text>
 <circle cx="634" cy="452" r="5" fill="#d9c27a"/>
 <line x1="634" y1="452" x2="656" y2="452" stroke="#7a8aa8" stroke-width="1.5"/>
 <rect x="658" y="442" width="41" height="20" rx="4" fill="#14a3b8"/><text x="678.5" y="457" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PA2</text>
