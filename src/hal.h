@@ -15,6 +15,7 @@ uint32_t hal_millis(void);          /* free-running, wraps at 2^32 */
 bool hal_pir_level(void);           /* physical level of PIR pin   */
 void hal_light_write(bool level);
 void hal_fan_write(bool level);
+void hal_led_write(bool on);        /* heartbeat LED, logical on/off */
 void hal_debug(const char *msg);    /* no-op when debug is disabled */
 
 #endif

@@ -235,8 +235,23 @@ static void t_polarity(void)
     CHECK(light_pin == RELAY_ACTIVE_LOW && fan_pin == RELAY_ACTIVE_LOW);
 }
 
+static void t_heartbeat(void)
+{
+    printf("heartbeat LED blinks, non-blocking, relays unaffected\n");
+    fake_reset(0);
+    app_init();
+    led_toggles = 0;
+    run(PIR_WARMUP_MS);
+    CHECK(led_toggles > 100);            /* fast blink during warm-up */
+    led_toggles = 0;
+    run(10000);
+    CHECK(led_toggles >= 8 && led_toggles <= 12);  /* ~5 blips = 10 toggles */
+    CHECK(!light_is_on() && !fan_is_on());
+}
+
 int main(void)
 {
+    t_heartbeat();
     t_startup_no_motion();
     t_warmup_ignores_pir();
     t_motion_turns_on();

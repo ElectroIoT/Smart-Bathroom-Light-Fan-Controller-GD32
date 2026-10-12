@@ -93,6 +93,21 @@
 #define DEBUG_BAUD         9600UL
 #endif
 
-/* Manual override button / status LEDs: NOT implemented in this release. */
+/* Heartbeat LED: fast blink during PIR warm-up, short blip every 2 s after,
+ * so you can see the firmware is alive. PC13 is only a GUESS (common on
+ * "minimum system" boards, usually active-LOW) - set to your board's LED pin.
+ * If the green LED on your module is a fixed power LED it cannot blink. */
+#ifndef ENABLE_HEARTBEAT_LED
+#define ENABLE_HEARTBEAT_LED 1
+#endif
+#ifndef LED_PORT
+#define LED_PORT           2
+#define LED_PIN            13         /* PC13 */
+#endif
+#ifndef LED_ACTIVE_LOW
+#define LED_ACTIVE_LOW     1
+#endif
+
+/* Manual override button / extra status LEDs: NOT implemented in this release. */
 
 #endif /* CONFIG_H */

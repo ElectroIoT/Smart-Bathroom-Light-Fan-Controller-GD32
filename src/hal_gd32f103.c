@@ -77,6 +77,11 @@ void hal_init(bool light_off_level, bool fan_off_level)
     clock_enable_port(LIGHT_PORT);
     clock_enable_port(FAN_PORT);
     clock_enable_port(0);         /* PA9 debug TX */
+#if ENABLE_HEARTBEAT_LED
+    clock_enable_port(LED_PORT);
+    gpio_write(LED_PORT, LED_PIN, LED_ACTIVE_LOW);   /* LED off */
+    gpio_mode(LED_PORT, LED_PIN, MODE_OUT_PP_2M);
+#endif
 
     /* Safe state first: latch the OFF level, THEN make the pins outputs. */
     gpio_write(LIGHT_PORT, LIGHT_PIN, light_off_level);
@@ -114,6 +119,15 @@ bool hal_pir_level(void)
 
 void hal_light_write(bool level) { gpio_write(LIGHT_PORT, LIGHT_PIN, level); }
 void hal_fan_write(bool level)   { gpio_write(FAN_PORT, FAN_PIN, level); }
+
+void hal_led_write(bool on)
+{
+#if ENABLE_HEARTBEAT_LED
+    gpio_write(LED_PORT, LED_PIN, LED_ACTIVE_LOW ? !on : on);
+#else
+    (void)on;
+#endif
+}
 
 void hal_debug(const char *msg)
 {

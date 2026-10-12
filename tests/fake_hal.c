@@ -39,4 +39,7 @@ uint32_t hal_millis(void) { return fake_now; }
 bool hal_pir_level(void) { return fake_pir_level; }
 void hal_light_write(bool level) { light_pin = level; light_writes++; }
 void hal_fan_write(bool level) { fan_pin = level; fan_writes++; }
+int led_toggles;
+static bool led_prev;
+void hal_led_write(bool on) { if (on != led_prev) led_toggles++; led_prev = on; }
 void hal_debug(const char *msg) { (void)msg; }

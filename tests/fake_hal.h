@@ -10,6 +10,7 @@ extern bool light_pin, fan_pin;    /* physical relay pin levels      */
 extern bool light_pin_driven, fan_pin_driven;
 extern int  light_writes, fan_writes;
 extern int  init_calls;
+extern int  led_toggles;
 extern bool init_light_off, init_fan_off;
 
 void fake_reset(uint32_t start_time);
