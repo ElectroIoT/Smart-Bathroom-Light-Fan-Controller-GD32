@@ -208,6 +208,7 @@ def poll():
     buttons = {"light": ButtonTracker("Light override", "PB0"), "fan": ButtonTracker("Fan enable / disable", "PB1")}
     mism = {}
     sys_led = {"last": None, "toggle_t": 0.0}
+    ext_led = {"last": None, "toggle_t": 0.0}
 
     def add_event(text, kind="info"):
         events.insert(0, {"t": time.strftime("%H:%M:%S"), "text": text, "kind": kind})
@@ -281,6 +282,9 @@ def poll():
             if sys_led["last"] is None or sys_led["last"] != bit(octl_c, 13):
                 sys_led["last"], sys_led["toggle_t"] = bit(octl_c, 13), now
             hb_ok = (now - sys_led["toggle_t"]) < 4.0
+            if ext_led["last"] is None or ext_led["last"] != bit(octl_b, 13):
+                ext_led["last"], ext_led["toggle_t"] = bit(octl_b, 13), now
+            hb2_ok = (now - ext_led["toggle_t"]) < 4.0
             s["leds"] = [
                 led("PIR LED", "PA3", lit(octl_a, 3, led_low), bool(s["pir_stable"]), "pir"),
                 led("Light relay LED", "PA4", lit(octl_a, 4, led_low), bool(s["light_out"]), "light"),
@@ -288,7 +292,10 @@ def poll():
                 led("FAULT LED", "PA6", lit(octl_a, 6, led_low), (None if s["fault_stuck"] else (False if not hum_sensor else None)), "bad",
                     "blinking: PIR stuck HIGH" if s["fault_stuck"] else ""),
                 led("FAN-ENABLED LED", "PB11", lit(octl_b, 11, led_low), bool(s["fan_enabled"]), "fan"),
-                {"name": "System LED (heartbeat)", "pin": "PC13", "lit": bool(lit(octl_c, 13, sys_led_low)),
+                {"name": "System LED external (heartbeat)", "pin": "PB13", "lit": bool(lit(octl_b, 13, led_low)),
+                 "expected": None, "status": "ok" if hb2_ok else "bad", "kind": "sys",
+                 "note": "blinking" if hb2_ok else "not blinking"},
+                {"name": "System LED on-board (heartbeat)", "pin": "PC13", "lit": bool(lit(octl_c, 13, sys_led_low)),
                  "expected": None, "status": "ok" if hb_ok else "bad", "kind": "sys",
                  "note": "blinking" if hb_ok else "not blinking"},
             ]

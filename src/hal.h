@@ -16,7 +16,7 @@ bool hal_pir_level(void);           /* physical level of PIR pin   */
 void hal_light_write(bool level);
 void hal_fan_write(bool level);
 /** Indicator LEDs (logical on/off; polarity handled inside the HAL). */
-typedef enum { IND_SYSTEM, IND_PIR, IND_LIGHT, IND_FAN, IND_FAULT, IND_FANEN, IND_COUNT } indicator_t;
+typedef enum { IND_SYSTEM, IND_PIR, IND_LIGHT, IND_FAN, IND_FAULT, IND_FANEN, IND_SYSEXT, IND_COUNT } indicator_t;
 void hal_indicator(indicator_t id, bool on);
 /** Push buttons: true while physically pressed (polarity handled inside). */
 typedef enum { BTN_LIGHT, BTN_FAN, BTN_COUNT } button_id_t;

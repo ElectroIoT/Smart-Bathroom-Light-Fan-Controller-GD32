@@ -243,9 +243,10 @@ static void t_heartbeat(void)
     ind_toggles[IND_SYSTEM] = 0;
     run(PIR_WARMUP_MS);
     CHECK(ind_toggles[IND_SYSTEM] > 100);            /* fast blink during warm-up */
-    ind_toggles[IND_SYSTEM] = 0;
+    ind_toggles[IND_SYSTEM] = ind_toggles[IND_SYSEXT] = 0;
     run(10000);
-    CHECK(ind_toggles[IND_SYSTEM] >= 8 && ind_toggles[IND_SYSTEM] <= 12);  /* ~5 blips = 10 toggles */
+    CHECK(ind_toggles[IND_SYSTEM] >= 18 && ind_toggles[IND_SYSTEM] <= 22);  /* 1 blink per second */
+    CHECK(ind_toggles[IND_SYSEXT] == ind_toggles[IND_SYSTEM]);              /* external LED follows */
     CHECK(!light_is_on() && !fan_is_on());
 }
 

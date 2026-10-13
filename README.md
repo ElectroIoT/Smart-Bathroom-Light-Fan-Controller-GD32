@@ -76,6 +76,7 @@ Example: motion at 0:00 and again at 4:00 → light off at 11:00, fan off at 14:
 | Light override button | PB0 / B0 (to GND) |
 | Fan enable/disable button | PB1 / B1 (to GND) |
 | FAN-ENABLED LED | PB11 / B11 |
+| System heartbeat LED (external) | PB13 / B13 |
 | Humidity sensor DHT11/DHT22 (optional) | PB12 / B12 |
 | Bare LDR + 10 kΩ, analog (optional) | PA7 / A7 (ADC) |
 | or digital LDR module DO (optional) | PB10 / B10 |
@@ -95,12 +96,12 @@ Open [`docs/wiring_diagram.svg`](docs/wiring_diagram.svg) for the full-size vers
 ## 💡 Status LEDs (outside the box)
 
 <p align="center">
-  <img src="docs/img/led-wiring.svg" alt="Four status LEDs on PA3 to PA6 with series resistors and a common ground" width="90%">
+  <img src="docs/img/led-wiring.svg" alt="Six status LEDs with series resistors and a common ground" width="90%">
 </p>
 
 | LED | Meaning |
 |---|---|
-| On-board PC13 (the board's own LED) | System alive (heartbeat): fast blink during the 60 s warm-up, then a short blip every 2 s |
+| On-board PC13 and the external **PB13** LED | System alive (heartbeat): fast blink during the 60 s warm-up, then a 150 ms blink once per second. Both LEDs blink together. |
 | PIR (PA3) | Lit while the PIR reports motion (solid if the PIR output stays HIGH) |
 | Light (PA4) | Lit while the light relay is ON |
 | Fan (PA5) | Lit while the fan relay is ON |
@@ -253,8 +254,8 @@ Quantities are for **one controller**. *Required* = needed for the basic system,
 | 4 | Relay module, 2 channel | 5 V coil, contacts rated for your lamp and fan | 1 | Required | Check the printed rating; set `RELAY_ACTIVE_LOW` |
 | 5 | DC power supply | 5 V regulated, 1 A or more | 1 | Required | Board, PIR, relay coils |
 | 6 | Resistor, relay input pull | 10 kΩ, 0.25 W | 2 | Required* | *Only if the relay module has no input pull resistors |
-| 7 | 3 mm LED | red / green / yellow / orange | 5 | Required for status LEDs | PIR, light relay, fan relay, fault, FAN-ENABLED |
-| 8 | Resistor, LED | 330 Ω, 0.25 W (100 Ω for blue/white LEDs) | 5 | Required for status LEDs | One per LED |
+| 7 | 3 mm LED | red / green / yellow / orange | 6 | Required for status LEDs | PIR, light relay, fan relay, fault (red), FAN-ENABLED, heartbeat |
+| 8 | Resistor, LED | 330 Ω, 0.25 W (100 Ω for blue/white LEDs) | 6 | Required for status LEDs | One per LED |
 | 9 | Push button | normally-open, 6 mm tactile or panel mount | 2 | Required for buttons | Light override (PB0), fan enable/disable (PB1) |
 | 10 | Bare LDR (photoresistor) | e.g. 5 mm, about 10 kΩ at 10 lux | 1 | Optional | Daylight lockout, `DAYLIGHT_SENSOR 2` |
 | 11 | Resistor, LDR divider | 10 kΩ, 0.25 W | 1 | Optional | With the bare LDR |
@@ -275,7 +276,7 @@ Quantities are for **one controller**. *Required* = needed for the basic system,
 
 | Value | Total pcs | Used for |
 |---|---|---|
-| 330 Ω | 5 | status LEDs (100 Ω instead for blue/white) |
+| 330 Ω | 6 | status LEDs (100 Ω instead for blue/white) |
 | 10 kΩ | 4 (2 relay pulls, 1 LDR divider, 1 DHT pull-up), plus 1 for the PIR divider if needed | see table above |
 | 20 kΩ | 0 to 1 | PIR divider, only if the PIR output is 5 V |
 

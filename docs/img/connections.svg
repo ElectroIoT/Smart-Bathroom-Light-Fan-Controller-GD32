@@ -21,6 +21,7 @@
       <text x="616" y="260">PA5 (A5)</text>
       <text x="616" y="290">PA6 (A6)</text>
       <text x="616" y="320">PB11 (B11)</text>
+      <text x="616" y="350">PB13 (B13)</text>
     </g>
   </g>
   <text x="500" y="490" text-anchor="middle" font-size="12" fill="#666">PC13 = on-board system LED (heartbeat)</text>
@@ -74,6 +75,12 @@
   <text x="795" y="376" font-size="13" font-weight="700">FAN-ENABLED LED (PB11)</text>
   <text x="795" y="394" font-size="12" fill="#666">on = fan active, off = disabled</text>
   <path d="M630 320 H660 V380 H750" fill="none" stroke="#43a047" stroke-width="2.5"/>
+
+  <rect x="750" y="415" width="230" height="50" rx="8" fill="#fff" stroke="#2e9e4f" stroke-width="2"/>
+  <circle cx="775" cy="440" r="9" fill="#7dffc4"/>
+  <text x="795" y="436" font-size="13" font-weight="700">SYSTEM LED (PB13)</text>
+  <text x="795" y="454" font-size="12" fill="#666">heartbeat: blinks once a second</text>
+  <path d="M630 350 H655 V440 H750" fill="none" stroke="#2e9e4f" stroke-width="2.5"/>
 
   <!-- notes -->
   <rect x="30" y="555" width="450" height="80" rx="10" fill="#fff6d6" stroke="#b58900"/>

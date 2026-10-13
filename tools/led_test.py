@@ -4,7 +4,7 @@
   python tools/led_test.py
 
 Blinks (3 times each): PIR LED (PA3), light relay LED (PA4), fan relay LED (PA5),
-FAULT LED (PA6), FAN-ENABLED LED (PB11). The on-board system LED (PC13) already
+FAULT LED (PA6), FAN-ENABLED LED (PB11), external SYSTEM heartbeat LED (PB13). The on-board system LED (PC13) already
 blinks by itself. Each LED is put back to the state the controller wants afterwards.
 Uses the running chip through the ST-Link (starts OpenOCD, or reuses the dashboard's).
 Relays are not touched.
@@ -19,7 +19,7 @@ import dashboard as dash  # noqa: E402  (OpenOCD helpers)
 
 LEDS = [("PIR LED", "PA3", dash.GPIOA_OCTL, 3), ("Light relay LED", "PA4", dash.GPIOA_OCTL, 4),
         ("Fan relay LED", "PA5", dash.GPIOA_OCTL, 5), ("FAULT LED", "PA6", dash.GPIOA_OCTL, 6),
-        ("FAN-ENABLED LED", "PB11", dash.GPIOB_OCTL, 11)]
+        ("FAN-ENABLED LED", "PB11", dash.GPIOB_OCTL, 11), ("SYSTEM heartbeat LED (external)", "PB13", dash.GPIOB_OCTL, 13)]
 
 
 def main():

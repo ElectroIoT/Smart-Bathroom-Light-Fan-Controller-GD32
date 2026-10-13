@@ -134,6 +134,13 @@
 #define LED_FAULT_PORT     0
 #define LED_FAULT_PIN      6          /* PA6 */
 #endif
+/* External SYSTEM heartbeat LED (blinks together with the on-board PC13 LED):
+ * GPIO -> 330 ohm -> LED -> GND, active-HIGH. Same pattern as PC13: fast blink
+ * during the PIR warm-up, then a 150 ms blink once per second. */
+#ifndef LED_SYSEXT_PORT
+#define LED_SYSEXT_PORT    1
+#define LED_SYSEXT_PIN     13         /* PB13 */
+#endif
 #ifndef STATUS_LED_ACTIVE_LOW
 #define STATUS_LED_ACTIVE_LOW 0
 #endif

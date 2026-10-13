@@ -80,6 +80,7 @@ static const struct { uint8_t port, pin; bool active_low; } ind_tab[IND_COUNT] =
     { LED_FAN_PORT,    LED_FAN_PIN,    STATUS_LED_ACTIVE_LOW },
     { LED_FAULT_PORT,  LED_FAULT_PIN,  STATUS_LED_ACTIVE_LOW },
     { LED_FANEN_PORT,  LED_FANEN_PIN,  STATUS_LED_ACTIVE_LOW },
+    { LED_SYSEXT_PORT, LED_SYSEXT_PIN, STATUS_LED_ACTIVE_LOW },
 };
 
 /* Button pin table, order matches button_id_t. */

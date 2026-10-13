@@ -50,7 +50,8 @@
 | FAN-ENABLED LED | **PB11** | B11 | output, active-HIGH | lit = fan enabled |
 | DHT22 / DHT11 data (option) | **PB12** | B12 | single-wire | 3V3 supply, 4.7–10 kΩ pull-up |
 | Debug text (option) | **PA9** (USART0 TX) | A9 | AF output, 9600 8N1 | 3.3 V USB-serial RX |
-| System heartbeat LED | **PC13** | on-board LED | output, active-LOW (assumed) | |
+| System heartbeat LED (external) | **PB13** | B13 | output, active-HIGH | 3 mm LED: GPIO → 330 Ω → LED → GND; blinks together with the on-board LED |
+| System heartbeat LED (on-board) | **PC13** | on-board LED | output, active-LOW (assumed) | |
 | ST-Link | PA13 / PA14 | SWDIO / SWCLK | SWD header | **not used by the application** |
 | BOOT0 / BOOT1 | dedicated | jumpers | leave both at 0 | |
 

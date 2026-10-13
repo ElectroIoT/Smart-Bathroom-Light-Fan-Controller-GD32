@@ -44,16 +44,18 @@ static void relay_apply(bool light_on, bool fan_on)
     }
 }
 
-/* Non-blocking heartbeat. Warm-up: 125 ms toggle. Normal: 100 ms blip / 2 s. */
+/* Non-blocking heartbeat (on-board PC13 LED and the external PB13 LED).
+ * Warm-up: 125 ms toggle. Normal: 150 ms blink once per second. */
 static void heartbeat(uint32_t now)
 {
 #if ENABLE_HEARTBEAT_LED
     bool warm = (uint32_t)(now - g_ctrl.start_ms) < PIR_WARMUP_MS;
-    uint32_t wait = warm ? 125UL : (g_led_on ? 100UL : 1900UL);
+    uint32_t wait = warm ? 125UL : (g_led_on ? 150UL : 850UL);
     if ((uint32_t)(now - g_led_ms) >= wait) {
         g_led_ms = now;
         g_led_on = !g_led_on;
         hal_indicator(IND_SYSTEM, g_led_on);
+        hal_indicator(IND_SYSEXT, g_led_on);
     }
 #else
     (void)now;
