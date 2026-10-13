@@ -29,6 +29,12 @@ void hal_save_fan_enabled(bool enabled);
 /** Daylight sensor: true = bright (polarity handled inside). false if disabled. */
 bool hal_daylight_bright(void);
 
+/** Bare LDR: ADC reading 0..4095 (0 if disabled or the conversion timed out = dark). */
+uint16_t hal_ldr_read(void);
+
+/** Debug text plus a decimal number and CRLF (no-op when debug is off). */
+void hal_debug_value(const char *label, uint32_t value);
+
 /** Read one 5-byte DHT11/DHT22 frame. false = no sensor / timeout / disabled. */
 bool hal_humidity_read(uint8_t raw[5]);
 

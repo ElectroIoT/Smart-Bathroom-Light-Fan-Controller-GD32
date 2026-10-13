@@ -21,7 +21,10 @@ void hal_save_fan_enabled(bool enabled) { stored_fan_enabled = enabled; store_wr
 void hal_watchdog_kick(void) { wdt_kicks++; }
 
 bool fake_daylight;
+int fake_ldr_adc;
 bool hal_daylight_bright(void) { return fake_daylight; }
+uint16_t hal_ldr_read(void) { return (uint16_t)fake_ldr_adc; }
+void hal_debug_value(const char *label, uint32_t value) { (void)label; (void)value; }
 
 bool fake_sensor_ok = true;
 int fake_rh_pct = 40;
@@ -61,6 +64,7 @@ void fake_reset(uint32_t start_time)
     store_writes = 0;
     wdt_kicks = 0;
     fake_daylight = false;
+    fake_ldr_adc = 0;
     fake_sensor_ok = true;
     fake_rh_pct = 40;
     humidity_reads = 0;

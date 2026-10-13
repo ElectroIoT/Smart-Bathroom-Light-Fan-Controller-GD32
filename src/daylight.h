@@ -20,6 +20,9 @@ typedef struct {
 
 void daylight_init(daylight_t *d, uint32_t now_ms);
 
+/** ADC value (0..4095) to bright/dark with hysteresis; keeps prev between the two limits. */
+bool daylight_threshold(bool prev_bright, uint16_t adc, uint16_t bright_at, uint16_t dark_at);
+
 /** raw_bright: sensor reading. sampling: false while the lamp is ON. */
 void daylight_update(daylight_t *d, uint32_t now_ms, bool raw_bright,
                      bool sampling, uint32_t filter_ms);

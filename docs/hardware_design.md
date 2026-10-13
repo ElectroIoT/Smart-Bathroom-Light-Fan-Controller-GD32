@@ -62,11 +62,11 @@ The silkscreen on your board is the final authority. Avoid PA13, PA14, PA15, PB3
 
 | BTN light override | **PB0** | input, pull-up | normally-open push button to GND |
 | BTN fan enable/disable | **PB1** | input, pull-up | normally-open push button to GND |
-| LED FAN-ENABLED | **PA7** | push-pull output, active-HIGH | lit = fan enabled |
+| LED FAN-ENABLED | **PB11** | push-pull output, active-HIGH | lit = fan enabled |
 
 **Saved setting:** the fan enable flag is stored in flash page `0x0800FC00` (the last 1 KB page of the first 64 KB; the linker reserves it). ⚠️ The flash controller registers (FMC) and the independent watchdog (FWDGT) use the STM32-compatible layout and have been seen working (watchdog starts, flag page readable) but flash *writing* from the button has not yet been tested on hardware.
 
-**Daylight sensor (optional, `DAYLIGHT_SENSOR` = 1, default off).** Digital LDR module on PB10 (see `docs/img/ldr-wiring.svg`): VCC to 3V3, GND, DO to PB10, AO unused. Bright = a new visit does not switch the lamp on (decided once per visit); the fan is unaffected; the override button always works; a missing sensor reads dark. Sampled only while the lamp is off. Polarity set by `DAYLIGHT_BRIGHT_LEVEL`. **Untested on hardware.**
+**Daylight sensor (optional, default off).** `DAYLIGHT_SENSOR` = 2: bare LDR on PA7 (ADC1 channel 7): 3V3 → LDR → PA7 → 10 kΩ → GND, thresholds `LDR_BRIGHT_ADC` / `LDR_DARK_ADC` (hysteresis), tuned from the debug print; the ADC code is unverified against the GD32 manual and untested on hardware. `DAYLIGHT_SENSOR` = 1: digital LDR module on PB10 (see `docs/img/ldr-wiring.svg`): VCC to 3V3, GND, DO to PB10, AO unused. Bright = a new visit does not switch the lamp on (decided once per visit); the fan is unaffected; the override button always works; a missing sensor reads dark. Sampled only while the lamp is off. Polarity set by `DAYLIGHT_BRIGHT_LEVEL`. **Untested on hardware.**
 
 **Humidity sensor (optional, `HUMIDITY_SENSOR` = 11 or 22, default off).** Single-wire DHT11/DHT22 on PB12 (see `docs/img/humidity-wiring.svg`), powered from 3V3 with a 4.7-10 kΩ pull-up (3-pin modules include it). DHT11 is only about ±5 % RH, reads at most once per second and dislikes condensation; DHT22 is better. The bit-bang read is timed with SysTick (about 4 ms every 5 s) and is **untested on hardware**. An I2C sensor (AHT20/SHT31) would be more robust and could be added later.
 

@@ -18,6 +18,7 @@
 #define APB2EN_GPIOA    (1UL << 2)
 #define APB2EN_GPIOB    (1UL << 3)
 #define APB2EN_GPIOC    (1UL << 4)
+#define APB2EN_ADC1     (1UL << 9)
 #define APB2EN_USART0   (1UL << 14)
 
 /* --- GPIO --- */
@@ -229,9 +230,76 @@ bool hal_humidity_read(uint8_t raw[5])
 #endif
 }
 
+/* --- optional bare-LDR ADC (ADC1, software start), UNVERIFIED vs manual --- */
+#define ADC_BASE        0x40012400UL
+#define ADC_STAT        REG32(ADC_BASE + 0x00UL)   /* bit 1: end of conversion */
+#define ADC_CTL1        REG32(ADC_BASE + 0x08UL)
+#define ADC_SAMPT1      REG32(ADC_BASE + 0x10UL)   /* sample time, channels 0-9 */
+#define ADC_RSQ0        REG32(ADC_BASE + 0x2CUL)   /* sequence length */
+#define ADC_RSQ2        REG32(ADC_BASE + 0x34UL)   /* first conversion channel */
+#define ADC_RDATA       REG32(ADC_BASE + 0x4CUL)
+#define ADC_ADON        (1UL << 0)
+#define ADC_CAL         (1UL << 2)
+#define ADC_RSTCAL      (1UL << 3)
+#define ADC_EXTSEL_SW   (7UL << 17)
+#define ADC_EXTTRIG     (1UL << 20)
+#define ADC_SWSTART     (1UL << 22)
+
+#if DAYLIGHT_SENSOR == 2
+static void adc_init(void)
+{
+    volatile uint32_t guard;
+    RCU_APB2EN |= APB2EN_ADC1;
+    clock_enable_port(LDR_PORT);
+    gpio_mode(LDR_PORT, LDR_PIN, 0x0UL);              /* analog input */
+    ADC_CTL1 = ADC_ADON;                              /* power up */
+    for (guard = 2000UL; guard; guard--) { }          /* stabilisation */
+    ADC_CTL1 |= ADC_RSTCAL;
+    for (guard = 100000UL; (ADC_CTL1 & ADC_RSTCAL) && guard; guard--) { }
+    ADC_CTL1 |= ADC_CAL;
+    for (guard = 1000000UL; (ADC_CTL1 & ADC_CAL) && guard; guard--) { }
+    ADC_SAMPT1 |= 7UL << (3UL * LDR_ADC_CHANNEL);     /* 239.5 cycles: high-impedance divider */
+    ADC_RSQ0 = 0UL;                                   /* one conversion */
+    ADC_RSQ2 = (uint32_t)LDR_ADC_CHANNEL;
+    ADC_CTL1 |= ADC_EXTTRIG | ADC_EXTSEL_SW;          /* software trigger */
+}
+#endif
+
+uint16_t hal_ldr_read(void)
+{
+#if DAYLIGHT_SENSOR == 2
+    uint32_t sum = 0;
+    for (unsigned n = 0; n < 4; n++) {      /* average 4 samples */
+        volatile uint32_t guard = 100000UL;
+        ADC_CTL1 |= ADC_SWSTART;
+        while (!(ADC_STAT & (1UL << 1)) && guard) guard--;
+        if (!guard) return 0;                      /* timeout = dark = light works */
+        sum += ADC_RDATA & 0xFFFUL;
+    }
+    return (uint16_t)(sum / 4UL);
+#else
+    return 0;
+#endif
+}
+
+void hal_debug_value(const char *label, uint32_t value)
+{
+#if ENABLE_DEBUG_UART
+    char buf[11];
+    int i = 10;
+    buf[i] = 0;
+    do { buf[--i] = (char)('0' + (value % 10UL)); value /= 10UL; } while (value);
+    hal_debug(label);
+    hal_debug(&buf[i]);
+    hal_debug("\r\n");
+#else
+    (void)label; (void)value;
+#endif
+}
+
 bool hal_daylight_bright(void)
 {
-#if DAYLIGHT_SENSOR
+#if DAYLIGHT_SENSOR == 1
     bool level = (GPIO_ISTAT(DAYLIGHT_PORT) & (1UL << DAYLIGHT_PIN)) != 0;
     return level == (DAYLIGHT_BRIGHT_LEVEL != 0);
 #else
@@ -272,7 +340,9 @@ void hal_init(bool light_off_level, bool fan_off_level)
         gpio_write(btn_tab[i].port, btn_tab[i].pin, BUTTON_ACTIVE_LOW);
     }
 
-#if DAYLIGHT_SENSOR
+#if DAYLIGHT_SENSOR == 2
+    adc_init();
+#elif DAYLIGHT_SENSOR == 1
     /* Digital LDR module: pull toward DARK so a disconnected wire reads dark. */
     clock_enable_port(DAYLIGHT_PORT);
     gpio_mode(DAYLIGHT_PORT, DAYLIGHT_PIN, MODE_IN_PUPD);

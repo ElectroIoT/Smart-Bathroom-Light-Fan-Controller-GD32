@@ -62,9 +62,10 @@ Example: motion at 0:00 and again at 4:00 → light off at 11:00, fan off at 14:
 | Fault LED | PA6 / A6 |
 | Light override button | PB0 / B0 (to GND) |
 | Fan enable/disable button | PB1 / B1 (to GND) |
-| FAN-ENABLED LED | PA7 / A7 |
+| FAN-ENABLED LED | PB11 / B11 |
 | Humidity sensor DHT11/DHT22 (optional) | PB12 / B12 |
-| LDR daylight sensor module (optional) | PB10 / B10 |
+| Bare LDR + 10 kΩ, analog (optional) | PA7 / A7 (ADC) |
+| or digital LDR module DO (optional) | PB10 / B10 |
 | Debug text (optional) | PA9 / A9 (TX, 9600 baud) |
 | ST-Link programming | PA13 (SWDIO), PA14 (SWCLK), GND |
 
@@ -91,7 +92,7 @@ Wire each as GPIO → 330 Ω–1 kΩ resistor → LED → GND. Keep this low-vol
 ## 🎛 Buttons, fan disable and smart features
 
 <p align="center">
-  <img src="docs/img/buttons-wiring.svg" alt="Light override button on PB0, fan enable button on PB1 and fan-enabled LED on PA7" width="90%">
+  <img src="docs/img/buttons-wiring.svg" alt="Light override button on PB0, fan enable button on PB1 and fan-enabled LED on PB11" width="90%">
 </p>
 
 | Feature | What it does |
@@ -99,7 +100,7 @@ Wire each as GPIO → 330 Ω–1 kΩ resistor → LED → GND. Keep this low-vol
 | **Warning blink** | 30 s before the light times out it switches OFF for 0.6 s and back ON. If you are sitting still, wave your hand: the 7-minute timer restarts. |
 | **Fan start delay** | The fan starts only after the light has been ON for 30 s (set `FAN_START_DELAY_MS`, 0 = immediate). Once started it runs 10 min after the last motion. |
 | **Light override button (PB0)** | Press: light ON for 30 min regardless of the PIR (fan keeps its own logic). Press again: cancel. |
-| **Fan enable/disable button (PB1)** | Press to toggle. **FAN-ENABLED LED (PA7) lit** = fan active and follows the PIR; **LED off** = fan disabled (light still works). Pressing while the fan runs turns it off at once. The setting is saved in flash and **survives power failure**, so you can disable the fan for days (for example on inverter). |
+| **Fan enable/disable button (PB1)** | Press to toggle. **FAN-ENABLED LED (PB11) lit** = fan active and follows the PIR; **LED off** = fan disabled (light still works). Pressing while the fan runs turns it off at once. The setting is saved in flash and **survives power failure**, so you can disable the fan for days (for example on inverter). |
 | **Watchdog** | If the firmware ever hangs, the chip resets itself within about 4 s and the relays return to OFF. |
 
 All values are in [`include/config.h`](include/config.h). Wire each button between its pin and GND (internal pull-up).
@@ -107,10 +108,10 @@ All values are in [`include/config.h`](include/config.h). Wire each button betwe
 ## ☀ Optional daylight sensor (LDR, off by default)
 
 <p align="center">
-  <img src="docs/img/ldr-wiring.svg" alt="Digital LDR module wired to 3V3, GND and PB10, facing the window" width="90%">
+  <img src="docs/img/ldr-wiring.svg" alt="Bare LDR and 10 kilo-ohm resistor divider to PA7, facing the window" width="90%">
 </p>
 
-Set `DAYLIGHT_SENSOR` to `1` in [`include/config.h`](include/config.h). When the room is bright from the window, a visit does **not** switch the light on, but the **fan still starts and runs** on its normal timer. The override button always turns the light on. The sensor is read only while the lamp is off (so the lamp cannot fool it), a reading must hold for 10 s, and a missing sensor reads as dark so the light keeps working. Many modules output LOW when bright: set `DAYLIGHT_BRIGHT_LEVEL` to match. Mount it facing the window and shielded from the lamp.
+Set `DAYLIGHT_SENSOR` to `2` for a **bare LDR** (3V3 → LDR → PA7 → 10 kΩ → GND, read with the ADC), or to `1` for a ready-made digital LDR module (DO pin on PB10), in [`include/config.h`](include/config.h). For the bare LDR, open the debug serial (PA9, 9600) which prints the ADC value every 5 s: note the daylight and night values and set `LDR_BRIGHT_ADC` / `LDR_DARK_ADC` between them (`LDR_INVERT 1` if wired the other way). When the room is bright from the window, a visit does **not** switch the light on, but the **fan still starts and runs** on its normal timer. The override button always turns the light on. The sensor is read only while the lamp is off (so the lamp cannot fool it), a reading must hold for 10 s, and a missing sensor reads as dark so the light keeps working. Many modules output LOW when bright: set `DAYLIGHT_BRIGHT_LEVEL` to match. Mount it facing the window and shielded from the lamp.
 
 ## 💧 Optional humidity sensor (off by default)
 

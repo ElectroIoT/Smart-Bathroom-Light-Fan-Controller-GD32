@@ -1,60 +1,63 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 470" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" font-family="Segoe UI, Arial, Helvetica, sans-serif">
   <style>
-    .sun { animation: sun 2.4s ease-in-out infinite; transform-origin: 90px 120px; }
+    .sun { animation: sun 2.4s ease-in-out infinite; }
     @keyframes sun { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
   </style>
-  <rect width="1000" height="470" rx="14" fill="#f6f9ff" stroke="#c9d6ee"/>
-  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#10264d">Optional daylight sensor (digital LDR module)</text>
+  <rect width="1000" height="520" rx="14" fill="#f6f9ff" stroke="#c9d6ee"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#10264d">Optional daylight sensor: bare LDR + 10 k&#937; resistor</text>
 
   <!-- sun / window -->
-  <circle class="sun" cx="90" cy="120" r="30" fill="#ffd54a"/>
-  <g stroke="#ffd54a" stroke-width="4" class="sun">
-    <line x1="90" y1="70" x2="90" y2="58"/><line x1="90" y1="170" x2="90" y2="182"/>
-    <line x1="40" y1="120" x2="28" y2="120"/><line x1="140" y1="120" x2="152" y2="120"/>
+  <g class="sun">
+    <circle cx="80" cy="150" r="28" fill="#ffd54a"/>
+    <g stroke="#ffd54a" stroke-width="4">
+      <line x1="80" y1="105" x2="80" y2="93"/><line x1="80" y1="195" x2="80" y2="207"/>
+      <line x1="35" y1="150" x2="23" y2="150"/><line x1="125" y1="150" x2="137" y2="150"/>
+    </g>
   </g>
-  <text x="90" y="215" text-anchor="middle" font-size="13" fill="#6b4e00" font-weight="700">window light</text>
-  <path d="M130 120 H230" stroke="#ffd54a" stroke-width="3" stroke-dasharray="8 6" fill="none"/>
+  <text x="80" y="235" text-anchor="middle" font-size="13" fill="#6b4e00" font-weight="700">window light</text>
+  <path d="M120 150 H255" stroke="#ffd54a" stroke-width="3" stroke-dasharray="8 6" fill="none"/>
 
-  <!-- LDR module -->
-  <rect x="240" y="80" width="230" height="170" rx="10" fill="#fff" stroke="#10264d" stroke-width="2"/>
-  <text x="355" y="108" text-anchor="middle" font-size="16" font-weight="700">LDR module (digital)</text>
-  <text x="355" y="126" text-anchor="middle" font-size="12" fill="#666">4 pins + threshold dial</text>
-  <g font-size="15">
-    <text x="258" y="158">VCC</text><text x="258" y="184">GND</text><text x="258" y="210">DO (digital out)</text>
-    <text x="258" y="236" fill="#999">AO (not used)</text>
-  </g>
+  <!-- divider: 3V3 -> LDR -> node -> 10k -> GND -->
+  <rect x="300" y="62" width="90" height="26" rx="6" fill="#ef6c00"/>
+  <text x="345" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">3V3 pin</text>
+  <line x1="345" y1="88" x2="345" y2="108" stroke="#ef6c00" stroke-width="3"/>
+
+  <!-- LDR symbol -->
+  <rect x="320" y="108" width="50" height="86" rx="6" fill="#fff" stroke="#10264d" stroke-width="2.5"/>
+  <path d="M332 160 l8 -10 l8 10 l8 -10" fill="none" stroke="#10264d" stroke-width="2"/>
+  <path d="M283 130 l25 14 M283 148 l25 14" stroke="#ffd54a" stroke-width="2.5"/>
+  <text x="345" y="125" text-anchor="middle" font-size="12" font-weight="700">LDR</text>
+  <line x1="345" y1="194" x2="345" y2="228" stroke="#444" stroke-width="3"/>
+
+  <!-- node -->
+  <circle cx="345" cy="228" r="6" fill="#1faa59"/>
+  <path d="M351 228 H650" stroke="#1faa59" stroke-width="3" fill="none"/>
+  <text x="500" y="220" text-anchor="middle" font-size="13" font-weight="700" fill="#1faa59">midpoint wire to PA7 (analog input)</text>
+
+  <!-- 10k resistor -->
+  <line x1="345" y1="234" x2="345" y2="252" stroke="#444" stroke-width="3"/>
+  <rect x="325" y="252" width="40" height="76" fill="#fff" stroke="#444" stroke-width="2.5"/>
+  <text x="378" y="296" font-size="14" font-weight="700" fill="#10264d">10 k&#937;</text>
+  <line x1="345" y1="328" x2="345" y2="352" stroke="#222" stroke-width="3"/>
+  <rect x="300" y="352" width="90" height="26" rx="6" fill="#222"/>
+  <text x="345" y="370" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">GND pin</text>
 
   <!-- board -->
-  <rect x="650" y="80" width="300" height="170" rx="10" fill="#fff" stroke="#10264d" stroke-width="2"/>
-  <text x="800" y="108" text-anchor="middle" font-size="16" font-weight="700">GD32 board</text>
-  <g font-size="15" text-anchor="end">
-    <text x="935" y="158">3V3 pin</text><text x="935" y="184">GND pin</text><text x="935" y="210">PB10 (B10)</text>
-  </g>
+  <rect x="650" y="150" width="300" height="130" rx="10" fill="#fff" stroke="#10264d" stroke-width="2"/>
+  <text x="800" y="178" text-anchor="middle" font-size="16" font-weight="700">GD32 board</text>
+  <text x="935" y="232" text-anchor="end" font-size="15">PA7 (A7)</text>
+  <text x="800" y="262" text-anchor="middle" font-size="12" fill="#666">ADC input, 0-4095</text>
 
-  <g fill="none" stroke-width="3">
-    <path d="M470 154 H650" stroke="#ef6c00"/>
-    <path d="M470 180 H650" stroke="#222"/>
-    <path d="M470 206 H650" stroke="#1faa59"/>
-  </g>
-  <text x="560" y="146" text-anchor="middle" font-size="12" fill="#ef6c00" font-weight="700">3.3 V</text>
-  <text x="560" y="172" text-anchor="middle" font-size="12" fill="#222" font-weight="700">GND</text>
-  <text x="560" y="198" text-anchor="middle" font-size="12" fill="#1faa59" font-weight="700">signal</text>
+  <!-- notes -->
+  <rect x="500" y="300" width="460" height="100" rx="10" fill="#fff" stroke="#c9d6ee"/>
+  <text x="518" y="322" font-size="14" font-weight="700" fill="#10264d">How it works</text>
+  <text x="518" y="342" font-size="13" fill="#333">&#8226; Brighter light = lower LDR resistance = higher voltage at PA7.</text>
+  <text x="518" y="360" font-size="13" fill="#333">&#8226; Bright window: the light stays off, the fan still runs.</text>
+  <text x="518" y="378" font-size="13" fill="#333">&#8226; Override button: the light always turns on. Set DAYLIGHT_SENSOR 2.</text>
 
-  <!-- behaviour -->
-  <rect x="40" y="275" width="440" height="85" rx="10" fill="#fff" stroke="#c9d6ee"/>
-  <text x="58" y="298" font-size="14" font-weight="700" fill="#10264d">What it does (DAYLIGHT_SENSOR = 1)</text>
-  <text x="58" y="319" font-size="13" fill="#333">&#8226; Bright daylight: motion does NOT switch the light on.</text>
-  <text x="58" y="337" font-size="13" fill="#333">&#8226; The fan still starts and runs on its normal timer.</text>
-  <text x="58" y="355" font-size="13" fill="#333">&#8226; Override button: the light always turns on.</text>
-
-  <rect x="500" y="275" width="460" height="85" rx="10" fill="#fff" stroke="#c9d6ee"/>
-  <text x="518" y="298" font-size="14" font-weight="700" fill="#10264d">Settings (include/config.h)</text>
-  <text x="518" y="319" font-size="13" fill="#333">&#8226; DAYLIGHT_SENSOR 1 turns it on (default 0 = off)</text>
-  <text x="518" y="337" font-size="13" fill="#333">&#8226; DAYLIGHT_BRIGHT_LEVEL: 1 if DO is HIGH when bright, 0 if LOW</text>
-  <text x="518" y="355" font-size="13" fill="#333">&#8226; DAYLIGHT_FILTER_MS: reading must hold 10 s (clouds)</text>
-
-  <rect x="40" y="380" width="920" height="70" rx="10" fill="#fff6d6" stroke="#b58900"/>
-  <text x="58" y="403" font-size="14" font-weight="700" fill="#6b4e00">Mounting</text>
-  <text x="58" y="423" font-size="13" fill="#6b4e00">&#8226; Face the sensor at the window and shield it from the lamp (tube or hood) so the lamp cannot light it. Turn the dial until the module LED switches at your daylight level.</text>
-  <text x="58" y="441" font-size="13" fill="#6b4e00">&#8226; Many modules output LOW in bright light: if the light never turns on by day or night, flip DAYLIGHT_BRIGHT_LEVEL. A disconnected sensor reads as dark, so the light keeps working.</text>
+  <rect x="40" y="420" width="920" height="80" rx="10" fill="#fff6d6" stroke="#b58900"/>
+  <text x="58" y="443" font-size="14" font-weight="700" fill="#6b4e00">Setup and tuning</text>
+  <text x="58" y="463" font-size="13" fill="#6b4e00">&#8226; Face the LDR at the window, shielded from the lamp (tube or hood). Open the debug serial (PA9, 9600): it prints "LDR bright/dark, adc=..." every 5 s.</text>
+  <text x="58" y="481" font-size="13" fill="#6b4e00">&#8226; Note the adc value in daylight and at night, then set LDR_BRIGHT_ADC (above daylight value) and LDR_DARK_ADC (below it) in config.h. If readings are inverted, set LDR_INVERT 1.</text>
+  <text x="58" y="496" font-size="12" fill="#6b4e00">&#8226; A ready-made digital LDR module (DO pin to PB10, DAYLIGHT_SENSOR 1) also works. UNTESTED on hardware.</text>
 </svg>

@@ -24,6 +24,8 @@ static bool g_led_on;
 static uint32_t g_fault_ms;
 static bool g_fault_on;
 static daylight_t g_day;
+static bool g_ldr_raw;
+static uint32_t g_ldr_ms, g_ldr_dbg_ms;
 static humidity_t g_hum;
 static uint32_t g_hum_ms;
 static bool g_ind_pir, g_ind_light, g_ind_fan, g_ind_fan_en;   /* LED cache */
@@ -131,6 +133,8 @@ void app_init(void)
     button_init(&g_btn_light, now, hal_button_pressed(BTN_LIGHT));
     button_init(&g_btn_fan, now, hal_button_pressed(BTN_FAN));
 
+    g_ldr_raw = false;
+    g_ldr_ms = g_ldr_dbg_ms = now;
     humidity_init(&g_hum);
     daylight_init(&g_day, now);
     g_hum_ms = now;
@@ -168,7 +172,21 @@ void app_step(void)
     humidity_poll(now);
 #if DAYLIGHT_SENSOR
     /* read the sensor only while the lamp is OFF (the lamp would fool it) */
+#if DAYLIGHT_SENSOR == 2
+    if ((uint32_t)(now - g_ldr_ms) >= LDR_POLL_MS) {
+        uint16_t adc = hal_ldr_read();
+        g_ldr_ms = now;
+        if (LDR_INVERT) adc = (uint16_t)(4095u - adc);
+        g_ldr_raw = daylight_threshold(g_ldr_raw, adc, LDR_BRIGHT_ADC, LDR_DARK_ADC);
+        if (LDR_DEBUG_MS && (uint32_t)(now - g_ldr_dbg_ms) >= LDR_DEBUG_MS) {
+            g_ldr_dbg_ms = now;
+            hal_debug_value(g_ldr_raw ? "LDR bright, adc=" : "LDR dark, adc=", adc);
+        }
+    }
+    daylight_update(&g_day, now, g_ldr_raw, !g_ctrl.light_out, DAYLIGHT_FILTER_MS);
+#else
     daylight_update(&g_day, now, hal_daylight_bright(), !g_ctrl.light_out, DAYLIGHT_FILTER_MS);
+#endif
     ctrl_set_daylight(&g_ctrl, g_day.bright);
 #endif
     ctrl_update(&g_ctrl, now, active);

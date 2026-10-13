@@ -59,6 +59,10 @@ def test():
         ["tests/fake_hal.c", "tests/test_daylight.c", "-o", exe])
     print("=== daylight option ===")
     ok &= subprocess.run([exe], cwd=ROOT).returncode == 0
+    run(host_cc() + WARN + ["-DDAYLIGHT_SENSOR=2"] + CORE +
+        ["tests/fake_hal.c", "tests/test_ldr_adc.c", "-o", exe])
+    print("=== bare LDR (ADC) option ===")
+    ok &= subprocess.run([exe], cwd=ROOT).returncode == 0
     print("ALL TESTS PASSED" if ok else "TESTS FAILED")
     return 0 if ok else 1
 

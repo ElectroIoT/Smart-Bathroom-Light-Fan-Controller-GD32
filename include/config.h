@@ -185,8 +185,8 @@
 /* FAN-ENABLED LED: lit = fan active (works with the PIR), off = fan
  * disabled by the button. State is saved in flash and survives power loss. */
 #ifndef LED_FANEN_PORT
-#define LED_FANEN_PORT        0
-#define LED_FANEN_PIN         7           /* PA7 */
+#define LED_FANEN_PORT        1
+#define LED_FANEN_PIN         11          /* PB11 (PA7 is the LDR ADC input) */
 #endif
 
 /* Flash page used to remember the fan enable state (last 1 KB page of the
@@ -229,9 +229,10 @@
 #endif
 
 /* ------------------------------------------------------------------ */
-/* Optional daylight sensor (digital LDR module)                        */
+/* Optional daylight sensor (bare LDR on ADC, or digital LDR module)    */
 /* ------------------------------------------------------------------ */
-/* 1 = daylight lockout: when it is bright (window), a new visit does NOT
+/* 0 = off, 1 = digital LDR module (DO pin on PB10), 2 = BARE LDR on PA7 (ADC).
+ * Daylight lockout: when it is bright (window), a new visit does NOT
  * switch the light on; the fan still works. The override button always
  * turns the light on. The sensor is read only while the lamp is OFF, and
  * a missing or broken sensor reads as dark (light works). 0 = off. */
@@ -244,6 +245,30 @@
 #endif
 /* Pin level that means BRIGHT. Many LDR modules output LOW in bright light:
  * check yours and set 0 or 1. */
+/* Bare LDR (DAYLIGHT_SENSOR 2): 3V3 -> LDR -> PA7 -> 10 kOhm -> GND.
+ * Brighter = higher ADC value (0..4095). Hysteresis: bright at or above
+ * LDR_BRIGHT_ADC, dark at or below LDR_DARK_ADC. Tune the two numbers
+ * from the debug output (LDR=...). LDR_INVERT 1 if wired the other way. */
+#ifndef LDR_PORT
+#define LDR_PORT              0
+#define LDR_PIN               7           /* PA7 = ADC channel 7 */
+#define LDR_ADC_CHANNEL       7
+#endif
+#ifndef LDR_BRIGHT_ADC
+#define LDR_BRIGHT_ADC        2000
+#endif
+#ifndef LDR_DARK_ADC
+#define LDR_DARK_ADC          1200
+#endif
+#ifndef LDR_INVERT
+#define LDR_INVERT            0
+#endif
+#ifndef LDR_POLL_MS
+#define LDR_POLL_MS           100UL
+#endif
+#ifndef LDR_DEBUG_MS
+#define LDR_DEBUG_MS          5000UL      /* print LDR=... on the debug UART (0 = never) */
+#endif
 #ifndef DAYLIGHT_BRIGHT_LEVEL
 #define DAYLIGHT_BRIGHT_LEVEL 1
 #endif
