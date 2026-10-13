@@ -28,7 +28,20 @@ static bool g_ldr_raw;
 static uint32_t g_ldr_ms, g_ldr_dbg_ms;
 static humidity_t g_hum;
 static uint32_t g_hum_ms;
-static bool g_ind_pir, g_ind_light, g_ind_fan, g_ind_fan_en;   /* LED cache */
+
+/* LEDs: each logic part says what its LED SHOULD show (g_want); leds_flush() decides
+ * what is really shown (g_phys): lamp test, silent mode or the wanted state. */
+static bool g_want[IND_COUNT];
+static bool g_phys[IND_COUNT];
+static bool g_silent;                 /* LED silent mode: every LED dark except FAULT */
+static bool g_lamp_on;                /* confirmation: all LEDs glow */
+static uint32_t g_lamp_ms;
+
+/* Buttons: single presses are accepted after BUTTON_CHORD_WINDOW_MS, a two-button hold is the LED mode chord. */
+static bool g_light_pend, g_fan_pend;
+static uint32_t g_light_pend_ms, g_fan_pend_ms;
+static bool g_chord, g_chord_fired;
+static uint32_t g_chord_ms;
 
 static void relay_apply(bool light_on, bool fan_on)
 {
@@ -54,39 +67,51 @@ static void heartbeat(uint32_t now)
     if ((uint32_t)(now - g_led_ms) >= wait) {
         g_led_ms = now;
         g_led_on = !g_led_on;
-        hal_indicator(IND_SYSTEM, g_led_on);
-        hal_indicator(IND_SYSEXT, g_led_on);
     }
+    g_want[IND_SYSTEM] = g_led_on;
+    g_want[IND_SYSEXT] = g_led_on;
 #else
     (void)now;
 #endif
 }
 
-/* Status LEDs outside the enclosure: mirror state, written only on change. */
+/* Status LEDs outside the enclosure: they mirror the controller state. */
 static void status_leds(uint32_t now)
 {
 #if ENABLE_STATUS_LEDS
-    if (g_ctrl.pir_stable != g_ind_pir)      { g_ind_pir = g_ctrl.pir_stable;      hal_indicator(IND_PIR, g_ind_pir); }
-    if (g_ctrl.light_out != g_ind_light)     { g_ind_light = g_ctrl.light_out;     hal_indicator(IND_LIGHT, g_ind_light); }
-    if (g_ctrl.fan_out != g_ind_fan)         { g_ind_fan = g_ctrl.fan_out;         hal_indicator(IND_FAN, g_ind_fan); }
-    if (g_ctrl.fan_enabled != g_ind_fan_en)  { g_ind_fan_en = g_ctrl.fan_enabled;  hal_indicator(IND_FANEN, g_ind_fan_en); }
+    g_want[IND_PIR]   = g_ctrl.pir_stable;
+    g_want[IND_LIGHT] = g_ctrl.light_out;
+    g_want[IND_FAN]   = g_ctrl.fan_out;
+    g_want[IND_FANEN] = g_ctrl.fan_enabled;
 
     if (g_ctrl.fault_stuck) {
         if ((uint32_t)(now - g_fault_ms) >= FAULT_BLINK_MS) {
             g_fault_ms = now;
             g_fault_on = !g_fault_on;
-            hal_indicator(IND_FAULT, g_fault_on);
         }
     } else {
-        bool sensor_fault = (HUMIDITY_SENSOR != 0) && !g_hum.valid;   /* steady ON */
-        if (g_fault_on != sensor_fault) {
-            g_fault_on = sensor_fault;
-            hal_indicator(IND_FAULT, sensor_fault);
-        }
+        g_fault_on = (HUMIDITY_SENSOR != 0) && !g_hum.valid;   /* steady ON when the sensor fails */
     }
+    g_want[IND_FAULT] = g_fault_on;
 #else
     (void)now;
 #endif
+}
+
+/* Writes an LED pin only when the shown state changes. */
+static void leds_flush(uint32_t now)
+{
+    unsigned i;
+
+    if (g_lamp_on && (uint32_t)(now - g_lamp_ms) >= LED_CONFIRM_MS)
+        g_lamp_on = false;
+    for (i = 0; i < IND_COUNT; i++) {
+        bool show = g_lamp_on ? true : ((g_silent && i != IND_FAULT) ? false : g_want[i]);
+        if (show != g_phys[i]) {
+            g_phys[i] = show;
+            hal_indicator((indicator_t)i, show);
+        }
+    }
 }
 
 /* Poll the optional humidity sensor every HUMIDITY_POLL_MS (about 4 ms each). */
@@ -111,11 +136,16 @@ void app_init(void)
 {
     ctrl_cfg_t cfg;
     uint32_t now;
+    bool fan_enabled, silent;
+    unsigned i;
 
     g_light_out = false;
     g_fan_out = false;
     hal_init(RELAY_OFF_LEVEL, RELAY_OFF_LEVEL);   /* relays OFF first; starts watchdog */
     now = hal_millis();
+
+    hal_load_settings(&fan_enabled, &silent);
+    g_silent = silent;
 
     cfg.light_timeout_ms = LIGHT_TIMEOUT_MS;
     cfg.fan_timeout_ms = FAN_TIMEOUT_MS;
@@ -126,7 +156,7 @@ void app_init(void)
     cfg.warn_blink_ms = LIGHT_WARN_BLINK_MS;
     cfg.fan_start_delay_ms = FAN_START_DELAY_MS;
     cfg.override_ms = LIGHT_OVERRIDE_MS;
-    cfg.fan_enabled = hal_load_fan_enabled();
+    cfg.fan_enabled = fan_enabled;
     cfg.humid_max_run_ms = HUMIDITY_MAX_RUN_MS;
     cfg.humid_autostart = HUMIDITY_AUTOSTART != 0;
     cfg.daylight_enabled = DAYLIGHT_SENSOR != 0;
@@ -134,6 +164,8 @@ void app_init(void)
 
     button_init(&g_btn_light, now, hal_button_pressed(BTN_LIGHT));
     button_init(&g_btn_fan, now, hal_button_pressed(BTN_FAN));
+    g_light_pend = g_fan_pend = false;
+    g_chord = g_chord_fired = false;
 
     g_ldr_raw = false;
     g_ldr_ms = g_ldr_dbg_ms = now;
@@ -144,10 +176,69 @@ void app_init(void)
     g_led_on = false;
     g_fault_on = false;
     g_fault_ms = now;
-    g_ind_pir = g_ind_light = g_ind_fan = false;
-    g_ind_fan_en = false;       /* forces the first write of the fan-enabled LED */
+    g_lamp_on = false;
+    for (i = 0; i < IND_COUNT; i++) {
+        g_want[i] = false;
+        g_phys[i] = false;                        /* hal_init left every LED off */
+    }
     hal_debug("BOOT: relays OFF, PIR warm-up\r\n");
     hal_debug(cfg.fan_enabled ? "FAN: enabled\r\n" : "FAN: DISABLED (button)\r\n");
+    hal_debug(g_silent ? "LEDs: SILENT (only FAULT active)\r\n" : "LEDs: normal\r\n");
+}
+
+static void light_button_action(uint32_t now)
+{
+    ctrl_light_override_toggle(&g_ctrl, now);
+    hal_debug(g_ctrl.override_active ? "OVERRIDE ON\r\n" : "OVERRIDE OFF\r\n");
+}
+
+static void fan_button_action(void)
+{
+    ctrl_set_fan_enabled(&g_ctrl, !g_ctrl.fan_enabled);
+    hal_save_settings(g_ctrl.fan_enabled, g_silent);
+    hal_debug(g_ctrl.fan_enabled ? "FAN: enabled\r\n" : "FAN: DISABLED\r\n");
+}
+
+static void buttons_step(uint32_t now)
+{
+    bool both;
+
+    if (button_update(&g_btn_light, now, hal_button_pressed(BTN_LIGHT), BUTTON_DEBOUNCE_MS)) {
+        g_light_pend = true;
+        g_light_pend_ms = now;
+    }
+    if (button_update(&g_btn_fan, now, hal_button_pressed(BTN_FAN), BUTTON_DEBOUNCE_MS)) {
+        g_fan_pend = true;
+        g_fan_pend_ms = now;
+    }
+
+    both = g_btn_light.stable && g_btn_fan.stable;
+    if (both) {
+        g_light_pend = g_fan_pend = false;        /* two buttons together are not single presses */
+        if (!g_chord) {
+            g_chord = true;
+            g_chord_fired = false;
+            g_chord_ms = now;
+        } else if (!g_chord_fired && (uint32_t)(now - g_chord_ms) >= LED_SILENT_HOLD_MS) {
+            g_chord_fired = true;                 /* once per hold */
+            g_silent = !g_silent;
+            g_lamp_on = true;                     /* every LED glows: confirmation */
+            g_lamp_ms = now;
+            hal_save_settings(g_ctrl.fan_enabled, g_silent);
+            hal_debug(g_silent ? "LEDs: SILENT (only FAULT active)\r\n" : "LEDs: normal\r\n");
+        }
+    } else {
+        g_chord = false;
+    }
+
+    if (g_light_pend && (uint32_t)(now - g_light_pend_ms) >= BUTTON_CHORD_WINDOW_MS) {
+        g_light_pend = false;
+        light_button_action(now);
+    }
+    if (g_fan_pend && (uint32_t)(now - g_fan_pend_ms) >= BUTTON_CHORD_WINDOW_MS) {
+        g_fan_pend = false;
+        fan_button_action();
+    }
 }
 
 void app_step(void)
@@ -161,15 +252,7 @@ void app_step(void)
     level = hal_pir_level();
     active = PIR_ACTIVE_HIGH ? level : !level;
 
-    if (button_update(&g_btn_light, now, hal_button_pressed(BTN_LIGHT), BUTTON_DEBOUNCE_MS)) {
-        ctrl_light_override_toggle(&g_ctrl, now);
-        hal_debug(g_ctrl.override_active ? "OVERRIDE ON\r\n" : "OVERRIDE OFF\r\n");
-    }
-    if (button_update(&g_btn_fan, now, hal_button_pressed(BTN_FAN), BUTTON_DEBOUNCE_MS)) {
-        ctrl_set_fan_enabled(&g_ctrl, !g_ctrl.fan_enabled);
-        hal_save_fan_enabled(g_ctrl.fan_enabled);
-        hal_debug(g_ctrl.fan_enabled ? "FAN: enabled\r\n" : "FAN: DISABLED\r\n");
-    }
+    buttons_step(now);
 
     humidity_poll(now);
 #if DAYLIGHT_SENSOR
@@ -194,6 +277,7 @@ void app_step(void)
     ctrl_update(&g_ctrl, now, active);
     heartbeat(now);
     status_leds(now);
+    leds_flush(now);
     relay_apply(g_ctrl.light_out, g_ctrl.fan_out);
 }
 

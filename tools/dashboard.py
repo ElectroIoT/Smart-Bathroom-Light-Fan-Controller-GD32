@@ -199,14 +199,17 @@ def poll():
         return
     script = ("list [read_memory %d 32 1] [read_memory %d 32 1] [read_memory %d 32 1] [read_memory %d 32 1] "
               "[read_memory %d 8 %d] [read_memory %d 8 1] [read_memory %d 8 2] "
-              "[read_memory %d 32 1] [read_memory %d 32 1] [read_memory %d 32 1] [read_memory %d 32 1]"
+              "[read_memory %d 32 1] [read_memory %d 32 1] [read_memory %d 32 1] [read_memory %d 32 1] "
+              "[read_memory %d 8 1] [read_memory %d 8 1] [read_memory %d 32 1]"
               % (GPIOA_ISTAT, GPIOB_ISTAT, ADC_RDATA, sym["g_ms"], sym["g_ctrl"], size,
-                 sym["g_ldr_raw"], sym["g_day"], GPIOA_OCTL, GPIOB_OCTL, GPIOC_OCTL, STORE_PAGE))
+                 sym["g_ldr_raw"], sym["g_day"], GPIOA_OCTL, GPIOB_OCTL, GPIOC_OCTL, STORE_PAGE,
+                 sym["g_silent"], sym["g_lamp_on"], STORE_PAGE + 4))
     prev = None
     events = []
     relays = {"light": RelayTracker(), "fan": RelayTracker()}
     buttons = {"light": ButtonTracker("Light override", "PB0"), "fan": ButtonTracker("Fan enable / disable", "PB1")}
     mism = {}
+    chord = {"start": None, "count": 0, "last": None, "result": None, "detail": "", "silent": None, "changed": False}
     sys_led = {"last": None, "toggle_t": 0.0}
     ext_led = {"last": None, "toggle_t": 0.0}
 
@@ -226,6 +229,8 @@ def poll():
             ldr = int(one(r[5]), 0)
             day = [int(x, 0) for x in (r[6] if isinstance(r[6], list) else [r[6]])]
             octl_a, octl_b, octl_c, flash_word = (int(one(r[i]), 0) for i in (7, 8, 9, 10))
+            silent, lamp = bool(int(one(r[11]), 0)), bool(int(one(r[12]), 0))
+            flash2 = int(one(r[13]), 0)
             now = time.monotonic()
             g = lambda f: ctrl[off[f]]
             gu = lambda f: u32(ctrl, off[f])
@@ -241,6 +246,7 @@ def poll():
                 "fan_enabled": g("fan_enabled"), "humid": g("humid"), "fault_stuck": g("fault_stuck"),
                 "suppressed": g("light_suppressed"), "daylight_bright_in": g("daylight_bright"),
                 "ldr_bright_at": ldr_bright_at, "ldr_dark_at": ldr_dark_at,
+                "leds_silent": silent, "lamp_test": lamp,
             }
             warm = max(0, gu("cfg.warmup_ms") - el(gu("start_ms")))
             s["warmup_left_s"] = warm / 1000.0
@@ -270,7 +276,11 @@ def poll():
             s["relays"] = relay_rows
 
             # ---- LEDs: actual pin vs what the controller state says it should show
-            def led(name, pin, lit, expected, kind, note=""):
+            def led(name, pin, lit, expected, kind, note="", fault=False):
+                if s["lamp_test"]:
+                    expected, note = True, "lamp test: all LEDs glow"
+                elif s["leds_silent"] and not fault:
+                    expected, note = False, "silent mode"
                 if expected is None:
                     status = "info"
                 else:
@@ -285,25 +295,31 @@ def poll():
             if ext_led["last"] is None or ext_led["last"] != bit(octl_b, 13):
                 ext_led["last"], ext_led["toggle_t"] = bit(octl_b, 13), now
             hb2_ok = (now - ext_led["toggle_t"]) < 4.0
+            def hb_row(name, pin, lit_now, blinking):
+                if s["lamp_test"]:
+                    ok, note = lit_now, "lamp test: all LEDs glow"
+                elif s["leds_silent"]:
+                    ok, note = (not lit_now), "silent mode (dark)"
+                else:
+                    ok, note = blinking, ("blinking" if blinking else "not blinking")
+                return {"name": name, "pin": pin, "lit": lit_now, "expected": None,
+                        "status": "ok" if ok else "bad", "kind": "sys", "note": note}
             s["leds"] = [
                 led("PIR LED", "PA3", lit(octl_a, 3, led_low), bool(s["pir_stable"]), "pir"),
                 led("Light relay LED", "PA4", lit(octl_a, 4, led_low), bool(s["light_out"]), "light"),
                 led("Fan relay LED", "PA5", lit(octl_a, 5, led_low), bool(s["fan_out"]), "fan"),
                 led("FAULT LED", "PA6", lit(octl_a, 6, led_low), (None if s["fault_stuck"] else (False if not hum_sensor else None)), "bad",
-                    "blinking: PIR stuck HIGH" if s["fault_stuck"] else ""),
+                    "blinking: PIR stuck HIGH" if s["fault_stuck"] else "", fault=True),
                 led("FAN-ENABLED LED", "PB11", lit(octl_b, 11, led_low), bool(s["fan_enabled"]), "fan"),
-                {"name": "System LED external (heartbeat)", "pin": "PB13", "lit": bool(lit(octl_b, 13, led_low)),
-                 "expected": None, "status": "ok" if hb2_ok else "bad", "kind": "sys",
-                 "note": "blinking" if hb2_ok else "not blinking"},
-                {"name": "System LED on-board (heartbeat)", "pin": "PC13", "lit": bool(lit(octl_c, 13, sys_led_low)),
-                 "expected": None, "status": "ok" if hb_ok else "bad", "kind": "sys",
-                 "note": "blinking" if hb_ok else "not blinking"},
+                hb_row("System LED external (heartbeat)", "PB13", bool(lit(octl_b, 13, led_low)), hb2_ok),
+                hb_row("System LED on-board (heartbeat)", "PC13", bool(lit(octl_c, 13, sys_led_low)), hb_ok),
             ]
 
             # ---- switches: pressed + a check that the press really changed something
             fl_magic, fl_val = flash_word & 0xFFFF, (flash_word >> 16) & 0xFFFF
             flash_state = (fl_val != 0) if fl_magic == 0x5AA5 else None
             s["flash_fan_saved"] = flash_state
+            s["flash_silent_saved"] = ((flash2 & 0xFFFF) == 1) if fl_magic == 0x5AA5 else None
             pb_pressed = lambda n: (bit(gpiob, n) == 0)
 
             def check_light(before):
@@ -317,7 +333,8 @@ def poll():
                 if new == before:
                     return False, "fan setting did not change"
                 led_on = lit(octl_b, 11, led_low)
-                if bool(led_on) != new:
+                want_led = True if s["lamp_test"] else (new and not s["leds_silent"])
+                if bool(led_on) != bool(want_led):
                     return False, "setting changed but FAN-ENABLED LED does not match"
                 if flash_state is None or flash_state != new:
                     return None, "setting changed, waiting for flash save"
@@ -326,6 +343,37 @@ def poll():
                 buttons["light"].update(pb_pressed(0), now, bool(s["override"]), check_light),
                 buttons["fan"].update(pb_pressed(1), now, bool(s["fan_enabled"]), check_fan),
             ]
+            both_down = pb_pressed(0) and pb_pressed(1)
+            if both_down:
+                if chord["start"] is None:
+                    chord["start"] = now
+                    chord["count"] += 1
+                    chord["last"] = time.strftime("%H:%M:%S")
+                    chord["result"], chord["changed"] = "waiting", False
+                held = now - chord["start"]
+                if chord["result"] == "waiting":
+                    chord["detail"] = "holding both buttons: %.1f s of 5 s" % held
+                if held > 7.5 and not chord["changed"]:
+                    chord["result"], chord["detail"] = "bad", "held but the LED mode did not change"
+                for key in ("light", "fan"):                       # chord, not a single press
+                    b = buttons[key]
+                    if b.pending or b.result == "waiting":
+                        b.pending, b.result, b.detail = None, "chord", "pressed together: LED mode chord"
+                for i in (0, 1):
+                    if s["buttons"][i]["result"] in ("waiting", "bad"):
+                        s["buttons"][i].update(result="chord", detail="pressed together: LED mode chord")
+            else:
+                chord["start"] = None
+            if chord["silent"] is not None and silent != chord["silent"]:
+                saved = s["flash_silent_saved"]
+                chord["changed"] = True
+                chord["result"] = "ok" if saved is None or saved == silent else "bad"
+                chord["detail"] = ("LED silent mode " + ("ON: only the FAULT LED stays active" if silent else "OFF: LEDs back to normal")
+                                   + ", all LEDs glowed, saved in flash")
+            chord["silent"] = silent
+            s["buttons"].append({"name": "LED mode (hold BOTH buttons 5 s)", "pin": "PB0+PB1", "pressed": both_down,
+                                 "count": chord["count"], "last": chord["last"], "result": chord["result"],
+                                 "detail": chord["detail"]})
             s["btn_light"], s["btn_fan"] = s["buttons"][0]["pressed"], s["buttons"][1]["pressed"]
 
             # ---- events (edges)
@@ -340,13 +388,18 @@ def poll():
                         ("fan_enabled", "Fan ENABLED (LED on)", "Fan DISABLED (LED off)", "fan"),
                         ("ldr_bright", "LDR reads BRIGHT", "LDR reads DARK", "ldr"),
                         ("fault_stuck", "FAULT: PIR stuck HIGH", "PIR fault cleared", "warn"),
-                        ("light_warn", "Warning blink (light off briefly)", "", "light")):
+                        ("light_warn", "Warning blink (light off briefly)", "", "light"),
+                        ("leds_silent", "LED SILENT MODE ON (only FAULT LED active)", "LED silent mode OFF (LEDs normal)", "btn"),
+                        ("lamp_test", "Lamp test: all LEDs glow (confirmation)", "", "btn")):
                     if bool(s[key]) != bool(prev[key]):
                         txt = up if s[key] else down
                         if txt:
                             add_event(txt, kind)
                 for i, b in enumerate(s["buttons"]):
                     pb = prev["buttons"][i]
+                    if i == 2 and b["count"] != pb["count"]:
+                        add_event("Both buttons pressed (LED mode hold)", "btn")
+                        continue
                     if b["count"] != pb["count"]:
                         add_event(b["name"] + " button pressed", "btn")
                     if b["result"] != pb["result"] and b["result"] in ("ok", "bad"):
@@ -448,7 +501,7 @@ canvas{width:100%;height:84px;display:block;margin-top:10px;background:rgba(127,
 
 <section class="card"><h2>State</h2>
 <div id="flags"></div>
-<div class="kv"><span>uptime</span><b id="upt">-</b><span>PIR warm-up left</span><b id="warm">-</b><span>fan setting saved in flash</span><b id="flashs">-</b></div></section>
+<div class="kv"><span>uptime</span><b id="upt">-</b><span>PIR warm-up left</span><b id="warm">-</b><span>fan setting saved in flash</span><b id="flashs">-</b><span>LED mode saved in flash</span><b id="flashl">-</b></div></section>
 
 <section class="card"><h2>Test checklist (ticks as you test)</h2><div id="checks"></div></section>
 
@@ -459,7 +512,7 @@ const $=id=>document.getElementById(id);
 const hist=[];let seen={};
 const checks=[["pir_hi","Wave at the PIR: pin goes HIGH"],["pir_lo","Stay still: PIR pin returns LOW"],["light_on","Light relay turned ON"],
 ["fan_on","Fan relay turned ON (about 30 s after the light)"],["ldr_br","Shine light on the LDR: reads BRIGHT"],["ldr_dk","Cover the LDR: reads DARK"],
-["btn_l","Light override button: press shows WORKING"],["btn_f","Fan enable/disable button: press shows WORKING"],["light_off","Light relay turned OFF again"],["leds_ok","All LEDs match the controller"]];
+["btn_l","Light override button: press shows WORKING"],["btn_f","Fan enable/disable button: press shows WORKING"],["light_off","Light relay turned OFF again"],["leds_ok","All LEDs match the controller"],["btn_c","Hold BOTH buttons 5 s: all LEDs glow, LED mode toggles"]];
 function dur(s){if(s===null||s===undefined)return"-";s=Math.max(0,Math.floor(s));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return(h?h+"h ":"")+String(m).padStart(h?2:1,"0")+"m "+String(x).padStart(2,"0")+"s"}
 function fmt(s){if(s===null||s===undefined)return"holding (PIR active)";if(s<=0)return"-";const m=Math.floor(s/60);return m>0?m+"m "+Math.round(s%60)+"s":s.toFixed(1)+"s"}
 function chip(t,cls){return'<span class="chip '+(cls||"")+'">'+t+'</span>'}
@@ -477,7 +530,7 @@ function setChecks(d){
  if(d.pir_pin)seen.pir_hi=1;if(seen.pir_hi&&!d.pir_pin)seen.pir_lo=1;if(d.light_out){seen.light_on=1}if(seen.light_on&&!d.light_out)seen.light_off=1;
  if(d.fan_out)seen.fan_on=1;if(d.ldr_bright)seen.ldr_br=1;if(seen.ldr_br&&!d.ldr_bright)seen.ldr_dk=1;
  if(d.buttons[0].result==="ok")seen.btn_l=1;if(d.buttons[1].result==="ok")seen.btn_f=1;
- if(d.leds.every(l=>l.status!=="bad"))seen.leds_ok=1;
+ if(d.leds.every(l=>l.status!=="bad"))seen.leds_ok=1;if(d.buttons[2]&&d.buttons[2].result==="ok")seen.btn_c=1;
  $("checks").innerHTML=checks.map(([k,txt])=>'<div class="check '+(seen[k]?"done":"")+'"><i>'+(seen[k]?"&#10003;":"")+'</i>'+txt+'</div>').join("")}
 function update(d){
  const s=d.sample;$("conn").textContent=d.ok?"connected":"not connected";$("conn").className="pill "+(d.ok?"ok":"bad");
@@ -500,13 +553,14 @@ function update(d){
  $("leds").innerHTML=s.leds.map(l=>{const st=l.status==="ok"?'<span class="chip okc">WORKING</span>':(l.status==="bad"?'<span class="chip bad">NOT MATCHING</span>':'<span class="chip">live</span>');
   const exp=l.expected===null||l.expected===undefined?"":" | expected "+(l.expected?"ON":"OFF");
   return'<div class="item"><i class="dot '+(l.lit?"on ":"")+l.kind+'"></i><div class="nm">'+l.name+'<small>'+l.pin+": "+(l.lit?"lit":"dark")+exp+(l.note?" | "+l.note:"")+'</small></div>'+st+'</div>'}).join("");
- $("sws").innerHTML=s.buttons.map(b=>{const res=b.result==="ok"?'<span class="chip okc">WORKING</span>':(b.result==="bad"?'<span class="chip bad">NOT WORKING</span>':(b.result==="waiting"?'<span class="chip warn">checking...</span>':'<span class="chip">press me</span>'));
+ $("sws").innerHTML=s.buttons.map(b=>{const res=b.result==="ok"?'<span class="chip okc">WORKING</span>':(b.result==="bad"?'<span class="chip bad">NOT WORKING</span>':(b.result==="waiting"?'<span class="chip warn">checking...</span>':(b.result==="chord"?'<span class="chip">chord</span>':'<span class="chip">press me</span>')));
   return'<div class="item"><i class="sw '+(b.pressed?"on":"")+'"></i><div class="nm">'+b.name+' ('+b.pin+')<small>'+(b.pressed?"PRESSED now":"released")+" | presses: "+b.count+(b.last?" | last "+b.last:"")+(b.detail?"<br>"+b.detail:"")+'</small></div>'+res+'</div>'}).join("");
  $("adc").textContent=s.adc;$("ldrtxt").textContent=(s.ldr_bright?"BRIGHT":"DARK")+" (raw)  |  filtered: "+(s.day_bright?"bright":"dark")+(s.suppressed?"  | light blocked":"");
  $("adcbar").style.width=(s.adc/4095*100)+"%";$("thb").style.left=(s.ldr_bright_at/4095*100)+"%";$("thd").style.left=(s.ldr_dark_at/4095*100)+"%";
- $("flags").innerHTML=chip("PIR fault",s.fault_stuck?"bad":"")+chip("override",s.override?"warn":"")+chip("fan enabled",s.fan_enabled?"on":"bad")+chip("humid",s.humid?"warn":"");
+ $("flags").innerHTML=chip("PIR fault",s.fault_stuck?"bad":"")+chip("override",s.override?"warn":"")+chip("fan enabled",s.fan_enabled?"on":"bad")+chip("humid",s.humid?"warn":"")+chip("LED silent mode",s.leds_silent?"warn":"")+chip("lamp test",s.lamp_test?"warn":"");
  $("upt").textContent=s.uptime_s.toFixed(1)+" s";$("warm").textContent=s.warmup_left_s>0?s.warmup_left_s.toFixed(0)+" s":"done";
  $("flashs").textContent=s.flash_fan_saved===null?"never saved (default enabled)":(s.flash_fan_saved?"enabled":"disabled");
+ $("flashl").textContent=s.flash_silent_saved===null?"never saved (LEDs normal)":(s.flash_silent_saved?"SILENT":"normal");
  drawStrip($("pirc"),hist,"pir",{color:"#ff6b6b",digital:true});
  drawStrip($("adcc"),hist,"adc",{color:"#ffd54a",lines:[[s.ldr_bright_at,"#2ee59d"],[s.ldr_dark_at,"#8fa3c8"]]});
  $("log").innerHTML=d.events.map(e=>'<div><span>'+e.t+'</span><span class="k-'+e.kind+'">'+e.text+'</span></div>').join("");

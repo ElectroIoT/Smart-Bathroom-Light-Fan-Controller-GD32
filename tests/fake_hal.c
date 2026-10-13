@@ -16,8 +16,9 @@ int store_writes;
 int wdt_kicks;
 
 bool hal_button_pressed(button_id_t id) { return fake_btn[id]; }
-bool hal_load_fan_enabled(void) { return stored_fan_enabled; }
-void hal_save_fan_enabled(bool enabled) { stored_fan_enabled = enabled; store_writes++; }
+bool stored_leds_silent;
+void hal_load_settings(bool *fan, bool *silent) { *fan = stored_fan_enabled; *silent = stored_leds_silent; }
+void hal_save_settings(bool fan, bool silent) { stored_fan_enabled = fan; stored_leds_silent = silent; store_writes++; }
 void hal_watchdog_kick(void) { wdt_kicks++; }
 
 bool fake_daylight;
@@ -61,6 +62,7 @@ void fake_reset(uint32_t start_time)
     init_calls = 0;
     for (int i = 0; i < BTN_COUNT; i++) fake_btn[i] = false;
     stored_fan_enabled = true;
+    stored_leds_silent = false;
     store_writes = 0;
     wdt_kicks = 0;
     fake_daylight = false;

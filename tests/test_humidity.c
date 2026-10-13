@@ -108,7 +108,7 @@ static void t_humid_disabled_fan(void)
     printf("fan disabled by the button: humidity cannot start it\n");
     setup();
     fake_btn[BTN_FAN] = true;  run(BUTTON_DEBOUNCE_MS + 5);
-    fake_btn[BTN_FAN] = false; run(BUTTON_DEBOUNCE_MS + 5);
+    fake_btn[BTN_FAN] = false; run(BUTTON_DEBOUNCE_MS + BUTTON_CHORD_WINDOW_MS + 15);
     fake_rh_pct = 95;
     run(HUMIDITY_POLL_MS * 3);
     CHECK(!fan_is_on());

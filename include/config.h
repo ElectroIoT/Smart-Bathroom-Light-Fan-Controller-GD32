@@ -180,6 +180,20 @@
 #ifndef BUTTON_DEBOUNCE_MS
 #define BUTTON_DEBOUNCE_MS    40UL
 #endif
+/* LED silent mode: hold BOTH buttons for LED_SILENT_HOLD_MS to switch every LED off
+ * except the red FAULT LED (hold again to switch them back on). All LEDs glow
+ * together for LED_CONFIRM_MS as confirmation. The choice is saved in flash.
+ * A single press still works: it is accepted after BUTTON_CHORD_WINDOW_MS so that
+ * pressing both buttons together is not mistaken for two single presses. */
+#ifndef LED_SILENT_HOLD_MS
+#define LED_SILENT_HOLD_MS    5000UL
+#endif
+#ifndef LED_CONFIRM_MS
+#define LED_CONFIRM_MS        1500UL
+#endif
+#ifndef BUTTON_CHORD_WINDOW_MS
+#define BUTTON_CHORD_WINDOW_MS 300UL
+#endif
 #ifndef BTN_LIGHT_PORT
 #define BTN_LIGHT_PORT        1
 #define BTN_LIGHT_PIN         0           /* PB0 : light override */

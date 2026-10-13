@@ -22,9 +22,9 @@ void hal_indicator(indicator_t id, bool on);
 typedef enum { BTN_LIGHT, BTN_FAN, BTN_COUNT } button_id_t;
 bool hal_button_pressed(button_id_t id);
 
-/** Persistent fan-enable flag (flash). Default is "enabled" if never saved. */
-bool hal_load_fan_enabled(void);
-void hal_save_fan_enabled(bool enabled);
+/** Persistent settings (flash): fan enabled (default true) and LED silent mode (default false). */
+void hal_load_settings(bool *fan_enabled, bool *leds_silent);
+void hal_save_settings(bool fan_enabled, bool leds_silent);
 
 /** Daylight sensor: true = bright (polarity handled inside). false if disabled. */
 bool hal_daylight_bright(void);

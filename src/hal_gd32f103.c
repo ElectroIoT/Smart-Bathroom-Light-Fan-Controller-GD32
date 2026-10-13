@@ -140,19 +140,22 @@ static bool fmc_wait(void)
     return guard != 0;
 }
 
-bool hal_load_fan_enabled(void)
+void hal_load_settings(bool *fan_enabled, bool *leds_silent)
 {
     volatile const uint16_t *p = (volatile const uint16_t *)STORE_PAGE_ADDR;
-    if (p[0] == STORE_MAGIC)
-        return p[1] != 0U;
-    return true;                  /* never saved: fan enabled */
+    *fan_enabled = true;          /* never saved: fan enabled, LEDs normal */
+    *leds_silent = false;
+    if (p[0] == STORE_MAGIC) {
+        *fan_enabled = p[1] != 0U;
+        *leds_silent = (p[2] == 1U);   /* erased (0xFFFF) by an older save = normal */
+    }
 }
 
-void hal_save_fan_enabled(bool enabled)
+void hal_save_settings(bool fan_enabled, bool leds_silent)
 {
     volatile uint16_t *p = (volatile uint16_t *)STORE_PAGE_ADDR;
 
-    if (p[0] == STORE_MAGIC && (p[1] != 0U) == enabled)
+    if (p[0] == STORE_MAGIC && (p[1] != 0U) == fan_enabled && (p[2] == 1U) == leds_silent)
         return;                   /* already stored: no flash wear */
 
     FMC_KEY = 0x45670123UL;
@@ -167,7 +170,9 @@ void hal_save_fan_enabled(bool enabled)
         FMC_CTL |= FMC_CTL_PG;    /* program two half-words */
         p[0] = STORE_MAGIC;
         (void)fmc_wait();
-        p[1] = enabled ? 1U : 0U;
+        p[1] = fan_enabled ? 1U : 0U;
+        (void)fmc_wait();
+        p[2] = leds_silent ? 1U : 0U;
         (void)fmc_wait();
     }
     FMC_CTL &= ~(FMC_CTL_PG | FMC_CTL_PER);

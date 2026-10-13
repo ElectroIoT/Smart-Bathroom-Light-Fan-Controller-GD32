@@ -5,7 +5,7 @@
 <p align="center">
   <img alt="MCU" src="https://img.shields.io/badge/MCU-GD32F103C8T6-1b4b8f">
   <img alt="Language" src="https://img.shields.io/badge/firmware-C-blue">
-  <img alt="Tests" src="https://img.shields.io/badge/logic%20tests-422%20checks%20passing-brightgreen">
+  <img alt="Tests" src="https://img.shields.io/badge/logic%20tests-470%20checks%20passing-brightgreen">
   <img alt="Hardware" src="https://img.shields.io/badge/hardware%20test-pending-orange">
 </p>
 
@@ -108,7 +108,7 @@ Open [`docs/wiring_diagram.svg`](docs/wiring_diagram.svg) for the full-size vers
 | Fault (PA6, red) | **Fast blink** (about 4 per second) = the PIR output has been HIGH for 30 minutes (`PIR_STUCK_HIGH_MS`); clears when the PIR goes LOW. **Steady glow** = the humidity sensor is failing (only if `HUMIDITY_SENSOR` is on). Dark = no fault. |
 | FAN-ENABLED (PB11, green) | **Steady on** = the fan is enabled and works with the PIR. **Off** = the fan was disabled with its button. It does not blink: it is not the heartbeat. |
 
-Wire each as GPIO → 330 Ω–1 kΩ resistor → LED → GND. Keep this low-voltage wiring away from the 230 V parts. Turn the external LEDs off with `ENABLE_STATUS_LEDS 0` in `config.h`.
+To switch all LEDs off except the red FAULT LED (for example for a dark bedroom bathroom), use **LED silent mode**: hold both buttons for 5 seconds (see the features table below). Wire each as GPIO → 330 Ω–1 kΩ resistor → LED → GND. Keep this low-voltage wiring away from the 230 V parts. Turn the external LEDs off with `ENABLE_STATUS_LEDS 0` in `config.h`.
 
 ## 🎛 Buttons, fan disable and smart features
 
@@ -122,6 +122,7 @@ Wire each as GPIO → 330 Ω–1 kΩ resistor → LED → GND. Keep this low-vol
 | **Fan start delay** | The fan starts only after the light has been ON for 30 s (set `FAN_START_DELAY_MS`, 0 = immediate). Once started it runs 10 min after the last motion. |
 | **Light override button (PB0)** | Press: light ON for 30 min regardless of the PIR (fan keeps its own logic). Press again: cancel. |
 | **Fan enable/disable button (PB1)** | Press to toggle. **FAN-ENABLED LED (PB11) lit** = fan active and follows the PIR; **LED off** = fan disabled (light still works). Pressing while the fan runs turns it off at once. The setting is saved in flash and **survives power failure**, so you can disable the fan for days (for example on inverter). |
+| **LED silent mode (hold BOTH buttons 5 s)** | Press and hold the two buttons together for **5 seconds**: every LED glows once for about 1.5 s as confirmation, then **all LEDs go dark except the red FAULT LED**, which stays active so a problem is still shown. Hold both buttons for 5 seconds again to bring the LEDs back (they glow once again). The choice is **saved in flash** and survives power loss. The relays and the PIR logic are not affected. Holding both buttons does not trigger the single-button actions. |
 | **Watchdog** | If the firmware ever hangs, the chip resets itself within about 4 s and the relays return to OFF. |
 
 All values are in [`include/config.h`](include/config.h). Wire each button between its pin and GND (internal pull-up).
@@ -219,12 +220,12 @@ Settings in [`include/config.h`](include/config.h): `LIGHT_TIMEOUT_MS`, `FAN_TIM
 ```bash
 python tools/build.py test
 ```
-422 checks in total, all passing:
+470 checks in total, all passing:
 
 | Test set | Checks |
 |---|---|
-| Core timers (startup OFF, exact timeouts, independent timers, repeated motion, PIR held HIGH, reset while energised, tick rollover, status LEDs) | 64 × 4 polarity variants |
-| Features (warning blink, fan start delay, override, fan button + persistence, debounce, watchdog) | 37 × 2 |
+| Core timers (startup OFF, exact timeouts, independent timers, repeated motion, PIR held HIGH, reset while energised, tick rollover, status LEDs) | 65 × 4 polarity variants |
+| Features (warning blink, fan start delay, override, fan button + persistence, debounce, watchdog, LED silent mode) | 59 × 2 |
 | Humidity option (DHT11 and DHT22) | 30 × 2 |
 | Daylight option, digital module | 22 |
 | Daylight option, bare LDR (ADC) | 10 |
@@ -234,7 +235,7 @@ python tools/build.py test
 
 | Item | State |
 |---|---|
-| Control logic + unit tests (422 checks) | ✅ passing on PC |
+| Control logic + unit tests (470 checks) | ✅ passing on PC |
 | Firmware compiles for Cortex-M3 (~3.0 KB) | ✅ |
 | Flashed to the real GD32 board; GPIO, clock, SysTick and watchdog read back correctly | ✅ |
 | GD32 register addresses | ⚠️ match the running chip for GPIO/clock/watchdog; not checked against the official manual (flash write, ADC and DHT code untested) |

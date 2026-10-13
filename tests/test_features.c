@@ -36,6 +36,7 @@ static void press(button_id_t b)
 {
     fake_btn[b] = true;  run(BUTTON_DEBOUNCE_MS + 5);
     fake_btn[b] = false; run(BUTTON_DEBOUNCE_MS + 5);
+    run(BUTTON_CHORD_WINDOW_MS + 10);        /* a single press is accepted after the chord window */
 }
 
 #define MIN(n) ((uint32_t)(n) * 60000UL)
@@ -198,6 +199,94 @@ static void t_watchdog_kick(void)
     CHECK((uint32_t)wdt_kicks == 1000 + PIR_WARMUP_MS);
 }
 
+
+static bool leds_all_on(void)
+{
+    for (int i = 0; i < IND_COUNT; i++)
+        if (!ind_state[i]) return false;
+    return true;
+}
+
+static bool leds_dark_except_fault(void)
+{
+    for (int i = 0; i < IND_COUNT; i++)
+        if (i != IND_FAULT && ind_state[i]) return false;
+    return true;
+}
+
+static void both(bool pressed) { fake_btn[BTN_LIGHT] = fake_btn[BTN_FAN] = pressed; }
+
+static void t_led_silent_mode(void)
+{
+    printf("LED silent mode: hold both buttons, all LEDs glow once, only FAULT stays active\n");
+    setup();
+    run(2000);
+    CHECK(ind_state[IND_FANEN]);                          /* normal: FAN-ENABLED LED on */
+    int w0 = store_writes;
+
+    both(true);
+    run(LED_SILENT_HOLD_MS - 500);
+    CHECK(!leds_all_on() && !stored_leds_silent);         /* not yet */
+    run(700);
+    CHECK(leds_all_on());                                 /* confirmation: every LED glows */
+    CHECK(stored_leds_silent && store_writes == w0 + 1);  /* saved once */
+    run(LED_SILENT_HOLD_MS * 2);                          /* holding on for 10 s+: no repeat */
+    CHECK(store_writes == w0 + 1);
+    both(false);
+    run(BUTTON_DEBOUNCE_MS + LED_CONFIRM_MS + BUTTON_CHORD_WINDOW_MS + 100);
+    CHECK(leds_dark_except_fault());                      /* silent: all LEDs dark */
+    CHECK(!app_state()->override_active && app_state()->fan_enabled);   /* chord did not press the buttons */
+    CHECK(store_writes == w0 + 1);
+
+    pulse(500);                                           /* the controller itself keeps working */
+    CHECK(light_is_on());
+    CHECK(!ind_state[IND_LIGHT] && !ind_state[IND_PIR]);
+    run(FAN_START_DELAY_MS + 2000);
+    CHECK(fan_is_on() && !ind_state[IND_FAN]);
+    run(3000);
+    CHECK(!ind_state[IND_SYSTEM] && !ind_state[IND_SYSEXT]);   /* heartbeat LEDs dark too */
+
+    fake_set_motion(true);                                /* FAULT LED still works in silent mode */
+    run(PIR_STUCK_HIGH_MS + 1000);
+    ind_toggles[IND_FAULT] = 0;
+    run(2000);
+    CHECK(ind_toggles[IND_FAULT] >= 10);
+    fake_set_motion(false);
+    run(200);
+
+    app_init();                                           /* power cycle: still silent */
+    run(PIR_WARMUP_MS + 500);
+    CHECK(leds_dark_except_fault() && stored_leds_silent);
+
+    both(true);                                           /* hold again: LEDs come back */
+    run(LED_SILENT_HOLD_MS + 200);
+    CHECK(leds_all_on() && !stored_leds_silent);
+    both(false);
+    run(BUTTON_DEBOUNCE_MS + LED_CONFIRM_MS + BUTTON_CHORD_WINDOW_MS + 100);
+    CHECK(ind_state[IND_FANEN]);
+    CHECK(app_state()->fan_enabled && !app_state()->override_active);
+}
+
+static void t_two_buttons_short(void)
+{
+    printf("two buttons held briefly do nothing, single presses still work\n");
+    setup();
+    int w0 = store_writes;
+    both(true);  run(1000);  both(false);  run(BUTTON_DEBOUNCE_MS + BUTTON_CHORD_WINDOW_MS + 50);
+    CHECK(!app_state()->override_active && app_state()->fan_enabled);
+    CHECK(store_writes == w0 && !stored_leds_silent && !leds_all_on());
+
+    fake_btn[BTN_LIGHT] = true;  run(150);               /* second button a little later, inside the window */
+    fake_btn[BTN_FAN] = true;    run(1000);
+    both(false);  run(BUTTON_DEBOUNCE_MS + BUTTON_CHORD_WINDOW_MS + 50);
+    CHECK(!app_state()->override_active && app_state()->fan_enabled && store_writes == w0);
+
+    press(BTN_LIGHT);                                     /* single presses unchanged */
+    CHECK(app_state()->override_active);
+    press(BTN_FAN);
+    CHECK(!app_state()->fan_enabled && store_writes == w0 + 1);
+}
+
 int main(void)
 {
     t_warning_blink();
@@ -209,6 +298,8 @@ int main(void)
     t_button_held_at_boot();
     t_fan_disable_button();
     t_watchdog_kick();
+    t_led_silent_mode();
+    t_two_buttons_short();
     printf("\n%d checks, %d failed\n", g_checks, g_fail);
     return g_fail ? 1 : 0;
 }

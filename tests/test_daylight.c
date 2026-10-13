@@ -27,6 +27,7 @@ static void press(button_id_t b)
 {
     fake_btn[b] = true;  run(BUTTON_DEBOUNCE_MS + 5);
     fake_btn[b] = false; run(BUTTON_DEBOUNCE_MS + 5);
+    run(BUTTON_CHORD_WINDOW_MS + 10);        /* a single press is accepted after the chord window */
 }
 #define MIN(n) ((uint32_t)(n) * 60000UL)
 

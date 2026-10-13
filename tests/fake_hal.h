@@ -16,6 +16,7 @@ extern int  ind_toggles[IND_COUNT];
 extern bool init_light_off, init_fan_off;
 
 extern bool fake_btn[BTN_COUNT];    /* true = physically pressed        */
+extern bool stored_leds_silent;      /* simulated flash flag: LED silent mode */
 extern bool stored_fan_enabled;      /* simulated flash flag (survives reset) */
 extern int  store_writes;
 extern int  wdt_kicks;

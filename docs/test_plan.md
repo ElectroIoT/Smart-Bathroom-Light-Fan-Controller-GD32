@@ -35,6 +35,7 @@ With the LEDs wired: PIR LED lights when motion is seen; light/fan LEDs follow t
 3. **Fan start delay:** with the fan enabled, trigger the PIR: fan relay starts about 30 s after the light.
 4. **Warning blink:** about 30 s before the 7-minute light timeout the light relay clicks OFF for about half a second and back ON. (Use shortened test timeouts from section 4.)
 5. **Watchdog:** nothing to do; confirm the board keeps running normally.
+6. **LED silent mode:** hold BOTH buttons for 5 seconds. Every LED glows together once (about 1.5 s), then all LEDs stay dark except the red FAULT LED. The relays still work. Power-cycle: the LEDs must still be dark. Hold both buttons for 5 seconds again: every LED glows once and the LEDs work normally again. A short two-button press (under 5 s) must do nothing, and a single press must still work.
 
 ## 2d. Humidity sensor (only if fitted)
 Set `HUMIDITY_SENSOR` to 11 or 22, rebuild, flash. Breathe on the sensor or hold it over steam: above 70 % RH the fan relay should start and stay on; at 62 % or below it stops. Disconnect the DATA wire for 20 s: the fault LED must glow steadily and the fan must not stay on. Reconnect: the LED clears.
