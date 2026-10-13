@@ -81,7 +81,9 @@ The silkscreen on your board is the final authority. Avoid PA13, PA14, PA15, PB3
 
 Use a **common GND** between PIR, MCU and relay-module logic side. If the relay module has an opto-isolator with a separate JD-VCC, remove the JD-VCC jumper only if you provide a separate coil supply — otherwise keep the jumper and share GND (follow the module's own documentation).
 
-## 4. PIR compatibility (❓ model unknown)
+## 4. PIR compatibility (HC-SR501-type module, from the user's photo)
+
+Module: 3 pins (5–20 V, OUT, GND), TIME dial, SENSITIVITY dial and an H/L jumper (see `docs/img/pir-setup.svg`). Settings: TIME dial to minimum, jumper at H (repeat trigger), sensitivity mid. Module specs were read from the photo only; the output voltage is **still to be measured**.
 
 Before connecting PA0, measure the PIR OUT pin with a multimeter, PIR powered, MCU **not** connected:
 * ≤ 3.3 V when active → connect directly.
@@ -111,7 +113,7 @@ Send the module's model/photo to finalise. Until then these are configurable:
 
 ## 7. Open questions
 1. Exact GD32 board name / header labels / USB connector function.
-2. PIR model, supply voltage, measured OUT voltage, output polarity.
+2. PIR: type is HC-SR501-style; measured OUT voltage and output polarity still to be confirmed.
 3. Relay module model, coil voltage, opto-isolation, active polarity.
 4. Lamp wattage/type; fan power rating.
 5. Do you own an ST-Link V2 (or other SWD probe)? See `programming.md`.

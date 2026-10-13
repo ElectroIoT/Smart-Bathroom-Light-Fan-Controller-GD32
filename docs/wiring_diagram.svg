@@ -17,7 +17,7 @@
   <!-- PIR -->
   <rect x="40" y="260" width="150" height="110" fill="#fff" stroke="#000" stroke-width="2"/>
   <text x="115" y="285" text-anchor="middle" font-weight="bold">PIR sensor</text>
-  <text x="115" y="302" text-anchor="middle">(model: UNKNOWN)</text>
+  <text x="115" y="302" text-anchor="middle">(HC-SR501 type, 5-20 V in)</text>
   <text x="50" y="330">VCC</text><text x="50" y="345">OUT</text><text x="50" y="360">GND</text>
   <rect x="45" y="378" width="140" height="42" fill="#fff3cd" stroke="#b58900"/>
   <text x="115" y="395" text-anchor="middle" fill="#7a5a00">VERIFY: OUT voltage</text>

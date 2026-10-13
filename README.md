@@ -30,6 +30,18 @@ Every new motion restarts both countdowns. The light turning off never turns the
 
 Example: motion at 0:00 and again at 4:00 → light off at 11:00, fan off at 14:00.
 
+## 👁 PIR module setup (HC-SR501 type)
+
+<p align="center">
+  <img src="docs/img/pir-setup.svg" alt="PIR module pins and recommended dial and jumper settings" width="90%">
+</p>
+
+- **Wire:** VCC (5–20 V) → board **5V** pin, OUT → **PA0 (A0)**, GND → GND.
+- **TIME dial:** fully to the **minimum** so the controller, not the PIR, sets the 7/10-minute delays.
+- **Jumper:** **H** (repeat trigger). The output stays HIGH while you move.
+- **Sensitivity:** start at the middle and adjust.
+- **Check:** these modules normally output about 3.3 V, but measure OUT before connecting it to PA0 (it must be 3.3 V or less).
+
 ## 📍 Board pinout (Blue Pill style, USB at top)
 
 <p align="center">
@@ -195,7 +207,7 @@ Quantities are for **one controller**. *Required* = needed for the basic system,
 |---|---|---|---|---|---|
 | 1 | GD32F103C8T6 "Blue Pill" style board | 3.3 V logic, 4-pin SWD header | 1 | Required | |
 | 2 | ST-Link V2 programmer | SWD | 1 | Required | For flashing; remove afterwards |
-| 3 | PIR motion sensor | your existing one, output ≤ 3.3 V | 1 | Required | If its output is 5 V use the divider (#17, #18) |
+| 3 | PIR motion sensor | HC-SR501 type, 5–20 V in, 3-pin | 1 | Required | Your existing one; output must be ≤ 3.3 V, else use the divider (#17, #18) |
 | 4 | Relay module, 2 channel | 5 V coil, contacts rated for your lamp and fan | 1 | Required | Check the printed rating; set `RELAY_ACTIVE_LOW` |
 | 5 | DC power supply | 5 V regulated, 1 A or more | 1 | Required | Board, PIR, relay coils |
 | 6 | Resistor, relay input pull | 10 kΩ, 0.25 W | 2 | Required* | *Only if the relay module has no input pull resistors |

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+  <rect width="1000" height="520" rx="14" fill="#f6f9ff" stroke="#c9d6ee"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#10264d">PIR module (HC-SR501 type): connections and settings</text>
+
+  <!-- module board -->
+  <rect x="60" y="80" width="360" height="270" rx="12" fill="#1f4aa8" stroke="#10264d" stroke-width="3"/>
+  <text x="240" y="106" text-anchor="middle" font-size="13" fill="#cfe0ff">module seen from the pin side (lens on the other side)</text>
+
+  <!-- pots -->
+  <circle cx="130" cy="170" r="26" fill="#2ecc71" stroke="#10264d" stroke-width="2"/>
+  <line x1="130" y1="170" x2="146" y2="156" stroke="#10264d" stroke-width="3"/>
+  <text x="130" y="220" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">TIME</text>
+  <circle cx="240" cy="170" r="26" fill="#2ecc71" stroke="#10264d" stroke-width="2"/>
+  <line x1="240" y1="170" x2="256" y2="156" stroke="#10264d" stroke-width="3"/>
+  <text x="240" y="220" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">SENSITIVITY</text>
+
+  <!-- jumper -->
+  <rect x="340" y="140" width="50" height="60" rx="4" fill="#f3e6b0"/>
+  <circle cx="352" cy="155" r="5" fill="#222"/><circle cx="352" cy="170" r="5" fill="#222"/><circle cx="352" cy="185" r="5" fill="#222"/>
+  <text x="372" y="159" font-size="11" font-weight="700" fill="#222">L</text>
+  <text x="372" y="189" font-size="11" font-weight="700" fill="#222">H</text>
+  <text x="365" y="218" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">JUMPER</text>
+
+  <!-- pins -->
+  <g>
+    <rect x="130" y="300" width="22" height="34" fill="#2ecc71" stroke="#10264d" stroke-width="2"/>
+    <rect x="200" y="300" width="22" height="34" fill="#2ecc71" stroke="#10264d" stroke-width="2"/>
+    <rect x="270" y="300" width="22" height="34" fill="#2ecc71" stroke="#10264d" stroke-width="2"/>
+    <text x="141" y="372" text-anchor="middle" font-size="14" font-weight="700" fill="#d32f2f">VCC</text>
+    <text x="141" y="390" text-anchor="middle" font-size="12" fill="#333">5-20 V</text>
+    <text x="211" y="372" text-anchor="middle" font-size="14" font-weight="700" fill="#1faa59">OUT</text>
+    <text x="211" y="390" text-anchor="middle" font-size="12" fill="#333">signal</text>
+    <text x="281" y="372" text-anchor="middle" font-size="14" font-weight="700" fill="#222">GND</text>
+  </g>
+
+  <!-- wires to board -->
+  <g fill="none" stroke-width="3">
+    <path d="M141 334 V420 H560" stroke="#d32f2f"/>
+    <path d="M211 334 V440 H560" stroke="#1faa59"/>
+    <path d="M281 334 V460 H560" stroke="#222"/>
+  </g>
+  <rect x="560" y="400" width="250" height="75" rx="8" fill="#fff" stroke="#10264d" stroke-width="2"/>
+  <g font-size="14">
+    <text x="575" y="424" fill="#d32f2f" font-weight="700">VCC &#8594; 5V pin of the GD32 board</text>
+    <text x="575" y="444" fill="#1faa59" font-weight="700">OUT &#8594; PA0 (A0)</text>
+    <text x="575" y="464" fill="#222" font-weight="700">GND &#8594; GND pin</text>
+  </g>
+
+  <!-- settings -->
+  <rect x="470" y="80" width="490" height="290" rx="10" fill="#fff" stroke="#c9d6ee"/>
+  <text x="490" y="108" font-size="16" font-weight="700" fill="#10264d">Recommended settings</text>
+  <g font-size="14" fill="#333">
+    <text x="490" y="140"><tspan font-weight="700">TIME dial: fully to the minimum</tspan> (about 3 s).</text>
+    <text x="490" y="160">The controller sets the 7 min / 10 min delays, not the PIR.</text>
+    <text x="490" y="194"><tspan font-weight="700">Jumper: H</tspan> (repeat trigger, "auto-reset"). Output stays HIGH</text>
+    <text x="490" y="214">while you move, then drops after the TIME delay. L = single</text>
+    <text x="490" y="234">trigger ("no reset") also works but gives pulses while moving.</text>
+    <text x="490" y="268"><tspan font-weight="700">SENSITIVITY dial: start at the middle.</tspan> Raise it if it misses</text>
+    <text x="490" y="288">you; lower it if it triggers from the fan or a warm window.</text>
+    <text x="490" y="322"><tspan font-weight="700">Warm-up:</tspan> the module is unstable for 30-60 s after power-up;</text>
+    <text x="490" y="342">the firmware ignores the PIR for the first 60 s (green LED blinks fast).</text>
+  </g>
+  <text x="500" y="505" text-anchor="middle" font-size="12" fill="#666">Pin order shown is from your photo (left to right: 5-20 V, Output, Ground). Clones differ: always follow the silkscreen on your module. Measure OUT: it must be 3.3 V or less.</text>
+</svg>
