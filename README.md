@@ -187,6 +187,48 @@ python tools/build.py test
 | Running on real hardware | ❌ not tested yet |
 | PIR / relay module specifics | ❓ configurable, unconfirmed |
 
+## 🧾 Bill of materials (BOM)
+
+Quantities are for **one controller**. *Required* = needed for the basic system, *Optional* = only if you want that feature.
+
+| # | Part | Value / rating | Qty (pcs) | Needed | Notes |
+|---|---|---|---|---|---|
+| 1 | GD32F103C8T6 "Blue Pill" style board | 3.3 V logic, 4-pin SWD header | 1 | Required | |
+| 2 | ST-Link V2 programmer | SWD | 1 | Required | For flashing; remove afterwards |
+| 3 | PIR motion sensor | your existing one, output ≤ 3.3 V | 1 | Required | If its output is 5 V use the divider (#17, #18) |
+| 4 | Relay module, 2 channel | 5 V coil, contacts rated for your lamp and fan | 1 | Required | Check the printed rating; set `RELAY_ACTIVE_LOW` |
+| 5 | DC power supply | 5 V regulated, 1 A or more | 1 | Required | Board, PIR, relay coils |
+| 6 | Resistor, relay input pull | 10 kΩ, 0.25 W | 2 | Required* | *Only if the relay module has no input pull resistors |
+| 7 | 3 mm LED | red / green / yellow / orange | 5 | Required for status LEDs | PIR, light relay, fan relay, fault, FAN-ENABLED |
+| 8 | Resistor, LED | 330 Ω, 0.25 W (100 Ω for blue/white LEDs) | 5 | Required for status LEDs | One per LED |
+| 9 | Push button | normally-open, 6 mm tactile or panel mount | 2 | Required for buttons | Light override (PB0), fan enable/disable (PB1) |
+| 10 | Bare LDR (photoresistor) | e.g. 5 mm, about 10 kΩ at 10 lux | 1 | Optional | Daylight lockout, `DAYLIGHT_SENSOR 2` |
+| 11 | Resistor, LDR divider | 10 kΩ, 0.25 W | 1 | Optional | With the bare LDR |
+| 12 | Humidity sensor | DHT22 (or DHT11) | 1 | Optional | `HUMIDITY_SENSOR 22` or `11`; DHT22 is more accurate |
+| 13 | Resistor, DHT pull-up | 10 kΩ (4.7 kΩ to 10 kΩ), 0.25 W | 1 | Optional | 3-pin DHT modules already include it |
+| 14 | Digital LDR module | 4-pin with dial | 0 to 1 | Optional | Alternative to #10 and #11 (`DAYLIGHT_SENSOR 1`) |
+| 15 | Jumper wires / small wire | Dupont, about 20 cm | 1 set (about 30 pcs) | Required | Low-voltage wiring only |
+| 16 | Insulated plastic enclosure | fits all boards with 230 V clearances | 1 | Required | Separate low-voltage and mains areas |
+| 17 | Resistor, PIR divider (top) | 10 kΩ, 0.25 W | 1 | Only if PIR output is 5 V | |
+| 18 | Resistor, PIR divider (bottom) | 20 kΩ, 0.25 W | 1 | Only if PIR output is 5 V | Gives about 3.3 V from 5 V |
+| 19 | Mains terminal blocks | rated for the load current | as needed (about 4 pcs) | Required | Mains side |
+| 20 | Fuse or MCB | sized for relay contacts, wire and load | 1 | Required | Check with your electrician |
+| 21 | Mains cable + cable glands (strain relief) | correct conductor size for the load | as needed (2 glands) | Required | |
+| 22 | Standoffs and screws | M3 | 4 to 8 | Required | Mount the boards firmly |
+| 23 | RC snubber or MOV | across the fan relay contacts | 0 to 1 | Optional | Only if the inductive fan load causes sparking or resets |
+
+**Resistor summary**
+
+| Value | Total pcs | Used for |
+|---|---|---|
+| 330 Ω | 5 | status LEDs (100 Ω instead for blue/white) |
+| 10 kΩ | 4 (2 relay pulls, 1 LDR divider, 1 DHT pull-up), plus 1 for the PIR divider if needed | see table above |
+| 20 kΩ | 0 to 1 | PIR divider, only if the PIR output is 5 V |
+
+**Tools:** multimeter, small screwdrivers, wire stripper, soldering iron (optional), and a PC with VS Code ([`docs/vscode.md`](docs/vscode.md)).
+
+The exact PIR model, relay module and your lamp and fan ratings were not known when this list was written. Check them against [`docs/hardware_design.md`](docs/hardware_design.md) before buying or installing, and have a qualified electrician install or inspect the mains side. No prices are listed because they vary by seller.
+
 ## 🗂 Layout
 
 ```
