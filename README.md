@@ -117,6 +117,10 @@ Set `HUMIDITY_SENSOR` in [`include/config.h`](include/config.h) to `11` (DHT11) 
 - The fan enable/disable button still wins: a disabled fan is never started by humidity.
 - A reading takes about 4 ms once every 5 s, and is untested on real hardware. A DHT22 is more accurate than a DHT11.
 
+## 🧰 Easiest way: VS Code (no Arduino needed)
+
+Open the folder in VS Code and use **Terminal → Run Task**: *Test*, *Build firmware*, *Flash to board (ST-Link)*, or *Probe board*. One-time install list and screenshots-free steps: [`docs/vscode.md`](docs/vscode.md). From a terminal the same things are `python tools/build.py test`, `python tools/build.py firmware` and `python tools/flash.py`.
+
 ## ⚡ Flash it
 
 <p align="center">

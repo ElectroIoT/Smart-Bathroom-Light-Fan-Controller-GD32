@@ -1,0 +1,36 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "1. Test (PC logic tests)",
+      "type": "shell",
+      "command": "python tools/build.py test",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "2. Build firmware",
+      "type": "shell",
+      "command": "python tools/build.py firmware",
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "3. Flash to board (ST-Link)",
+      "type": "shell",
+      "command": "python tools/flash.py",
+      "dependsOn": "2. Build firmware",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Probe board (read only, no flashing)",
+      "type": "shell",
+      "command": "python tools/flash.py --probe",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    }
+  ]
+}

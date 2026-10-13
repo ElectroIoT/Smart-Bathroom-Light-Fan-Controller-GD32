@@ -32,7 +32,9 @@ python tools/build.py firmware    # -> build/firmware.elf and build/firmware.bin
 ```
 `build.py` uses `arm-none-eabi-gcc` if it is on PATH, otherwise Zig.
 
-## Flashing (pick one)
+## Flashing (easiest: `python tools/flash.py`, or the VS Code task, see [vscode.md](vscode.md))
+
+Manual options:
 **OpenOCD** (⚠️ `stm32f1x` target usually works with GD32F103 but may complain about the chip ID; if so, a vendor-supplied config or `-c "set CPUTAPID 0"` is the usual workaround):
 ```
 openocd -f interface/stlink.cfg -f target/stm32f1x.cfg ^
