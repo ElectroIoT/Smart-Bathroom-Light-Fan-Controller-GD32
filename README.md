@@ -100,11 +100,12 @@ Open [`docs/wiring_diagram.svg`](docs/wiring_diagram.svg) for the full-size vers
 
 | LED | Meaning |
 |---|---|
-| On-board PC13 | System alive: fast blink during the 60 s warm-up, then a short blip every 2 s |
+| On-board PC13 (the board's own LED) | System alive (heartbeat): fast blink during the 60 s warm-up, then a short blip every 2 s |
 | PIR (PA3) | Lit while the PIR reports motion (solid if the PIR output stays HIGH) |
 | Light (PA4) | Lit while the light relay is ON |
 | Fan (PA5) | Lit while the fan relay is ON |
-| Fault (PA6) | Fast blink = PIR stuck HIGH (clears when the PIR goes LOW) |
+| Fault (PA6, red) | **Fast blink** (about 4 per second) = the PIR output has been HIGH for 30 minutes (`PIR_STUCK_HIGH_MS`); clears when the PIR goes LOW. **Steady glow** = the humidity sensor is failing (only if `HUMIDITY_SENSOR` is on). Dark = no fault. |
+| FAN-ENABLED (PB11, green) | **Steady on** = the fan is enabled and works with the PIR. **Off** = the fan was disabled with its button. It does not blink: it is not the heartbeat. |
 
 Wire each as GPIO → 330 Ω–1 kΩ resistor → LED → GND. Keep this low-voltage wiring away from the 230 V parts. Turn the external LEDs off with `ENABLE_STATUS_LEDS 0` in `config.h`.
 
@@ -164,6 +165,8 @@ Set `HUMIDITY_SENSOR` in [`include/config.h`](include/config.h) to `11` (DHT11) 
 | **Event log and checklist** | Every change with a timestamp, and a checklist that ticks as you test each input. |
 
 Stop it before flashing (only one program can use the ST-Link at a time). It needs `build/firmware.elf` from the firmware that is flashed.
+
+**Fake fault test (red LED):** `python tools/fault_test.py` (or option 8 in the launcher) sets the "PIR stuck HIGH" fault for 8 seconds so you can see the red FAULT LED blink without waiting 30 minutes. It only sets a flag in the controller: nothing is written to flash and the relays are not touched. For an end-to-end test with the real PIR path, set `PIR_STUCK_HIGH_MS` to `10000` in `include/config.h`, flash, and hold PA0 at 3V3 for 10 seconds (put the value back afterwards).
 
 **LED wiring test:** `python tools/led_test.py` (or option 7 in the launcher) blinks the PIR, light relay, fan relay, FAULT and FAN-ENABLED LEDs one after another so you can see at a glance that each one is wired to the right pin. It works with the dashboard running.
 
@@ -296,6 +299,7 @@ tools/flash.py          flash through ST-Link (OpenOCD)
 tools/live_status.py    read live PIR / LDR / timer state through the ST-Link
 tools/dashboard.py      live test dashboard in the browser (http://localhost:8765)
 tools/led_test.py       blink each status LED in turn (wiring check)
+tools/fault_test.py     fake the PIR-stuck fault to test the red LED
 BathroomController.bat  Windows launcher: dashboard, tests, build, flash, setup
 .vscode/                one-click Test, Build, Flash tasks
 docs/                   design, wiring, programming, test plan, images
