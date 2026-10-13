@@ -272,6 +272,7 @@ src/hal_gd32f103.c      GD32 register-level hardware layer
 tests/                  PC tests with a fake hardware layer
 tools/build.py          build + test, no make needed
 tools/flash.py          flash through ST-Link (OpenOCD)
+tools/live_status.py    read live PIR / LDR / timer state through the ST-Link
 .vscode/                one-click Test, Build, Flash tasks
 docs/                   design, wiring, programming, test plan, images
 ```

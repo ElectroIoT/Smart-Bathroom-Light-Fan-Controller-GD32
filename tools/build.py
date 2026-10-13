@@ -71,16 +71,18 @@ def firmware():
     os.makedirs(BUILD, exist_ok=True)
     elf = os.path.join(BUILD, "firmware.elf")
     srcs = CORE + ["src/main.c", "src/hal_gd32f103.c", "src/startup.c"]
+    # extra -D options, e.g.  FW_DEFINES="-DDAYLIGHT_SENSOR=2 -DHUMIDITY_SENSOR=22"
+    extra = os.environ.get("FW_DEFINES", "").split()
     if shutil.which("arm-none-eabi-gcc"):
         cc = ["arm-none-eabi-gcc", "-mcpu=cortex-m3", "-mthumb"]
-        run(cc + WARN + ["-ffunction-sections", "-fdata-sections", "-nostdlib",
+        run(cc + WARN + extra + ["-ffunction-sections", "-fdata-sections", "-nostdlib",
                          "-Wl,--gc-sections", "-Tlinker/gd32f103c8.ld"] + srcs + ["-o", elf])
         run(["arm-none-eabi-objcopy", "-O", "binary", elf, os.path.join(BUILD, "firmware.bin")])
         run(["arm-none-eabi-size", elf])
     else:
         cc = [sys.executable, "-m", "ziglang", "cc", "-target", "thumb-freestanding-eabi",
-              "-mcpu=cortex_m3"]
-        run(cc + WARN + ["-ffunction-sections", "-fdata-sections", "-nostdlib",
+              "-mcpu=cortex_m3", "-g"]
+        run(cc + WARN + extra + ["-ffunction-sections", "-fdata-sections", "-nostdlib",
                          "-Wl,--gc-sections", "-Tlinker/gd32f103c8.ld"] + srcs + ["-o", elf])
         run([sys.executable, "-m", "ziglang", "objcopy", "-O", "binary", elf,
              os.path.join(BUILD, "firmware.bin")])

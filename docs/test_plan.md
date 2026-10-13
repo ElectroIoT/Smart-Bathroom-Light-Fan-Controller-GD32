@@ -20,6 +20,9 @@ Last run: all passed (this session).
 3. After the firmware's 60 s warm-up, wave a hand: PA1/PA2 should change to the ON level and stay until timeout. Debug log shows `LIGHT ON` / `FAN ON`.
 4. Set `PIR_ACTIVE_HIGH` to match if behaviour is inverted.
 
+## 2a. Live check without a serial adapter
+Run `python tools/live_status.py` (or the VS Code task *Live status*). While it samples, wave at the PIR and cover or light the LDR. You should see `PIR_pin` go HIGH on motion and LOW again after the PIR's TIME delay, `pir=1` and `light=1` follow, and the `ADC` value rise with light. The fan starts about 30 s after the light.
+
 ## 2b. Status LED test
 With the LEDs wired: PIR LED lights when motion is seen; light/fan LEDs follow the relays; fault LED stays off (it blinks fast only if the PIR stays HIGH for 30 min). System LED (PC13) blinks fast for 60 s, then a blip every 2 s.
 

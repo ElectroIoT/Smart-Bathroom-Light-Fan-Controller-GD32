@@ -6,15 +6,26 @@
       "type": "shell",
       "command": "python tools/build.py test",
       "group": "test",
-      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
       "problemMatcher": []
     },
     {
       "label": "2. Build firmware",
       "type": "shell",
       "command": "python tools/build.py firmware",
-      "group": { "kind": "build", "isDefault": true },
-      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
       "problemMatcher": []
     },
     {
@@ -22,14 +33,33 @@
       "type": "shell",
       "command": "python tools/flash.py",
       "dependsOn": "2. Build firmware",
-      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
       "problemMatcher": []
     },
     {
       "label": "Probe board (read only, no flashing)",
       "type": "shell",
       "command": "python tools/flash.py --probe",
-      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Live status (PIR, LDR, timers via ST-Link)",
+      "type": "shell",
+      "command": "python tools/live_status.py 40 500",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
       "problemMatcher": []
     }
   ]
