@@ -17,6 +17,7 @@ void ctrl_init(ctrl_t *c, uint32_t now_ms, const ctrl_cfg_t *cfg)
     c->fan_armed = c->light_warn = c->warned = c->override_active = false;
     c->fan_enabled = cfg->fan_enabled;
     c->humid = c->humid_expired = c->fan_by_humid = false;
+    c->daylight_bright = c->light_suppressed = false;
     c->humid_since_ms = now_ms;
 
     c->start_ms = c->last_motion_ms = c->light_on_since_ms = now_ms;
@@ -53,6 +54,8 @@ static void motion_event(ctrl_t *c, uint32_t now)
     if (!c->light_on) {
         c->light_on = true;
         c->light_on_since_ms = now;
+        /* daylight decides once per visit; the fan timer still runs */
+        c->light_suppressed = c->cfg.daylight_enabled && c->daylight_bright;
     }
     if (c->fan_enabled && !c->fan_on)
         c->fan_armed = true;          /* fan starts after the start delay */
@@ -98,6 +101,7 @@ static void pir_logic(ctrl_t *c, uint32_t now, bool pir_active)
             }
             if (since >= c->cfg.light_timeout_ms) {
                 c->light_on = false;
+                c->light_suppressed = false;
                 c->warned = false;
             }
         }
@@ -130,6 +134,7 @@ void ctrl_update(ctrl_t *c, uint32_t now, bool pir_active)
     if (elapsed(now, c->start_ms) < c->cfg.warmup_ms) {
         c->light_on = c->fan_on = c->fan_armed = false;
         c->light_warn = false;
+        c->light_suppressed = false;
     } else {
         pir_logic(c, now, pir_active);
     }
@@ -149,8 +154,14 @@ void ctrl_update(ctrl_t *c, uint32_t now, bool pir_active)
         elapsed(now, c->override_start_ms) >= c->cfg.override_ms)
         c->override_active = false;
 
-    c->light_out = (c->light_on && !c->light_warn) || c->override_active;
+    c->light_out = (c->light_on && !c->light_warn && !c->light_suppressed) ||
+                   c->override_active;
     c->fan_out   = c->fan_on && c->fan_enabled;
+}
+
+void ctrl_set_daylight(ctrl_t *c, bool bright)
+{
+    c->daylight_bright = bright;
 }
 
 void ctrl_set_humid(ctrl_t *c, uint32_t now, bool humid)
@@ -168,7 +179,8 @@ void ctrl_light_override_toggle(ctrl_t *c, uint32_t now)
 {
     c->override_active = !c->override_active;
     c->override_start_ms = now;
-    c->light_out = (c->light_on && !c->light_warn) || c->override_active;
+    c->light_out = (c->light_on && !c->light_warn && !c->light_suppressed) ||
+                   c->override_active;
 }
 
 void ctrl_set_fan_enabled(ctrl_t *c, bool enabled)

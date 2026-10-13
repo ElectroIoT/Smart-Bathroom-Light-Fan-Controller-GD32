@@ -31,6 +31,7 @@ typedef struct {
     bool     fan_enabled;         /* restored from storage by the caller              */
     uint32_t humid_max_run_ms;    /* humidity may hold the fan at most this long; 0 = no limit */
     bool     humid_autostart;     /* humidity alone may start the fan                 */
+    bool     daylight_enabled;    /* optional daylight lockout of the light           */
 } ctrl_cfg_t;
 
 typedef struct {
@@ -51,6 +52,8 @@ typedef struct {
     bool humid;               /* humidity input (set by the caller)        */
     bool humid_expired;       /* humidity held the fan for the max time    */
     bool fan_by_humid;        /* fan was started by humidity only          */
+    bool daylight_bright;     /* daylight input (set by the caller)        */
+    bool light_suppressed;    /* this visit: daylight, so the lamp stays off */
     uint32_t humid_since_ms;
 
     uint32_t start_ms;
@@ -74,6 +77,9 @@ void ctrl_init(ctrl_t *c, uint32_t now_ms, const ctrl_cfg_t *cfg);
  * (true = motion), i.e. polarity already applied.
  */
 void ctrl_update(ctrl_t *c, uint32_t now_ms, bool pir_active);
+
+/** Optional daylight input. true = bright; the lamp is not switched on for a new visit. */
+void ctrl_set_daylight(ctrl_t *c, bool bright);
 
 /** Optional humidity input. true = air is humid; the fan is held on / started. */
 void ctrl_set_humid(ctrl_t *c, uint32_t now_ms, bool humid);

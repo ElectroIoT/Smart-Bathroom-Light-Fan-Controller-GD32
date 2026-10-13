@@ -20,6 +20,9 @@ bool hal_load_fan_enabled(void) { return stored_fan_enabled; }
 void hal_save_fan_enabled(bool enabled) { stored_fan_enabled = enabled; store_writes++; }
 void hal_watchdog_kick(void) { wdt_kicks++; }
 
+bool fake_daylight;
+bool hal_daylight_bright(void) { return fake_daylight; }
+
 bool fake_sensor_ok = true;
 int fake_rh_pct = 40;
 int humidity_reads;
@@ -57,6 +60,7 @@ void fake_reset(uint32_t start_time)
     stored_fan_enabled = true;
     store_writes = 0;
     wdt_kicks = 0;
+    fake_daylight = false;
     fake_sensor_ok = true;
     fake_rh_pct = 40;
     humidity_reads = 0;

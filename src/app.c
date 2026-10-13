@@ -2,6 +2,7 @@
 #include "button.h"
 #include "config.h"
 #include "hal.h"
+#include "daylight.h"
 #include "humidity.h"
 
 #if (LIGHT_TIMEOUT_MS == 0) || (FAN_TIMEOUT_MS == 0)
@@ -22,6 +23,7 @@ static uint32_t g_led_ms;
 static bool g_led_on;
 static uint32_t g_fault_ms;
 static bool g_fault_on;
+static daylight_t g_day;
 static humidity_t g_hum;
 static uint32_t g_hum_ms;
 static bool g_ind_pir, g_ind_light, g_ind_fan, g_ind_fan_en;   /* LED cache */
@@ -123,12 +125,14 @@ void app_init(void)
     cfg.fan_enabled = hal_load_fan_enabled();
     cfg.humid_max_run_ms = HUMIDITY_MAX_RUN_MS;
     cfg.humid_autostart = HUMIDITY_AUTOSTART != 0;
+    cfg.daylight_enabled = DAYLIGHT_SENSOR != 0;
     ctrl_init(&g_ctrl, now, &cfg);
 
     button_init(&g_btn_light, now, hal_button_pressed(BTN_LIGHT));
     button_init(&g_btn_fan, now, hal_button_pressed(BTN_FAN));
 
     humidity_init(&g_hum);
+    daylight_init(&g_day, now);
     g_hum_ms = now;
     g_led_ms = now;
     g_led_on = false;
@@ -162,6 +166,11 @@ void app_step(void)
     }
 
     humidity_poll(now);
+#if DAYLIGHT_SENSOR
+    /* read the sensor only while the lamp is OFF (the lamp would fool it) */
+    daylight_update(&g_day, now, hal_daylight_bright(), !g_ctrl.light_out, DAYLIGHT_FILTER_MS);
+    ctrl_set_daylight(&g_ctrl, g_day.bright);
+#endif
     ctrl_update(&g_ctrl, now, active);
     heartbeat(now);
     status_leds(now);

@@ -229,6 +229,30 @@
 #endif
 
 /* ------------------------------------------------------------------ */
+/* Optional daylight sensor (digital LDR module)                        */
+/* ------------------------------------------------------------------ */
+/* 1 = daylight lockout: when it is bright (window), a new visit does NOT
+ * switch the light on; the fan still works. The override button always
+ * turns the light on. The sensor is read only while the lamp is OFF, and
+ * a missing or broken sensor reads as dark (light works). 0 = off. */
+#ifndef DAYLIGHT_SENSOR
+#define DAYLIGHT_SENSOR       0
+#endif
+#ifndef DAYLIGHT_PORT
+#define DAYLIGHT_PORT         1
+#define DAYLIGHT_PIN          10          /* PB10 (B10): module DO pin */
+#endif
+/* Pin level that means BRIGHT. Many LDR modules output LOW in bright light:
+ * check yours and set 0 or 1. */
+#ifndef DAYLIGHT_BRIGHT_LEVEL
+#define DAYLIGHT_BRIGHT_LEVEL 1
+#endif
+/* Reading must stay the same this long before it counts (clouds, shadows). */
+#ifndef DAYLIGHT_FILTER_MS
+#define DAYLIGHT_FILTER_MS    10000UL
+#endif
+
+/* ------------------------------------------------------------------ */
 /* Watchdog                                                            */
 /* ------------------------------------------------------------------ */
 /* Independent watchdog: if the main loop hangs the chip resets and the

@@ -11,7 +11,7 @@ import os, shutil, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BUILD = os.path.join(ROOT, "build")
-CORE = ["src/controller.c", "src/button.c", "src/humidity.c", "src/app.c"]
+CORE = ["src/controller.c", "src/button.c", "src/humidity.c", "src/daylight.c", "src/app.c"]
 WARN = ["-std=c99", "-Wall", "-Wextra", "-Werror", "-Os", "-Iinclude", "-Isrc"]
 
 
@@ -55,6 +55,10 @@ def test():
             ["tests/fake_hal.c", "tests/test_humidity.c", "-o", exe])
         print(f"=== humidity option: DHT{sensor} ===")
         ok &= subprocess.run([exe], cwd=ROOT).returncode == 0
+    run(host_cc() + WARN + ["-DDAYLIGHT_SENSOR=1"] + CORE +
+        ["tests/fake_hal.c", "tests/test_daylight.c", "-o", exe])
+    print("=== daylight option ===")
+    ok &= subprocess.run([exe], cwd=ROOT).returncode == 0
     print("ALL TESTS PASSED" if ok else "TESTS FAILED")
     return 0 if ok else 1
 

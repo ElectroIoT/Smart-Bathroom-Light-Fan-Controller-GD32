@@ -26,6 +26,9 @@ bool hal_button_pressed(button_id_t id);
 bool hal_load_fan_enabled(void);
 void hal_save_fan_enabled(bool enabled);
 
+/** Daylight sensor: true = bright (polarity handled inside). false if disabled. */
+bool hal_daylight_bright(void);
+
 /** Read one 5-byte DHT11/DHT22 frame. false = no sensor / timeout / disabled. */
 bool hal_humidity_read(uint8_t raw[5]);
 

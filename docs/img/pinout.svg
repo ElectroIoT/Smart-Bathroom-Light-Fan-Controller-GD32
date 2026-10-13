@@ -89,7 +89,8 @@
 <rect x="658" y="226" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="683.0" y="241" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB11</text>
 <circle cx="634" cy="260" r="5" fill="#d9c27a"/>
 <line x1="634" y1="260" x2="656" y2="260" stroke="#7a8aa8" stroke-width="1.5"/>
-<rect x="658" y="250" width="50" height="20" rx="4" fill="#e6ecf7"/><text x="683.0" y="265" text-anchor="middle" font-size="12" font-weight="700" fill="#10264d">PB10</text>
+<rect x="658" y="250" width="50" height="20" rx="4" fill="#f9a825"/><text x="683.0" y="265" text-anchor="middle" font-size="12" font-weight="700" fill="#000">PB10</text>
+<text x="716" y="265" font-size="13" font-weight="700" fill="#f9a825">&#8592; LDR daylight sensor (option)</text>
 <circle cx="634" cy="284" r="5" fill="#d9c27a"/>
 <line x1="634" y1="284" x2="656" y2="284" stroke="#7a8aa8" stroke-width="1.5"/>
 <rect x="658" y="274" width="41" height="20" rx="4" fill="#5d4037"/><text x="678.5" y="289" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">PB1</text>

@@ -33,6 +33,9 @@ With the LEDs wired: PIR LED lights when motion is seen; light/fan LEDs follow t
 ## 2d. Humidity sensor (only if fitted)
 Set `HUMIDITY_SENSOR` to 11 or 22, rebuild, flash. Breathe on the sensor or hold it over steam: above 70 % RH the fan relay should start and stay on; at 62 % or below it stops. Disconnect the DATA wire for 20 s: the fault LED must glow steadily and the fan must not stay on. Reconnect: the LED clears.
 
+## 2e. Daylight sensor (only if fitted)
+Set `DAYLIGHT_SENSOR` to 1, rebuild, flash. Cover the LDR (dark): a visit switches the light on. Shine a torch or point it at the window (bright), wait 10 s: a new visit must NOT switch the light on but the fan relay still starts after 30 s. The override button must still switch the light on. If the behaviour is inverted, flip `DAYLIGHT_BRIGHT_LEVEL`.
+
 ## 3. Relay logic test (module powered, **no mains, no load**)
 1. Wire relay module VCC/GND/IN1/IN2 only; contacts unconnected.
 2. Confirm at power-up both relay LEDs are OFF and no click is heard. **If they are ON, flip `RELAY_ACTIVE_LOW`.**

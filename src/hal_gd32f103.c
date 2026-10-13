@@ -229,6 +229,16 @@ bool hal_humidity_read(uint8_t raw[5])
 #endif
 }
 
+bool hal_daylight_bright(void)
+{
+#if DAYLIGHT_SENSOR
+    bool level = (GPIO_ISTAT(DAYLIGHT_PORT) & (1UL << DAYLIGHT_PIN)) != 0;
+    return level == (DAYLIGHT_BRIGHT_LEVEL != 0);
+#else
+    return false;
+#endif
+}
+
 bool hal_button_pressed(button_id_t id)
 {
     bool level;
@@ -261,6 +271,13 @@ void hal_init(bool light_off_level, bool fan_off_level)
         gpio_mode(btn_tab[i].port, btn_tab[i].pin, MODE_IN_PUPD);
         gpio_write(btn_tab[i].port, btn_tab[i].pin, BUTTON_ACTIVE_LOW);
     }
+
+#if DAYLIGHT_SENSOR
+    /* Digital LDR module: pull toward DARK so a disconnected wire reads dark. */
+    clock_enable_port(DAYLIGHT_PORT);
+    gpio_mode(DAYLIGHT_PORT, DAYLIGHT_PIN, MODE_IN_PUPD);
+    gpio_write(DAYLIGHT_PORT, DAYLIGHT_PIN, DAYLIGHT_BRIGHT_LEVEL == 0);
+#endif
 
     /* Safe state first: latch the OFF level, THEN make the pins outputs. */
     gpio_write(LIGHT_PORT, LIGHT_PIN, light_off_level);

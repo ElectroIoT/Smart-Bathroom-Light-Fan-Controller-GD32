@@ -22,6 +22,7 @@ extern int  wdt_kicks;
 extern bool fake_sensor_ok;         /* false = humidity read fails */
 extern int  fake_rh_pct;            /* simulated relative humidity */
 extern int  humidity_reads;
+extern bool fake_daylight;          /* true = bright */
 
 void fake_reset(uint32_t start_time);
 /** Simulated power cycle: clears everything except the stored flag. */
