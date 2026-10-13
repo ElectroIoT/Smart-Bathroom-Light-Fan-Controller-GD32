@@ -165,6 +165,8 @@ Set `HUMIDITY_SENSOR` in [`include/config.h`](include/config.h) to `11` (DHT11) 
 
 Stop it before flashing (only one program can use the ST-Link at a time). It needs `build/firmware.elf` from the firmware that is flashed.
 
+**LED wiring test:** `python tools/led_test.py` (or option 7 in the launcher) blinks the PIR, light relay, fan relay, FAULT and FAN-ENABLED LEDs one after another so you can see at a glance that each one is wired to the right pin. It works with the dashboard running.
+
 ## 🧰 Easiest way: VS Code (no Arduino needed)## 🧰 Easiest way: VS Code (no Arduino needed)
 
 Open the folder in VS Code and use **Terminal → Run Task**: *Test*, *Build firmware*, *Flash to board (ST-Link)*, or *Probe board*. One-time install list and screenshots-free steps: [`docs/vscode.md`](docs/vscode.md). From a terminal the same things are `python tools/build.py test`, `python tools/build.py firmware` and `python tools/flash.py`.
@@ -293,6 +295,7 @@ tools/build.py          build + test, no make needed
 tools/flash.py          flash through ST-Link (OpenOCD)
 tools/live_status.py    read live PIR / LDR / timer state through the ST-Link
 tools/dashboard.py      live test dashboard in the browser (http://localhost:8765)
+tools/led_test.py       blink each status LED in turn (wiring check)
 BathroomController.bat  Windows launcher: dashboard, tests, build, flash, setup
 .vscode/                one-click Test, Build, Flash tasks
 docs/                   design, wiring, programming, test plan, images

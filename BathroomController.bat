@@ -9,6 +9,7 @@ rem     BathroomController.bat build       build the firmware
 rem     BathroomController.bat flash       build + flash the board (ST-Link)
 rem     BathroomController.bat status      live status in text
 rem     BathroomController.bat setup       first-time setup (compiler + OpenOCD)
+rem     BathroomController.bat ledtest     blink each status LED in turn
 rem ---------------------------------------------------------------------------
 setlocal
 cd /d "%~dp0"
@@ -36,6 +37,7 @@ echo   3. Build the firmware
 echo   4. Flash the board  (ST-Link)
 echo   5. Live status in text
 echo   6. First-time setup  (installs the compiler and OpenOCD)
+echo   7. LED wiring test  (blinks each status LED in turn)
 echo   0. Exit
 echo.
 set "choice="
@@ -46,6 +48,7 @@ if "%choice%"=="3" goto build
 if "%choice%"=="4" goto flash
 if "%choice%"=="5" goto status
 if "%choice%"=="6" goto setup
+if "%choice%"=="7" goto ledtest
 if "%choice%"=="0" exit /b 0
 goto menu
 
@@ -79,6 +82,10 @@ goto end
 
 :status
 python tools\live_status.py 40 500
+goto end
+
+:ledtest
+python tools\led_test.py
 goto end
 
 :setup
