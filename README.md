@@ -146,6 +146,10 @@ Set `HUMIDITY_SENSOR` in [`include/config.h`](include/config.h) to `11` (DHT11) 
 - The fan enable/disable button still wins: a disabled fan is never started by humidity.
 - A reading takes about 4 ms once every 5 s, and is untested on real hardware. A DHT22 is more accurate than a DHT11.
 
+## 🖥 Live test dashboard
+
+Run `python tools/dashboard.py` (or the VS Code task *Live test dashboard*) and open **http://localhost:8765**. It reads the running board through the ST-Link (no serial adapter) and shows in real time: the raw PIR pin (a glowing motion light plus a 60-second strip chart), light and fan relays with countdowns, the fan start delay, the override, the LDR value with its bright/dark thresholds, both buttons, faults, an event log and a **test checklist** that ticks as you wave at the PIR, cover the LDR and press the buttons. Stop it before flashing (only one program can use the ST-Link at a time).
+
 ## 🧰 Easiest way: VS Code (no Arduino needed)
 
 Open the folder in VS Code and use **Terminal → Run Task**: *Test*, *Build firmware*, *Flash to board (ST-Link)*, or *Probe board*. One-time install list and screenshots-free steps: [`docs/vscode.md`](docs/vscode.md). From a terminal the same things are `python tools/build.py test`, `python tools/build.py firmware` and `python tools/flash.py`.
@@ -273,6 +277,7 @@ tests/                  PC tests with a fake hardware layer
 tools/build.py          build + test, no make needed
 tools/flash.py          flash through ST-Link (OpenOCD)
 tools/live_status.py    read live PIR / LDR / timer state through the ST-Link
+tools/dashboard.py      live test dashboard in the browser (http://localhost:8765)
 .vscode/                one-click Test, Build, Flash tasks
 docs/                   design, wiring, programming, test plan, images
 ```

@@ -26,6 +26,7 @@ File → Open Folder → the repository folder.
 | **2. Build firmware** | Creates `build/firmware.elf` and `build/firmware.bin`. Also the default build shortcut: `Ctrl+Shift+B`. |
 | **3. Flash to board (ST-Link)** | Builds, then programs and verifies the board and resets it. |
 | **Probe board (read only, no flashing)** | Checks that the ST-Link can see the chip. Good first test after wiring. |
+| **Live test dashboard (open http://localhost:8765)** | A live web page: PIR motion light, light and fan relays with countdowns, LDR value and thresholds, buttons, event log and a test checklist. Reads the board through the ST-Link. Stop it (trash icon on the terminal) before flashing. |
 | **Live status (PIR, LDR, timers via ST-Link)** | Reads the running board through the ST-Link for 20 s and prints the raw PIR pin, the LDR ADC value, daylight state, relays, timers and buttons. No serial adapter needed. Wave at the PIR or cover the LDR while it runs. |
 
 Build with an option on, for example the bare LDR: in a terminal run `FW_DEFINES="-DDAYLIGHT_SENSOR=2" python tools/build.py firmware` (Windows PowerShell: `$env:FW_DEFINES="-DDAYLIGHT_SENSOR=2"; python tools/build.py firmware`), or simply edit `include/config.h`.

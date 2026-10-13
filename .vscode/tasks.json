@@ -61,6 +61,17 @@
         "clear": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Live test dashboard (open http://localhost:8765)",
+      "type": "shell",
+      "command": "python tools/dashboard.py",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
     }
   ]
 }

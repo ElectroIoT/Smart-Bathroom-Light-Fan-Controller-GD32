@@ -41,11 +41,11 @@ def symbols(path):
     return out
 
 
-def offsets():
+def offsets(fields=None):
     """Struct offsets from a tiny C program, so they always match controller.h."""
     code = ('#include <stdio.h>\n#include <stddef.h>\n#include "controller.h"\n#include "daylight.h"\n'
             "int main(void){\n")
-    for f in FIELDS:
+    for f in (fields or FIELDS):
         code += f'printf("{f} %d\\n", (int)offsetof(ctrl_t, {f}));\n'
     code += 'printf("sizeof %d\\n", (int)sizeof(ctrl_t));\nreturn 0;}\n'
     tmp = tempfile.mkdtemp()

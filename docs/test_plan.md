@@ -21,6 +21,9 @@ Last run: all passed (this session).
 4. Set `PIR_ACTIVE_HIGH` to match if behaviour is inverted.
 
 ## 2a. Live check without a serial adapter
+Easiest: start the live test dashboard (`python tools/dashboard.py`, then open http://localhost:8765). It shows the PIR, relays, countdowns, LDR and buttons in real time and ticks a checklist as you test each input.
+
+Or in text form:
 Run `python tools/live_status.py` (or the VS Code task *Live status*). While it samples, wave at the PIR and cover or light the LDR. You should see `PIR_pin` go HIGH on motion and LOW again after the PIR's TIME delay, `pir=1` and `light=1` follow, and the `ADC` value rise with light. The fan starts about 30 s after the light.
 
 ## 2b. Status LED test
