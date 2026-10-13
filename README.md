@@ -127,7 +127,7 @@ To switch all LEDs off except the red FAULT LED (for example for a dark bedroom 
 
 All values are in [`include/config.h`](include/config.h). Wire each button between its pin and GND (internal pull-up).
 
-## ☀ Optional daylight sensor (LDR, off by default)
+## ☀ Daylight sensor (bare LDR: on in the default config, set `DAYLIGHT_SENSOR 0` if not fitted)
 
 <p align="center">
   <img src="docs/img/ldr-wiring.svg" alt="Bare LDR and 10 kilo-ohm resistor divider to PA7, facing the window" width="90%">
@@ -141,7 +141,7 @@ Set `DAYLIGHT_SENSOR` to `2` for a **bare LDR** (3V3 → LDR → PA7 → 10 kΩ 
   <img src="docs/img/humidity-wiring.svg" alt="DHT11 or DHT22 humidity sensor wired to PB12 with a pull-up and 3.3 V" width="90%">
 </p>
 
-Set `HUMIDITY_SENSOR` in [`include/config.h`](include/config.h) to `11` (DHT11) or `22` (DHT22); `0` keeps it off (default).
+**Off by default** (no sensor fitted). To use a sensor, open [`include/config.h`](include/config.h), set `HUMIDITY_ENABLE` to `1` and `HUMIDITY_TYPE` to `11` (DHT11) or `22` (DHT22). With `HUMIDITY_ENABLE 0` the feature is completely off: PB12 is not touched and there is no humidity logic.
 
 - **Humid (70 % or more):** the fan starts by itself (even without motion) and is held ON.
 - **Back to normal (62 % or less):** a humidity-only run stops; after a visit the normal 10-minute fan timer applies again.
@@ -213,7 +213,7 @@ Recovery steps and driver notes: [`docs/programming.md`](docs/programming.md).
 
 Set the PIR's own TIME dial to its **minimum** so the microcontroller timers decide the delay. Buttons: PB0 forces the light on for 30 min; PB1 enables or disables the fan (saved in flash; the FAN-ENABLED LED shows it).
 
-Settings in [`include/config.h`](include/config.h): `LIGHT_TIMEOUT_MS`, `FAN_TIMEOUT_MS`, `PIR_ACTIVE_HIGH`, `RELAY_ACTIVE_LOW`, all pins, `PIR_WARMUP_MS`, `PIR_DEBOUNCE_MS`, `PIR_STUCK_HIGH_MS`, `LIGHT_WARN_BEFORE_MS`, `FAN_START_DELAY_MS`, `LIGHT_OVERRIDE_MS`, `ENABLE_WATCHDOG`, and the options `HUMIDITY_SENSOR` and `DAYLIGHT_SENSOR`.
+Settings in [`include/config.h`](include/config.h): `LIGHT_TIMEOUT_MS`, `FAN_TIMEOUT_MS`, `PIR_ACTIVE_HIGH`, `RELAY_ACTIVE_LOW`, all pins, `PIR_WARMUP_MS`, `PIR_DEBOUNCE_MS`, `PIR_STUCK_HIGH_MS`, `LIGHT_WARN_BEFORE_MS`, `FAN_START_DELAY_MS`, `LIGHT_OVERRIDE_MS`, `ENABLE_WATCHDOG`, and the options `HUMIDITY_ENABLE` / `HUMIDITY_TYPE` and `DAYLIGHT_SENSOR`.
 
 ## 🧪 Tests
 
@@ -260,7 +260,7 @@ Quantities are for **one controller**. *Required* = needed for the basic system,
 | 9 | Push button | normally-open, 6 mm tactile or panel mount | 2 | Required for buttons | Light override (PB0), fan enable/disable (PB1) |
 | 10 | Bare LDR (photoresistor) | e.g. 5 mm, about 10 kΩ at 10 lux | 1 | Optional | Daylight lockout, `DAYLIGHT_SENSOR 2` |
 | 11 | Resistor, LDR divider | 10 kΩ, 0.25 W | 1 | Optional | With the bare LDR |
-| 12 | Humidity sensor | DHT22 (or DHT11) | 1 | Optional | `HUMIDITY_SENSOR 22` or `11`; DHT22 is more accurate |
+| 12 | Humidity sensor | DHT22 (or DHT11) | 1 | Optional | Not fitted now. To use it: `HUMIDITY_ENABLE 1`, `HUMIDITY_TYPE 22` or `11`; DHT22 is more accurate |
 | 13 | Resistor, DHT pull-up | 10 kΩ (4.7 kΩ to 10 kΩ), 0.25 W | 1 | Optional | 3-pin DHT modules already include it |
 | 14 | Digital LDR module | 4-pin with dial | 0 to 1 | Optional | Alternative to #10 and #11 (`DAYLIGHT_SENSOR 1`) |
 | 15 | Jumper wires / small wire | Dupont, about 20 cm | 1 set (about 30 pcs) | Required | Low-voltage wiring only |

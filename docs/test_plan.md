@@ -38,7 +38,7 @@ With the LEDs wired: PIR LED lights when motion is seen; light/fan LEDs follow t
 6. **LED silent mode:** hold BOTH buttons for 5 seconds. Every LED glows together once (about 1.5 s), then all LEDs stay dark except the red FAULT LED. The relays still work. Power-cycle: the LEDs must still be dark. Hold both buttons for 5 seconds again: every LED glows once and the LEDs work normally again. A short two-button press (under 5 s) must do nothing, and a single press must still work.
 
 ## 2d. Humidity sensor (only if fitted)
-Set `HUMIDITY_SENSOR` to 11 or 22, rebuild, flash. Breathe on the sensor or hold it over steam: above 70 % RH the fan relay should start and stay on; at 62 % or below it stops. Disconnect the DATA wire for 20 s: the fault LED must glow steadily and the fan must not stay on. Reconnect: the LED clears.
+Set `HUMIDITY_ENABLE` to 1 and `HUMIDITY_TYPE` to 11 or 22 in `config.h`, rebuild, flash. Breathe on the sensor or hold it over steam: above 70 % RH the fan relay should start and stay on; at 62 % or below it stops. Disconnect the DATA wire for 20 s: the fault LED must glow steadily and the fan must not stay on. Reconnect: the LED clears.
 
 ## 2e. Daylight sensor (only if fitted)
 Set `DAYLIGHT_SENSOR` to 2 (bare LDR on PA7) or 1 (digital module on PB10), rebuild, flash. For the bare LDR open the debug serial and note the `LDR ... adc=` values in daylight and in the dark, then set `LDR_BRIGHT_ADC` and `LDR_DARK_ADC`. Cover the LDR (dark): a visit switches the light on. Shine a torch or point it at the window (bright), wait 10 s: a new visit must NOT switch the light on but the fan relay still starts after 30 s. The override button must still switch the light on. If the behaviour is inverted, flip `DAYLIGHT_BRIGHT_LEVEL`.

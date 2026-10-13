@@ -190,7 +190,7 @@ def poll():
     relay_low = config_number("RELAY_ACTIVE_LOW", 1) != 0
     led_low = config_number("STATUS_LED_ACTIVE_LOW", 0) != 0
     sys_led_low = config_number("LED_ACTIVE_LOW", 1) != 0
-    hum_sensor = config_number("HUMIDITY_SENSOR", 0)
+    hum_sensor = config_number("HUMIDITY_ENABLE", 0)        # 0 = no humidity sensor fitted
     proc = start_openocd()
     rpc = Rpc()
     if not rpc.connect():

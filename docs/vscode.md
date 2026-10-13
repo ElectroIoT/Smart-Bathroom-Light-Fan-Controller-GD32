@@ -34,7 +34,7 @@ Build with an option on, for example the bare LDR: in a terminal run `FW_DEFINES
 On Windows you can also double-click `BathroomController.bat` in the project folder: a menu starts the live dashboard, runs the tests, builds, flashes, or does the first-time setup (compiler and OpenOCD).
 
 ## 4. Change a setting
-Open `include/config.h`, edit a value (for example `LIGHT_TIMEOUT_MS`, `RELAY_ACTIVE_LOW`, `HUMIDITY_SENSOR`), then run task 3. The settings file is the only place you normally need to edit.
+Open `include/config.h`, edit a value (for example `LIGHT_TIMEOUT_MS`, `RELAY_ACTIVE_LOW`, `HUMIDITY_ENABLE`), then run task 3. The settings file is the only place you normally need to edit.
 
 ## 5. Wiring and first flash
 1. Wire the ST-Link to the board's 4-pin SWD header by name (see the diagram in the README).

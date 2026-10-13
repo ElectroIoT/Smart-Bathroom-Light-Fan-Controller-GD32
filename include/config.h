@@ -219,12 +219,20 @@
 /* ------------------------------------------------------------------ */
 /* Optional humidity sensor (DHT11 / DHT22, one data wire)              */
 /* ------------------------------------------------------------------ */
-/* 0 = no sensor (default), 11 = DHT11, 22 = DHT22/AM2302.
- * With a sensor: the fan is held ON while the air is humid and (optionally)
- * started by humidity alone. A reading takes about 4 ms once every
- * HUMIDITY_POLL_MS (short, interrupts stay enabled). */
-#ifndef HUMIDITY_SENSOR
-#define HUMIDITY_SENSOR       0
+/* >>> HUMIDITY SENSOR ON/OFF SWITCH <<<
+ *   HUMIDITY_ENABLE 0 = sensor NOT fitted: the feature is completely off
+ *                       (PB12 is not touched, no readings, no humidity logic).
+ *   HUMIDITY_ENABLE 1 = sensor fitted: set HUMIDITY_TYPE to 11 (DHT11) or 22 (DHT22).
+ * With a sensor the fan is held ON while the air is humid and (optionally) started
+ * by humidity alone. A reading takes about 4 ms once every HUMIDITY_POLL_MS. */
+#ifndef HUMIDITY_ENABLE
+#define HUMIDITY_ENABLE       0           /* 0 = off (no sensor added yet), 1 = on */
+#endif
+#ifndef HUMIDITY_TYPE
+#define HUMIDITY_TYPE         22          /* 11 = DHT11, 22 = DHT22 / AM2302 */
+#endif
+#ifndef HUMIDITY_SENSOR                    /* derived: 0 = off, otherwise 11 or 22 (tests may force it) */
+#define HUMIDITY_SENSOR       (HUMIDITY_ENABLE ? HUMIDITY_TYPE : 0)
 #endif
 #ifndef HUMIDITY_PORT
 #define HUMIDITY_PORT         1
@@ -258,7 +266,7 @@
  * turns the light on. The sensor is read only while the lamp is OFF, and
  * a missing or broken sensor reads as dark (light works). 0 = off. */
 #ifndef DAYLIGHT_SENSOR
-#define DAYLIGHT_SENSOR       0
+#define DAYLIGHT_SENSOR       2           /* 2 = bare LDR fitted on PA7 (this build); 0 = no sensor */
 #endif
 #ifndef DAYLIGHT_PORT
 #define DAYLIGHT_PORT         1
