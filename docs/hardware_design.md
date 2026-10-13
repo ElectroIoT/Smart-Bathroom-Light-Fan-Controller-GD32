@@ -10,13 +10,13 @@
 |---|---|---|
 | Part | GD32F103C8T6, Cortex-M3, LQFP48 | ⚠️ (from your brief) |
 | Max clock | 108 MHz | ⚠️ (brief) — **not used**: firmware stays on the reset-default internal oscillator, `SYSCLK_HZ = 8 MHz` |
-| Flash / SRAM | 64 KB / 20 KB | ⚠️ (brief). Linker script uses these (smaller = safe). Firmware is ~1 KB |
+| Flash / SRAM | 64 KB / 20 KB | ⚠️ (brief). Linker script uses these (smaller = safe; the last 1 KB page is reserved for saved settings). Firmware is about 3 KB. The chip reported 128 KiB when probed |
 | Logic level | 3.3 V | ⚠️ treat every GPIO as **3.3 V only**, even if the datasheet marks some pins 5 V tolerant |
 | Reset-default clock = 8 MHz IRC | | ⚠️ — if wrong, ms timing is wrong (timers off by a constant factor) |
 | Register layout (RCU/GPIO/USART) same as STM32F103 | | ⚠️ — see `src/hal_gd32f103.c` header |
 | SysTick registers | ARM architectural | ✅ (Cortex-M3 standard) |
-| Toolchain builds & links | `arm-none-eabi`-style, Thumb-2 | ✅ built here with Zig's clang for `cortex_m3`: 1012 bytes, vector table checked |
-| Firmware runs on the chip | | ❌ **not tested on hardware** |
+| Toolchain builds & links | `arm-none-eabi`-style, Thumb-2 | ✅ built here with Zig's clang for `cortex_m3`: about 3 KB, vector table checked |
+| Firmware runs on the chip | | ✅ flashed and running on the real board (GPIO, clock, SysTick, watchdog read back). ❌ PIR, relays, buttons, LEDs and optional sensors **not bench-tested yet**; flash write, ADC and DHT code untested |
 
 ### To verify (official GigaDevice documents: GD32F103 datasheet + GD32F10x user manual)
 1. Absolute-max / recommended GPIO voltage; which pins are 5 V tolerant.
@@ -32,37 +32,44 @@
 * ✅ RCU_CFG0 = 0: system clock is the internal oscillator, no PLL (so the "reset-default IRC" assumption holds; its exact 8 MHz value is still to be confirmed with the stopwatch timer test).
 * Still untested: PIR input, relay switching, real 7/10 min timing.
 
-## 2. Pin assignment (proposal — `include/config.h`)
+## 2. Final pin assignment (`include/config.h`)
 
-| Function | MCU pin | Direction | Notes |
-|---|---|---|---|
-| PIR output | **PA0** | input, pull-down | ❓ voltage must be ≤ 3.3 V (see §4) |
-| Light relay IN | **PA1** | push-pull output | OFF level latched *before* output enable |
-| Fan relay IN | **PA2** | push-pull output | |
-| Debug TX | PA9 (USART0 TX) | AF output | optional, 9600 8N1 |
-| SWDIO / SWCLK | PA13 / PA14 | — | **not used by application** |
-| BOOT0 | dedicated pin | — | leave per your board; not used |
+| Function | MCU pin | Silkscreen | Direction / setting | Notes |
+|---|---|---|---|---|
+| PIR output | **PA0** | A0 | input, pull-down | ⚠️ must be ≤ 3.3 V (see §4) |
+| Light relay IN1 | **PA1** | A1 | push-pull output | OFF level latched *before* output enable |
+| Fan relay IN2 | **PA2** | A2 | push-pull output | |
+| PIR status LED | **PA3** | A3 | output, active-HIGH | 3 mm LED outside the box: GPIO → 330 Ω → LED → GND |
+| Light relay LED | **PA4** | A4 | output, active-HIGH | same wiring |
+| Fan relay LED | **PA5** | A5 | output, active-HIGH | same wiring |
+| Fault LED | **PA6** | A6 | output, active-HIGH | same wiring; fast blink = PIR stuck, steady = humidity sensor fault |
+| LDR analog input (option) | **PA7** | A7 | analog (ADC1 ch 7) | 3V3 → LDR → PA7 → 10 kΩ → GND |
+| Light override button | **PB0** | B0 | input, pull-up | normally-open button to GND |
+| Fan enable/disable button | **PB1** | B1 | input, pull-up | normally-open button to GND |
+| LDR digital module DO (alt. option) | **PB10** | B10 | input, pull toward dark | `DAYLIGHT_SENSOR 1` |
+| FAN-ENABLED LED | **PB11** | B11 | output, active-HIGH | lit = fan enabled |
+| DHT22 / DHT11 data (option) | **PB12** | B12 | single-wire | 3V3 supply, 4.7–10 kΩ pull-up |
+| Debug text (option) | **PA9** (USART0 TX) | A9 | AF output, 9600 8N1 | 3.3 V USB-serial RX |
+| System heartbeat LED | **PC13** | on-board LED | output, active-LOW (assumed) | |
+| ST-Link | PA13 / PA14 | SWDIO / SWCLK | SWD header | **not used by the application** |
+| BOOT0 / BOOT1 | dedicated | jumpers | leave both at 0 | |
 
 Physical location (board is Blue Pill style, read from the pinout images supplied by the user; USB connector at the top, see `docs/img/pinout.svg`):
 
 | Pin | Header | Position |
 |---|---|---|
 | PA0 (A0) | right | 5th from bottom |
-| PA1 (A1) | right | 6th from bottom |
-| PA2 (A2) | right | 7th from bottom |
+| PA1 (A1), PA2 (A2) | right | 6th and 7th from bottom |
+| PA3 to PA7 | right | the pins above PA2, in order |
+| PB0, PB1 | right | above PA7 (PB0 then PB1), see the pinout drawing |
+| PB10, PB11 | right | 6th and 5th from the top |
+| PB12 (B12) | left | 1st from top |
 | PA9 (A9) | left | 6th from top |
-| PC13 | on-board LED (labelled "PC13 LED" in the pinout images; the firmware heartbeat assumes active-LOW, to be confirmed by watching it blink) | |
+| PC13 | on-board LED (labelled "PC13 LED" in the pinout images) | |
 | 5V / GND / 3V3 | left | bottom three pins |
 | SWD | bottom edge 4-pin header | 3V3, SWDIO, SWCLK, GND |
 
-The silkscreen on your board is the final authority. Avoid PA13, PA14, PA15, PB3, PB4 (debug/JTAG), PC13 (typically on-board LED — often fine, but a weak driver), and BOOT0/BOOT1 (PB2).
-
-| LED PIR / LIGHT / FAN / FAULT | **PA3 / PA4 / PA5 / PA6** | push-pull output, active-HIGH | external LEDs outside the box: GPIO → 330 Ω–1 kΩ → LED → GND (see `docs/img/led-wiring.svg`) |
-| System LED | PC13 | on-board LED, active-LOW (assumed) | heartbeat |
-
-| BTN light override | **PB0** | input, pull-up | normally-open push button to GND |
-| BTN fan enable/disable | **PB1** | input, pull-up | normally-open push button to GND |
-| LED FAN-ENABLED | **PB11** | push-pull output, active-HIGH | lit = fan enabled |
+The silkscreen on your board is the final authority. The firmware avoids PA13, PA14, PA15, PB3, PB4 (debug/JTAG) and BOOT0/BOOT1 (PB2).
 
 **Saved setting:** the fan enable flag is stored in flash page `0x0800FC00` (the last 1 KB page of the first 64 KB; the linker reserves it). ⚠️ The flash controller registers (FMC) and the independent watchdog (FWDGT) use the STM32-compatible layout and have been seen working (watchdog starts, flag page readable) but flash *writing* from the button has not yet been tested on hardware.
 
@@ -75,7 +82,7 @@ The silkscreen on your board is the final authority. Avoid PA13, PA14, PA15, PB3
 | Rail | Requirement | Status |
 |---|---|---|
 | MCU board | 5 V in via its USB/5 V pin → on-board 3.3 V regulator, **or** 3.3 V direct | ❓ depends on board |
-| PIR | module-dependent (HC-SR501: 5–20 V in, 3.3 V logic out — ⚠️ typical, verify yours) | ❓ model unknown |
+| PIR | HC-SR501 type: 5–20 V in (use the 5V pin); output normally about 3.3 V | ⚠️ typical, measure yours |
 | Relay module | usually 5 V coil supply (JD-VCC) | ❓ model unknown |
 | Supply | one regulated 5 V DC supply (≥1 A suggested; 2 coils ≈ 150–200 mA + PIR + MCU) | ❓ your existing supply |
 

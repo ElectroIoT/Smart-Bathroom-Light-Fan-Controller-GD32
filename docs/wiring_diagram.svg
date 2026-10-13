@@ -1,106 +1,233 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 700" font-family="Arial, Helvetica, sans-serif" font-size="13">
-  <rect width="1100" height="700" fill="#ffffff"/>
-  <text x="550" y="28" text-anchor="middle" font-size="20" font-weight="bold">Bathroom light &amp; fan controller - wiring (DRAFT, unverified modules)</text>
-
-  <!-- zones -->
-  <rect x="15" y="45" width="640" height="560" fill="#eef5ff" stroke="#2a62c9" stroke-width="2" stroke-dasharray="8 4"/>
-  <text x="30" y="68" font-weight="bold" fill="#2a62c9" font-size="15">LOW-VOLTAGE SIDE (5 V / 3.3 V DC)</text>
-  <rect x="690" y="45" width="395" height="560" fill="#fff0f0" stroke="#c62828" stroke-width="2" stroke-dasharray="8 4"/>
-  <text x="705" y="68" font-weight="bold" fill="#c62828" font-size="15">230 V AC MAINS SIDE - DANGER</text>
-
-  <!-- power supply -->
-  <rect x="40" y="95" width="150" height="90" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="115" y="125" text-anchor="middle" font-weight="bold">5 V DC regulated</text>
-  <text x="115" y="143" text-anchor="middle">supply (rating: VERIFY)</text>
-  <text x="170" y="165" text-anchor="end">+5V</text><text x="170" y="180" text-anchor="end">GND</text>
-
-  <!-- PIR -->
-  <rect x="40" y="260" width="150" height="110" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="115" y="285" text-anchor="middle" font-weight="bold">PIR sensor</text>
-  <text x="115" y="302" text-anchor="middle">(HC-SR501 type, 5-20 V in)</text>
-  <text x="50" y="330">VCC</text><text x="50" y="345">OUT</text><text x="50" y="360">GND</text>
-  <rect x="45" y="378" width="140" height="42" fill="#fff3cd" stroke="#b58900"/>
-  <text x="115" y="395" text-anchor="middle" fill="#7a5a00">VERIFY: OUT voltage</text>
-  <text x="115" y="411" text-anchor="middle" fill="#7a5a00">must be &#8804; 3.3 V</text>
-
-  <!-- MCU -->
-  <rect x="330" y="150" width="190" height="320" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="425" y="175" text-anchor="middle" font-weight="bold">GD32F103C8T6 board</text>
-  <text x="425" y="192" text-anchor="middle">(Blue Pill style - see docs/img/pinout.svg)</text>
-  <text x="340" y="235">PA0 / A0 (in) &#8592; PIR OUT</text>
-  <text x="340" y="275">PA1 / A1 (out) &#8594; relay IN1 (light)</text>
-  <text x="340" y="315">PA2 / A2 (out) &#8594; relay IN2 (fan)</text>
-  <text x="340" y="355">PA9 / A9 (TX) &#8594; debug (optional)</text>
-  <text x="340" y="395">5V pin (or micro-USB) powers board</text>
-  <text x="340" y="425">GND</text>
-  <text x="340" y="455" fill="#555">PA13/PA14 = SWD (leave free)</text>
-
-  <!-- relay module -->
-  <rect x="560" y="470" width="0" height="0"/>
-  <rect x="330" y="500" width="300" height="90" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="480" y="522" text-anchor="middle" font-weight="bold">2-channel relay module (model: UNKNOWN)</text>
-  <text x="340" y="542">VCC  IN1  IN2  GND   (control side)</text>
-  <text x="340" y="560">Polarity: RELAY_ACTIVE_LOW - VERIFY on bench</text>
-  <text x="340" y="577" fill="#7a5a00">10 k pull to OFF level on IN1/IN2 (if module lacks one)</text>
-
-  <!-- wires: PSU -->
-  <g stroke-width="2" fill="none">
-    <path d="M190 165 H260 V440 H320" stroke="#d00000"/>          <!-- +5V to MCU 5V -->
-    <path d="M190 180 H245 V455 H320" stroke="#000"/>             <!-- GND bus -->
-    <path d="M260 165 V335 H190" stroke="#d00000"/>               <!-- +5V to PIR VCC (verify V) -->
-    <path d="M245 180 V360 H190" stroke="#000"/>                  <!-- GND to PIR -->
-    <path d="M190 345 H300 V235 H330" stroke="#0a7d28"/>          <!-- PIR OUT to PA0 -->
-    <path d="M520 275 H600 V490 H300 V556 H330" stroke="#0a7d28"/><!-- PA1 to IN1 -->
-    <path d="M520 315 H615 V485 H312 V572 H330" stroke="#0a7d28"/><!-- PA2 to IN2 -->
-    <path d="M260 440 V538 H330" stroke="#d00000"/>               <!-- 5V to relay VCC -->
-    <path d="M245 455 V590 H330" stroke="#000"/>                  <!-- GND to relay GND -->
-  </g>
-  <text x="195" y="160" font-size="11" fill="#d00000">+5V</text>
-  <text x="195" y="195" font-size="11">GND (common)</text>
-  <text x="205" y="338" font-size="11" fill="#0a7d28">OUT</text>
-  <rect x="236" y="212" width="86" height="16" fill="#fff3cd" stroke="#b58900"/>
-  <text x="279" y="224" text-anchor="middle" font-size="10" fill="#7a5a00">verify before power</text>
-
-  <!-- mains -->
-  <rect x="720" y="95" width="170" height="60" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="805" y="120" text-anchor="middle" font-weight="bold">230 V AC input</text>
-  <text x="805" y="138" text-anchor="middle">Phase (L) / Neutral (N) / PE</text>
-  <rect x="720" y="195" width="170" height="40" fill="#fff3cd" stroke="#b58900"/>
-  <text x="805" y="212" text-anchor="middle" fill="#7a5a00">Fuse / MCB sized for</text>
-  <text x="805" y="227" text-anchor="middle" fill="#7a5a00">relay + wire (VERIFY)</text>
-
-  <rect x="720" y="300" width="170" height="70" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="805" y="322" text-anchor="middle" font-weight="bold">Relay 1 contacts</text>
-  <text x="805" y="340" text-anchor="middle">COM &#8592; L   NO &#8594; light</text>
-  <text x="805" y="358" text-anchor="middle" fill="#7a5a00">rating vs LED inrush: VERIFY</text>
-
-  <rect x="720" y="400" width="170" height="70" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="805" y="422" text-anchor="middle" font-weight="bold">Relay 2 contacts</text>
-  <text x="805" y="440" text-anchor="middle">COM &#8592; L   NO &#8594; fan</text>
-  <text x="805" y="458" text-anchor="middle" fill="#7a5a00">inductive load rating: VERIFY</text>
-
-  <rect x="930" y="300" width="130" height="70" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="995" y="340" text-anchor="middle" font-weight="bold">LED light</text>
-  <rect x="930" y="400" width="130" height="70" fill="#fff" stroke="#000" stroke-width="2"/>
-  <text x="995" y="440" text-anchor="middle" font-weight="bold">Exhaust fan</text>
-
-  <g stroke-width="3" fill="none" stroke="#c62828">
-    <path d="M805 155 V195"/>
-    <path d="M805 235 V268 H705 V335 H720"/>
-    <path d="M705 335 V435 H720"/>
-    <path d="M890 335 H930"/>
-    <path d="M890 435 H930"/>
-  </g>
-  <text x="700" y="290" font-size="11" fill="#c62828" transform="rotate(-90 700 290)">Phase (L) only switched</text>
-  <text x="705" y="500" font-size="12" fill="#c62828">Neutral and PE go directly to loads (not shown for clarity).</text>
-  <text x="705" y="518" font-size="12" fill="#c62828">Relay contacts sit in the relay module's own mains terminals.</text>
-
-  <!-- notes -->
-  <rect x="705" y="535" width="365" height="60" fill="#ffe0e0" stroke="#c62828"/>
-  <text x="715" y="555" fill="#7f0000" font-weight="bold">Mains: insulated enclosure, strain relief,</text>
-  <text x="715" y="572" fill="#7f0000" font-weight="bold">qualified electrician. No breadboards.</text>
-  <text x="715" y="588" fill="#7f0000">Bench-test with NO mains first.</text>
-
-  <text x="30" y="640" font-size="12" fill="#444">Legend: red = +5 V, black = GND, green = signal, yellow box = must be verified before power-up. Wire routes are schematic only, not physical layout.</text>
-  <text x="30" y="660" font-size="12" fill="#444">Generic drawing: the relay module, PIR and board headers are not yet identified. Do not wire from this alone; see docs/hardware_design.md.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 960" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+<rect width="1320" height="960" rx="14" fill="#ffffff"/>
+<text x="660.0" y="30" font-size="21" font-weight="700" fill="#10264d" text-anchor="middle">Final wiring diagram - Smart Bathroom Light &amp; Fan Controller (GD32F103C8T6)</text>
+<rect x="15" y="50" width="925" height="800" rx="10" fill="#eef5ff" stroke="#2a62c9" stroke-width="2" stroke-dasharray="8 4"/>
+<text x="30" y="72" font-size="15" font-weight="700" fill="#2a62c9" text-anchor="start">LOW-VOLTAGE SIDE (5 V / 3.3 V DC)</text>
+<rect x="955" y="50" width="350" height="800" rx="10" fill="#fff0f0" stroke="#c62828" stroke-width="2" stroke-dasharray="8 4"/>
+<text x="970" y="72" font-size="15" font-weight="700" fill="#c62828" text-anchor="start">230 V AC MAINS SIDE - DANGER</text>
+<rect x="410" y="85" width="220" height="745" rx="10" fill="#fff" stroke="#10264d" stroke-width="3"/>
+<text x="520.0" y="109" font-size="16" font-weight="700" fill="#10264d" text-anchor="middle">GD32F103C8T6 board</text>
+<text x="520.0" y="126" font-size="11" font-weight="400" fill="#666" text-anchor="middle">(Blue Pill style, USB at top)</text>
+<text x="420" y="155" font-size="13" font-weight="600" fill="#10264d" text-anchor="start">5V pin</text>
+<text x="420" y="180" font-size="13" font-weight="600" fill="#10264d" text-anchor="start">3V3 pin</text>
+<text x="420" y="205" font-size="13" font-weight="600" fill="#10264d" text-anchor="start">GND pin</text>
+<line x1="410" y1="150" x2="396" y2="150" stroke="#d32f2f" stroke-width="2.5"/>
+<rect x="358" y="140" width="38" height="20" rx="4" fill="#d32f2f"/>
+<text x="377.0" y="155" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">5V</text>
+<line x1="410" y1="175" x2="396" y2="175" stroke="#ef6c00" stroke-width="2.5"/>
+<rect x="358" y="165" width="38" height="20" rx="4" fill="#ef6c00"/>
+<text x="377.0" y="180" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">3V3</text>
+<line x1="410" y1="200" x2="396" y2="200" stroke="#222" stroke-width="2.5"/>
+<rect x="358" y="190" width="38" height="20" rx="4" fill="#222"/>
+<text x="377.0" y="205" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<text x="420" y="255" font-size="13" font-weight="600" fill="#10264d" text-anchor="start">PA0  (A0)</text>
+<text x="420" y="385" font-size="13" font-weight="600" fill="#10264d" text-anchor="start">PB0  (B0)</text>
+<text x="420" y="455" font-size="13" font-weight="600" fill="#10264d" text-anchor="start">PB1  (B1)</text>
+<text x="420" y="545" font-size="13" font-weight="600" fill="#10264d" text-anchor="start">PA7  (A7)</text>
+<text x="420" y="665" font-size="13" font-weight="600" fill="#10264d" text-anchor="start">PB12 (B12)</text>
+<text x="420" y="765" font-size="13" font-weight="600" fill="#10264d" text-anchor="start">SWDIO (PA13)</text>
+<text x="420" y="790" font-size="13" font-weight="600" fill="#10264d" text-anchor="start">SWCLK (PA14)</text>
+<text x="420" y="740" font-size="11" font-weight="700" fill="#666" text-anchor="start">SWD header:</text>
+<text x="620" y="130" font-size="13" font-weight="600" fill="#10264d" text-anchor="end">PA1 (A1)</text>
+<text x="620" y="160" font-size="13" font-weight="600" fill="#10264d" text-anchor="end">PA2 (A2)</text>
+<text x="620" y="295" font-size="13" font-weight="600" fill="#10264d" text-anchor="end">PA3 (A3)</text>
+<text x="620" y="355" font-size="13" font-weight="600" fill="#10264d" text-anchor="end">PA4 (A4)</text>
+<text x="620" y="415" font-size="13" font-weight="600" fill="#10264d" text-anchor="end">PA5 (A5)</text>
+<text x="620" y="475" font-size="13" font-weight="600" fill="#10264d" text-anchor="end">PA6 (A6)</text>
+<text x="620" y="535" font-size="13" font-weight="600" fill="#10264d" text-anchor="end">PB11 (B11)</text>
+<text x="620" y="595" font-size="13" font-weight="600" fill="#10264d" text-anchor="end">PC13 on-board LED</text>
+<text x="620" y="645" font-size="13" font-weight="600" fill="#10264d" text-anchor="end">PA9 (A9) debug TX</text>
+<text x="520.0" y="700" font-size="11" font-weight="400" fill="#666" text-anchor="middle">BOOT0 / BOOT1: both at 0</text>
+<rect x="30" y="85" width="190" height="88" rx="8" fill="#fff" stroke="#10264d" stroke-width="2"/>
+<text x="125" y="108" font-size="14" font-weight="700" fill="#10264d" text-anchor="middle">5 V DC supply</text>
+<text x="125" y="126" font-size="11" font-weight="400" fill="#666" text-anchor="middle">regulated, 1 A or more</text>
+<line x1="220" y1="145" x2="234" y2="145" stroke="#d32f2f" stroke-width="2.5"/>
+<rect x="234" y="135" width="38" height="20" rx="4" fill="#d32f2f"/>
+<text x="253.0" y="150" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">5V</text>
+<line x1="220" y1="162" x2="234" y2="162" stroke="#222" stroke-width="2.5"/>
+<rect x="234" y="152" width="38" height="20" rx="4" fill="#222"/>
+<text x="253.0" y="167" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<text x="125" y="150" font-size="11" font-weight="700" fill="#d32f2f" text-anchor="middle">+5V</text>
+<text x="125" y="166" font-size="11" font-weight="700" fill="#222" text-anchor="middle">GND</text>
+<text x="30" y="192" font-size="11" font-weight="400" fill="#444" text-anchor="start">Feeds the board 5V pin (or the board USB).</text>
+<rect x="30" y="215" width="190" height="120" rx="8" fill="#fff" stroke="#10264d" stroke-width="2"/>
+<text x="125" y="237" font-size="14" font-weight="700" fill="#10264d" text-anchor="middle">PIR  HC-SR501 type</text>
+<text x="125" y="253" font-size="11" font-weight="400" fill="#666" text-anchor="middle">TIME dial min, jumper H</text>
+<text x="45" y="283" font-size="12" font-weight="600" fill="#10264d" text-anchor="start">VCC</text>
+<text x="45" y="303" font-size="12" font-weight="600" fill="#10264d" text-anchor="start">OUT</text>
+<text x="45" y="323" font-size="12" font-weight="600" fill="#10264d" text-anchor="start">GND</text>
+<line x1="220" y1="279" x2="234" y2="279" stroke="#d32f2f" stroke-width="2.5"/>
+<rect x="234" y="269" width="38" height="20" rx="4" fill="#d32f2f"/>
+<text x="253.0" y="284" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">5V</text>
+<line x1="220" y1="319" x2="234" y2="319" stroke="#222" stroke-width="2.5"/>
+<rect x="234" y="309" width="38" height="20" rx="4" fill="#222"/>
+<text x="253.0" y="324" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<path d="M220 299 H300 V250 H410" fill="none" stroke="#1faa59" stroke-width="3"/>
+<rect x="30" y="340" width="190" height="18" rx="3" fill="#fff3cd" stroke="#b58900" stroke-width="1"/>
+<text x="125.0" y="353" font-size="10.5" font-weight="600" fill="#7a5a00" text-anchor="middle">VERIFY: OUT must be 3.3 V or less</text>
+<rect x="30" y="390" width="190" height="52" rx="8" fill="#fff" stroke="#6d4c41" stroke-width="2"/>
+<text x="125" y="412" font-size="12.5" font-weight="700" fill="#10264d" text-anchor="middle">Light override button</text>
+<text x="125" y="430" font-size="10.5" font-weight="400" fill="#666" text-anchor="middle">normally-open, pin to GND</text>
+<line x1="220" y1="433" x2="234" y2="433" stroke="#222" stroke-width="2.5"/>
+<rect x="234" y="423" width="38" height="20" rx="4" fill="#222"/>
+<text x="253.0" y="438" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<path d="M220 403 H300 V380 H410" fill="none" stroke="#6d4c41" stroke-width="3"/>
+<rect x="30" y="460" width="190" height="52" rx="8" fill="#fff" stroke="#5d4037" stroke-width="2"/>
+<text x="125" y="482" font-size="12.5" font-weight="700" fill="#10264d" text-anchor="middle">Fan enable/disable button</text>
+<text x="125" y="500" font-size="10.5" font-weight="400" fill="#666" text-anchor="middle">normally-open, pin to GND</text>
+<line x1="220" y1="503" x2="234" y2="503" stroke="#222" stroke-width="2.5"/>
+<rect x="234" y="493" width="38" height="20" rx="4" fill="#222"/>
+<text x="253.0" y="508" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<path d="M220 473 H300 V450 H410" fill="none" stroke="#5d4037" stroke-width="3"/>
+<rect x="30" y="535" width="190" height="100" rx="8" fill="#fff" stroke="#f9a825" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="125" y="555" font-size="12" font-weight="700" fill="#10264d" text-anchor="middle">LDR + 10 kΩ divider (optional)</text>
+<text x="45" y="578" font-size="11" font-weight="400" fill="#444" text-anchor="start">3V3 > LDR ></text>
+<text x="45" y="596" font-size="11" font-weight="600" fill="#1faa59" text-anchor="start">midpoint > PA7</text>
+<text x="45" y="614" font-size="11" font-weight="400" fill="#444" text-anchor="start">> 10 kΩ > GND</text>
+<line x1="220" y1="575" x2="234" y2="575" stroke="#ef6c00" stroke-width="2.5"/>
+<rect x="234" y="565" width="38" height="20" rx="4" fill="#ef6c00"/>
+<text x="253.0" y="580" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">3V3</text>
+<line x1="220" y1="615" x2="234" y2="615" stroke="#222" stroke-width="2.5"/>
+<rect x="234" y="605" width="38" height="20" rx="4" fill="#222"/>
+<text x="253.0" y="620" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<path d="M220 595 H300 V540 H410" fill="none" stroke="#f9a825" stroke-width="3" stroke-dasharray="6 4"/>
+<rect x="30" y="655" width="190" height="105" rx="8" fill="#fff" stroke="#999" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="125" y="675" font-size="12" font-weight="700" fill="#10264d" text-anchor="middle">DHT22 / DHT11 (optional)</text>
+<text x="45" y="698" font-size="12" font-weight="600" fill="#10264d" text-anchor="start">VCC</text>
+<text x="45" y="716" font-size="12" font-weight="600" fill="#10264d" text-anchor="start">DATA</text>
+<text x="45" y="734" font-size="12" font-weight="600" fill="#10264d" text-anchor="start">GND</text>
+<text x="110" y="716" font-size="10.5" font-weight="400" fill="#666" text-anchor="start">+ 10 kΩ pull-up</text>
+<line x1="220" y1="694" x2="234" y2="694" stroke="#ef6c00" stroke-width="2.5"/>
+<rect x="234" y="684" width="38" height="20" rx="4" fill="#ef6c00"/>
+<text x="253.0" y="699" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">3V3</text>
+<line x1="220" y1="730" x2="234" y2="730" stroke="#222" stroke-width="2.5"/>
+<rect x="234" y="720" width="38" height="20" rx="4" fill="#222"/>
+<text x="253.0" y="735" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<path d="M220 712 H320 V660 H410" fill="none" stroke="#999" stroke-width="3" stroke-dasharray="6 4"/>
+<rect x="30" y="780" width="190" height="62" rx="8" fill="#fff" stroke="#7aa7ff" stroke-width="2"/>
+<text x="125" y="800" font-size="12" font-weight="700" fill="#10264d" text-anchor="middle">ST-Link V2 (for flashing)</text>
+<text x="125" y="818" font-size="10.5" font-weight="400" fill="#666" text-anchor="middle">SWDIO, SWCLK, GND by name</text>
+<text x="125" y="834" font-size="10" font-weight="400" fill="#666" text-anchor="middle">3V3 only if board has no other power</text>
+<path d="M220 800 H330 V760 H410" fill="none" stroke="#4dd0e1" stroke-width="2.5"/>
+<path d="M220 815 H340 V785 H410" fill="none" stroke="#ffd54a" stroke-width="2.5"/>
+<rect x="700" y="90" width="190" height="155" rx="8" fill="#fff" stroke="#10264d" stroke-width="2"/>
+<text x="795" y="112" font-size="13.5" font-weight="700" fill="#10264d" text-anchor="middle">2-channel relay module</text>
+<text x="795" y="128" font-size="11" font-weight="400" fill="#666" text-anchor="middle">5 V coil, check polarity</text>
+<text x="712" y="152" font-size="12" font-weight="600" fill="#10264d" text-anchor="start">IN1  (light)</text>
+<text x="712" y="172" font-size="12" font-weight="600" fill="#10264d" text-anchor="start">IN2  (fan)</text>
+<text x="712" y="192" font-size="12" font-weight="600" fill="#10264d" text-anchor="start">VCC</text>
+<text x="712" y="210" font-size="12" font-weight="600" fill="#10264d" text-anchor="start">GND</text>
+<line x1="630" y1="125" x2="680" y2="125" stroke="#e0a800" stroke-width="3"/>
+<path d="M680 125 V148 H700" fill="none" stroke="#e0a800" stroke-width="3"/>
+<line x1="630" y1="155" x2="690" y2="155" stroke="#14a3b8" stroke-width="3"/>
+<path d="M690 155 V168 H700" fill="none" stroke="#14a3b8" stroke-width="3"/>
+<line x1="890" y1="190" x2="904" y2="190" stroke="#d32f2f" stroke-width="2.5"/>
+<rect x="904" y="180" width="38" height="20" rx="4" fill="#d32f2f"/>
+<text x="923.0" y="195" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">5V</text>
+<line x1="890" y1="208" x2="904" y2="208" stroke="#222" stroke-width="2.5"/>
+<rect x="904" y="198" width="38" height="20" rx="4" fill="#222"/>
+<text x="923.0" y="213" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<rect x="700" y="252" width="190" height="18" rx="3" fill="#fff3cd" stroke="#b58900" stroke-width="1"/>
+<text x="795.0" y="265" font-size="10.5" font-weight="600" fill="#7a5a00" text-anchor="middle">VERIFY: polarity + 3.3 V logic OK</text>
+<text x="710" y="228" font-size="10" font-weight="400" fill="#6b4e00" text-anchor="start">10 kΩ pull to OFF level on IN1/IN2</text>
+<text x="710" y="241" font-size="10" font-weight="400" fill="#6b4e00" text-anchor="start">if the module has none (design doc)</text>
+<line x1="630" y1="290" x2="680" y2="290" stroke="#d81b60" stroke-width="2.5"/>
+<rect x="680" y="281" width="44" height="18" rx="2" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="702" y="314" font-size="10" font-weight="400" fill="#444" text-anchor="middle">330 Ω</text>
+<line x1="724" y1="290" x2="738" y2="290" stroke="#d81b60" stroke-width="2.5"/>
+<circle cx="750" cy="290" r="11" fill="#d81b60"/>
+<line x1="761" y1="290" x2="775" y2="290" stroke="#222" stroke-width="2.5"/>
+<line x1="775" y1="290" x2="789" y2="290" stroke="#222" stroke-width="2.5"/>
+<rect x="789" y="280" width="38" height="20" rx="4" fill="#222"/>
+<text x="808.0" y="295" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<text x="835" y="294" font-size="11.5" font-weight="600" fill="#10264d" text-anchor="start">PIR LED</text>
+<line x1="630" y1="350" x2="680" y2="350" stroke="#f9a825" stroke-width="2.5"/>
+<rect x="680" y="341" width="44" height="18" rx="2" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="702" y="374" font-size="10" font-weight="400" fill="#444" text-anchor="middle">330 Ω</text>
+<line x1="724" y1="350" x2="738" y2="350" stroke="#f9a825" stroke-width="2.5"/>
+<circle cx="750" cy="350" r="11" fill="#f9a825"/>
+<line x1="761" y1="350" x2="775" y2="350" stroke="#222" stroke-width="2.5"/>
+<line x1="775" y1="350" x2="789" y2="350" stroke="#222" stroke-width="2.5"/>
+<rect x="789" y="340" width="38" height="20" rx="4" fill="#222"/>
+<text x="808.0" y="355" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<text x="835" y="354" font-size="11.5" font-weight="600" fill="#10264d" text-anchor="start">LIGHT relay LED</text>
+<line x1="630" y1="410" x2="680" y2="410" stroke="#00acc1" stroke-width="2.5"/>
+<rect x="680" y="401" width="44" height="18" rx="2" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="702" y="434" font-size="10" font-weight="400" fill="#444" text-anchor="middle">330 Ω</text>
+<line x1="724" y1="410" x2="738" y2="410" stroke="#00acc1" stroke-width="2.5"/>
+<circle cx="750" cy="410" r="11" fill="#00acc1"/>
+<line x1="761" y1="410" x2="775" y2="410" stroke="#222" stroke-width="2.5"/>
+<line x1="775" y1="410" x2="789" y2="410" stroke="#222" stroke-width="2.5"/>
+<rect x="789" y="400" width="38" height="20" rx="4" fill="#222"/>
+<text x="808.0" y="415" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<text x="835" y="414" font-size="11.5" font-weight="600" fill="#10264d" text-anchor="start">FAN relay LED</text>
+<line x1="630" y1="470" x2="680" y2="470" stroke="#e53935" stroke-width="2.5"/>
+<rect x="680" y="461" width="44" height="18" rx="2" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="702" y="494" font-size="10" font-weight="400" fill="#444" text-anchor="middle">330 Ω</text>
+<line x1="724" y1="470" x2="738" y2="470" stroke="#e53935" stroke-width="2.5"/>
+<circle cx="750" cy="470" r="11" fill="#e53935"/>
+<line x1="761" y1="470" x2="775" y2="470" stroke="#222" stroke-width="2.5"/>
+<line x1="775" y1="470" x2="789" y2="470" stroke="#222" stroke-width="2.5"/>
+<rect x="789" y="460" width="38" height="20" rx="4" fill="#222"/>
+<text x="808.0" y="475" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<text x="835" y="474" font-size="11.5" font-weight="600" fill="#10264d" text-anchor="start">FAULT LED</text>
+<line x1="630" y1="530" x2="680" y2="530" stroke="#43a047" stroke-width="2.5"/>
+<rect x="680" y="521" width="44" height="18" rx="2" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="702" y="554" font-size="10" font-weight="400" fill="#444" text-anchor="middle">330 Ω</text>
+<line x1="724" y1="530" x2="738" y2="530" stroke="#43a047" stroke-width="2.5"/>
+<circle cx="750" cy="530" r="11" fill="#43a047"/>
+<line x1="761" y1="530" x2="775" y2="530" stroke="#222" stroke-width="2.5"/>
+<line x1="775" y1="530" x2="789" y2="530" stroke="#222" stroke-width="2.5"/>
+<rect x="789" y="520" width="38" height="20" rx="4" fill="#222"/>
+<text x="808.0" y="535" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<text x="835" y="534" font-size="11.5" font-weight="600" fill="#10264d" text-anchor="start">FAN-ENABLED LED</text>
+<text x="700" y="565" font-size="10.5" font-weight="400" fill="#444" text-anchor="start">3 mm LEDs outside the box, GPIO > 330 Ω > LED > GND</text>
+<line x1="630" y1="640" x2="700" y2="640" stroke="#8e5bd6" stroke-width="2.5" stroke-dasharray="6 4"/>
+<text x="706" y="644" font-size="11" font-weight="400" fill="#6b3fb0" text-anchor="start">optional USB-serial RX (3.3 V), 9600 baud</text>
+<rect x="975" y="90" width="200" height="62" rx="8" fill="#fff" stroke="#10264d" stroke-width="2"/>
+<text x="1075" y="112" font-size="14" font-weight="700" fill="#10264d" text-anchor="middle">230 V AC input</text>
+<text x="1075" y="130" font-size="11" font-weight="400" fill="#666" text-anchor="middle">Phase L / Neutral N / Earth PE</text>
+<rect x="975" y="175" width="200" height="40" rx="6" fill="#fff3cd" stroke="#b58900" stroke-width="1.5"/>
+<text x="1075" y="192" font-size="11.5" font-weight="700" fill="#7a5a00" text-anchor="middle">Fuse / MCB sized for</text>
+<text x="1075" y="207" font-size="11.5" font-weight="700" fill="#7a5a00" text-anchor="middle">contacts + wire (VERIFY)</text>
+<line x1="1075" y1="152" x2="1075" y2="175" stroke="#c62828" stroke-width="3.5"/>
+<rect x="975" y="260" width="200" height="78" rx="8" fill="#fff" stroke="#10264d" stroke-width="2"/>
+<text x="1075" y="282" font-size="14" font-weight="700" fill="#10264d" text-anchor="middle">Relay 1 contacts</text>
+<text x="1075" y="300" font-size="11.5" font-weight="400" fill="#333" text-anchor="middle">COM &#8592; Phase    NO &#8594; light</text>
+<text x="1075" y="320" font-size="10.5" font-weight="600" fill="#7a5a00" text-anchor="middle">rating vs LED inrush: VERIFY</text>
+<rect x="975" y="380" width="200" height="78" rx="8" fill="#fff" stroke="#10264d" stroke-width="2"/>
+<text x="1075" y="402" font-size="14" font-weight="700" fill="#10264d" text-anchor="middle">Relay 2 contacts</text>
+<text x="1075" y="420" font-size="11.5" font-weight="400" fill="#333" text-anchor="middle">COM &#8592; Phase    NO &#8594; fan</text>
+<text x="1075" y="440" font-size="10.5" font-weight="600" fill="#7a5a00" text-anchor="middle">inductive load rating: VERIFY</text>
+<path d="M1075 215 V240 H962 V299 H975" fill="none" stroke="#c62828" stroke-width="3.5"/>
+<path d="M962 299 V419 H975" fill="none" stroke="#c62828" stroke-width="3.5"/>
+<rect x="1215" y="270" width="80" height="58" rx="8" fill="#fff" stroke="#10264d" stroke-width="2"/>
+<text x="1255" y="304" font-size="12.5" font-weight="700" fill="#10264d" text-anchor="middle">LED lamp</text>
+<rect x="1215" y="390" width="80" height="58" rx="8" fill="#fff" stroke="#10264d" stroke-width="2"/>
+<text x="1255" y="424" font-size="12.5" font-weight="700" fill="#10264d" text-anchor="middle">Exhaust fan</text>
+<line x1="1175" y1="299" x2="1215" y2="299" stroke="#c62828" stroke-width="3.5"/>
+<line x1="1175" y1="419" x2="1215" y2="419" stroke="#c62828" stroke-width="3.5"/>
+<line x1="1195" y1="152" x2="1195" y2="235" stroke="#1565c0" stroke-width="3"/>
+<path d="M1195 235 H1305 V500" fill="none" stroke="#1565c0" stroke-width="3"/>
+<path d="M1305 328 H1295" fill="none" stroke="#1565c0" stroke-width="3"/>
+<path d="M1305 448 H1295" fill="none" stroke="#1565c0" stroke-width="3"/>
+<text x="1190" y="232" font-size="11" font-weight="700" fill="#1565c0" text-anchor="end">N</text>
+<text x="1305" y="515" font-size="10.5" font-weight="400" fill="#1565c0" text-anchor="end">Neutral to both loads</text>
+<text x="1075" y="500" font-size="10.5" font-weight="400" fill="#2e7d32" text-anchor="middle">Earth (PE): connect to the lamp and fan body per local rules</text>
+<text x="960" y="242" font-size="10" font-weight="400" fill="#10264d" text-anchor="start"></text>
+<text x="965" y="560" font-size="10.5" font-weight="400" fill="#7f0000" text-anchor="start">Relay contacts are the screw terminals on the same</text>
+<text x="965" y="575" font-size="10.5" font-weight="400" fill="#7f0000" text-anchor="start">relay module: they are shown here on the mains side.</text>
+<rect x="965" y="610" width="330" height="205" rx="8" fill="#ffe0e0" stroke="#c62828" stroke-width="1.5"/>
+<text x="978" y="633" font-size="13" font-weight="700" fill="#7f0000" text-anchor="start">MAINS SAFETY</text>
+<text x="978" y="656" font-size="11.5" font-weight="400" fill="#7f0000" text-anchor="start">Insulated enclosure, strain relief, correct clearances.</text>
+<text x="978" y="678" font-size="11.5" font-weight="400" fill="#7f0000" text-anchor="start">No mains on breadboards or loose wires.</text>
+<text x="978" y="700" font-size="11.5" font-weight="400" fill="#7f0000" text-anchor="start">Only the PHASE is switched by the relays.</text>
+<text x="978" y="722" font-size="11.5" font-weight="400" fill="#7f0000" text-anchor="start">Keep low-voltage wires apart from 230 V wires.</text>
+<text x="978" y="744" font-size="11.5" font-weight="400" fill="#7f0000" text-anchor="start">Bench-test with NO mains first (docs/test_plan.md).</text>
+<text x="978" y="766" font-size="11.5" font-weight="400" fill="#7f0000" text-anchor="start">A qualified electrician must install or inspect.</text>
+<rect x="30" y="860" width="1275" height="80" rx="8" fill="#fff" stroke="#c9d6ee" stroke-width="1.5"/>
+<text x="45" y="882" font-size="13" font-weight="700" fill="#10264d" text-anchor="start">How to read this drawing</text>
+<text x="45" y="902" font-size="11.5" font-weight="400" fill="#333" text-anchor="start">Tags with the same name are joined: GND = the common ground of every part, 5V = the 5 V supply and board 5V pin, 3V3 = the board 3V3 pin.</text>
+<text x="45" y="920" font-size="11.5" font-weight="400" fill="#333" text-anchor="start">Dashed boxes and dashed wires are optional parts. Yellow notes must be verified before power-up. Wire routes are schematic, not physical layout.</text>
+<text x="45" y="936" font-size="11.5" font-weight="400" fill="#333" text-anchor="start">Pin positions on the board: see docs/img/pinout.svg. Settings and options: include/config.h.</text>
 </svg>

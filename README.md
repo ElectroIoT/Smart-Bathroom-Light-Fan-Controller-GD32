@@ -5,7 +5,7 @@
 <p align="center">
   <img alt="MCU" src="https://img.shields.io/badge/MCU-GD32F103C8T6-1b4b8f">
   <img alt="Language" src="https://img.shields.io/badge/firmware-C-blue">
-  <img alt="Tests" src="https://img.shields.io/badge/logic%20tests-64x4%20%2B%2037x2%20%2B%2030x2%20passing-brightgreen">
+  <img alt="Tests" src="https://img.shields.io/badge/logic%20tests-422%20checks%20passing-brightgreen">
   <img alt="Hardware" src="https://img.shields.io/badge/hardware%20test-pending-orange">
 </p>
 
@@ -45,13 +45,14 @@ Example: motion at 0:00 and again at 4:00 → light off at 11:00, fan off at 14:
 ## 📍 Board pinout (Blue Pill style, USB at top)
 
 <p align="center">
-  <img src="docs/img/pinout.svg" alt="Pinout of the GD32F103C8T6 board with PA0, PA1, PA2, PA9, PC13 and the SWD header highlighted" width="80%">
+  <img src="docs/img/pinout.svg" alt="Pinout of the GD32F103C8T6 board with every used pin and the SWD header highlighted" width="80%">
 </p>
 
 **Where to wire (USB connector at the top):**
 - **PA0 (silk: A0)**: right-hand header, 5th pin from the bottom, PIR output.
 - **PA1 (A1)** and **PA2 (A2)**: the next two pins above PA0, relay inputs for light and fan.
 - **5V, GND, 3V3**: left-hand header, the bottom three pins (also GND and 3V3 at the top of the right header).
+- **PA3 to PA7, PB0, PB1, PB10, PB11**: right header (LEDs, buttons, optional LDR); **PB12**: left header, 1st from the top (optional DHT).
 - **PA9 (A9)**: left header, 6th from the top, optional debug TX.
 - **PC13**: on-board LED (heartbeat).
 - **SWD header** (bottom edge): 3V3, SWDIO, SWCLK, GND, for the ST-Link.
@@ -81,7 +82,13 @@ Example: motion at 0:00 and again at 4:00 → light off at 11:00, fan off at 14:
 | Debug text (optional) | PA9 / A9 (TX, 9600 baud) |
 | ST-Link programming | PA13 (SWDIO), PA14 (SWCLK), GND |
 
-Detailed drawing with the 230 V side: [`docs/wiring_diagram.svg`](docs/wiring_diagram.svg). Full notes: [`docs/hardware_design.md`](docs/hardware_design.md).
+### Final wiring diagram (complete system, including the 230 V side)
+
+<p align="center">
+  <img src="docs/wiring_diagram.svg" alt="Complete wiring diagram: power supply, PIR, GD32 board, buttons, LEDs, optional sensors, relay module and the 230 V side" width="100%">
+</p>
+
+Open [`docs/wiring_diagram.svg`](docs/wiring_diagram.svg) for the full-size version. Same-named tags (5V, 3V3, GND) are joined. Full notes: [`docs/hardware_design.md`](docs/hardware_design.md).
 
 > 🛑 **Safety:** keep the low-voltage side and the 230 V side separate. No mains on breadboards. Do all bench tests with **no mains**, and have the mains wiring done or checked by a qualified electrician.
 
@@ -173,31 +180,42 @@ Recovery steps and driver notes: [`docs/programming.md`](docs/programming.md).
 ## 🧭 How to use
 
 1. Power up. For the first 60 s the controller ignores the PIR (PIR modules output junk while warming up). Relays stay OFF.
-2. Walk in: light and fan switch ON.
-3. Move again at any time: both countdowns restart.
+2. Walk in: the light switches ON at once and the fan starts 30 s later (if the fan is enabled).
+3. Move again at any time: both countdowns restart. About 30 s before the light goes off it blinks off for a moment: wave your hand to keep it on.
 4. Stop moving: light goes off after 7 min, fan after 10 min (from the last motion).
 5. If the relays act inverted, flip `RELAY_ACTIVE_LOW` in `config.h` and re-flash.
 
-Set the PIR's own hold-time dial to its **minimum** so the microcontroller timers decide the delay.
+Set the PIR's own TIME dial to its **minimum** so the microcontroller timers decide the delay. Buttons: PB0 forces the light on for 30 min; PB1 enables or disables the fan (saved in flash; the FAN-ENABLED LED shows it).
 
-Settings in [`include/config.h`](include/config.h): `LIGHT_TIMEOUT_MS`, `FAN_TIMEOUT_MS`, `PIR_ACTIVE_HIGH`, `RELAY_ACTIVE_LOW`, pins, `PIR_WARMUP_MS`, `PIR_DEBOUNCE_MS`, `PIR_STUCK_HIGH_MS`.
+Settings in [`include/config.h`](include/config.h): `LIGHT_TIMEOUT_MS`, `FAN_TIMEOUT_MS`, `PIR_ACTIVE_HIGH`, `RELAY_ACTIVE_LOW`, all pins, `PIR_WARMUP_MS`, `PIR_DEBOUNCE_MS`, `PIR_STUCK_HIGH_MS`, `LIGHT_WARN_BEFORE_MS`, `FAN_START_DELAY_MS`, `LIGHT_OVERRIDE_MS`, `ENABLE_WATCHDOG`, and the options `HUMIDITY_SENSOR` and `DAYLIGHT_SENSOR`.
 
 ## 🧪 Tests
 
 ```bash
 python tools/build.py test
 ```
-64 checks × 4 configurations (relay active-LOW/HIGH × PIR active-HIGH/LOW) for the core timers, plus 37 checks × 2 for warning blink, fan delay, override, fan button + persistence and watchdog, 30 checks × 2 (DHT11, DHT22) for the humidity option, and 22 checks for the daylight option: startup OFF, timeouts at the exact boundary, independent timers, repeated motion, PIR held HIGH, reset while energised, 32-bit tick rollover, status LEDs. Features file: warning blink, fan start delay, override, fan button persistence, button debounce, watchdog kicks. Step-by-step bench plan: [`docs/test_plan.md`](docs/test_plan.md).
+422 checks in total, all passing:
+
+| Test set | Checks |
+|---|---|
+| Core timers (startup OFF, exact timeouts, independent timers, repeated motion, PIR held HIGH, reset while energised, tick rollover, status LEDs) | 64 × 4 polarity variants |
+| Features (warning blink, fan start delay, override, fan button + persistence, debounce, watchdog) | 37 × 2 |
+| Humidity option (DHT11 and DHT22) | 30 × 2 |
+| Daylight option, digital module | 22 |
+| Daylight option, bare LDR (ADC) | 10 |
+ Step-by-step bench plan: [`docs/test_plan.md`](docs/test_plan.md).
 
 ## 📊 Project status (honest)
 
 | Item | State |
 |---|---|
-| Control logic + unit tests | ✅ passing on PC |
+| Control logic + unit tests (422 checks) | ✅ passing on PC |
 | Firmware compiles for Cortex-M3 (~3.0 KB) | ✅ |
-| GD32 register addresses, clock default | ⚠️ not yet checked against the official manual |
-| Running on real hardware | ❌ not tested yet |
-| PIR / relay module specifics | ❓ configurable, unconfirmed |
+| Flashed to the real GD32 board; GPIO, clock, SysTick and watchdog read back correctly | ✅ |
+| GD32 register addresses | ⚠️ match the running chip for GPIO/clock/watchdog; not checked against the official manual (flash write, ADC and DHT code untested) |
+| PIR, relays, buttons, LEDs, optional sensors on the bench | ❌ not tested yet |
+| PIR module | HC-SR501 type, output voltage still to be measured |
+| Relay module, lamp and fan ratings | ❓ unconfirmed |
 
 ## 🧾 Bill of materials (BOM)
 
@@ -239,22 +257,27 @@ Quantities are for **one controller**. *Required* = needed for the basic system,
 
 **Tools:** multimeter, small screwdrivers, wire stripper, soldering iron (optional), and a PC with VS Code ([`docs/vscode.md`](docs/vscode.md)).
 
-The exact PIR model, relay module and your lamp and fan ratings were not known when this list was written. Check them against [`docs/hardware_design.md`](docs/hardware_design.md) before buying or installing, and have a qualified electrician install or inspect the mains side. No prices are listed because they vary by seller.
+The PIR is an HC-SR501-type module; the relay module model and your lamp and fan ratings were not known when this list was written. Check them against [`docs/hardware_design.md`](docs/hardware_design.md) before buying or installing, and have a qualified electrician install or inspect the mains side. No prices are listed because they vary by seller.
 
 ## 🗂 Layout
 
 ```
-include/config.h        all settings, pins, polarity
+include/config.h        all settings, pins, polarity, options
 src/controller.[ch]     pure timer logic (no hardware)
-src/app.[ch]            PIR/relay polarity, safe start-up
+src/button.[ch]         button debounce
+src/humidity.[ch]       DHT decoding and humidity logic
+src/daylight.[ch]       daylight filter and ADC thresholds
+src/app.[ch]            glue: polarity, LEDs, buttons, safe start-up
 src/hal_gd32f103.c      GD32 register-level hardware layer
 tests/                  PC tests with a fake hardware layer
 tools/build.py          build + test, no make needed
-docs/                   design, wiring, programming, test plan
+tools/flash.py          flash through ST-Link (OpenOCD)
+.vscode/                one-click Test, Build, Flash tasks
+docs/                   design, wiring, programming, test plan, images
 ```
 
 ## Not included (on purpose)
-No Wi-Fi, Bluetooth, mmWave, display or cloud. Wi-Fi, mmWave, display and cloud features are not included.
+No Wi-Fi, Bluetooth, mmWave, display or cloud. The system is standalone.
 
 ---
 <sub>Part of [ElectroIoT](https://github.com/ElectroIoT) · always verify hardware ratings before connecting mains loads.</sub>
