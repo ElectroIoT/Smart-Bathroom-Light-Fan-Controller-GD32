@@ -8,6 +8,8 @@ Needs build/firmware.elf (the firmware that is flashed) and OpenOCD. The chip ke
 running while it is read. Shows the raw PIR pin, the LDR ADC value, daylight state
 and the controller state (light/fan timers, relays, buttons, humidity).
 """
+import hashlib
+import json
 import os
 import re
 import struct
@@ -23,6 +25,20 @@ ELF = os.path.join(ROOT, "build", "firmware.elf")
 FIELDS = ["light_out", "fan_out", "light_on", "fan_on", "fan_armed", "light_warn", "warned",
           "override_active", "fan_enabled", "humid", "fault_stuck", "pir_stable",
           "daylight_bright", "light_suppressed"]
+
+
+ALL_FIELDS = FIELDS + [
+    "start_ms", "last_motion_ms", "light_on_since_ms", "override_start_ms", "humid_since_ms",
+    "humid_expired", "fan_by_humid",
+    "cfg.light_timeout_ms", "cfg.fan_timeout_ms", "cfg.warmup_ms", "cfg.fan_start_delay_ms",
+    "cfg.override_ms", "cfg.warn_before_ms", "cfg.humid_max_run_ms",
+]
+CACHE = os.path.join(ROOT, "tools", "offsets.json")
+
+
+def _header_hash():
+    text = open(os.path.join(ROOT, "src", "controller.h"), encoding="utf-8").read()
+    return hashlib.sha1(text.replace("\r\n", "\n").encode()).hexdigest()
 
 
 def symbols(path):
@@ -42,10 +58,27 @@ def symbols(path):
 
 
 def offsets(fields=None):
+    """Struct offsets: from tools/offsets.json when it matches controller.h, else compiled (needs a C compiler)."""
+    fields = fields or ALL_FIELDS
+    try:
+        data = json.load(open(CACHE))
+        if data.get("hash") == _header_hash() and all(f in data["offsets"] for f in fields + ["sizeof"]):
+            return data["offsets"]
+    except (OSError, ValueError, KeyError):
+        pass
+    res = _compile_offsets(ALL_FIELDS)
+    try:
+        json.dump({"hash": _header_hash(), "offsets": res}, open(CACHE, "w"), indent=1)
+    except OSError:
+        pass
+    return res
+
+
+def _compile_offsets(fields):
     """Struct offsets from a tiny C program, so they always match controller.h."""
     code = ('#include <stdio.h>\n#include <stddef.h>\n#include "controller.h"\n#include "daylight.h"\n'
             "int main(void){\n")
-    for f in (fields or FIELDS):
+    for f in fields:
         code += f'printf("{f} %d\\n", (int)offsetof(ctrl_t, {f}));\n'
     code += 'printf("sizeof %d\\n", (int)sizeof(ctrl_t));\nreturn 0;}\n'
     tmp = tempfile.mkdtemp()

@@ -31,6 +31,8 @@ File → Open Folder → the repository folder.
 
 Build with an option on, for example the bare LDR: in a terminal run `FW_DEFINES="-DDAYLIGHT_SENSOR=2" python tools/build.py firmware` (Windows PowerShell: `$env:FW_DEFINES="-DDAYLIGHT_SENSOR=2"; python tools/build.py firmware`), or simply edit `include/config.h`.
 
+On Windows you can also double-click `BathroomController.bat` in the project folder: a menu starts the live dashboard, runs the tests, builds, flashes, or does the first-time setup (compiler and OpenOCD).
+
 ## 4. Change a setting
 Open `include/config.h`, edit a value (for example `LIGHT_TIMEOUT_MS`, `RELAY_ACTIVE_LOW`, `HUMIDITY_SENSOR`), then run task 3. The settings file is the only place you normally need to edit.
 

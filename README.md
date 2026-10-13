@@ -146,11 +146,26 @@ Set `HUMIDITY_SENSOR` in [`include/config.h`](include/config.h) to `11` (DHT11) 
 - The fan enable/disable button still wins: a disabled fan is never started by humidity.
 - A reading takes about 4 ms once every 5 s, and is untested on real hardware. A DHT22 is more accurate than a DHT11.
 
-## 🖥 Live test dashboard
+## 🖥 Live test dashboard (see everything working in real time)
 
-Run `python tools/dashboard.py` (or the VS Code task *Live test dashboard*) and open **http://localhost:8765**. It reads the running board through the ST-Link (no serial adapter) and shows in real time: the raw PIR pin (a glowing motion light plus a 60-second strip chart), light and fan relays with countdowns, the fan start delay, the override, the LDR value with its bright/dark thresholds, both buttons, faults, an event log and a **test checklist** that ticks as you wave at the PIR, cover the LDR and press the buttons. Stop it before flashing (only one program can use the ST-Link at a time).
+<p align="center">
+  <img src="docs/img/dashboard.png" alt="Live test dashboard: PIR motion, light and fan relays with running time, all LEDs, switches, LDR, test checklist and event log" width="100%">
+</p>
 
-## 🧰 Easiest way: VS Code (no Arduino needed)
+**Windows: double-click [`BathroomController.bat`](BathroomController.bat) and choose 1.** Or run `python tools/dashboard.py` (or the VS Code task) and open **http://localhost:8765**. It reads the running board through the ST-Link (no serial adapter) and shows:
+
+| Card | What you see |
+|---|---|
+| **PIR motion** | A glowing light for the raw PIR pin and a 60-second strip chart: wave your hand and watch it light up. |
+| **Light and fan relays** | ON or OFF, **how long each has been running**, total ON time, number of ON cycles, the countdown to turn-off, the fan start delay, and a check that the real relay pin matches what the controller wants. |
+| **All LEDs** | PIR, light relay, fan relay, FAULT, FAN-ENABLED and the on-board heartbeat LED: lit or dark, expected or not, with a green *WORKING* tag when the pin matches. |
+| **Switches** | Both buttons light up while pressed, count the presses, and show **WORKING** only if the press really changed something (override on or off; fan enabled or disabled, LED matching, and the setting **saved in flash**). |
+| **LDR** | The ADC value with the bright and dark thresholds and a 60-second chart. |
+| **Event log and checklist** | Every change with a timestamp, and a checklist that ticks as you test each input. |
+
+Stop it before flashing (only one program can use the ST-Link at a time). It needs `build/firmware.elf` from the firmware that is flashed.
+
+## 🧰 Easiest way: VS Code (no Arduino needed)## 🧰 Easiest way: VS Code (no Arduino needed)
 
 Open the folder in VS Code and use **Terminal → Run Task**: *Test*, *Build firmware*, *Flash to board (ST-Link)*, or *Probe board*. One-time install list and screenshots-free steps: [`docs/vscode.md`](docs/vscode.md). From a terminal the same things are `python tools/build.py test`, `python tools/build.py firmware` and `python tools/flash.py`.
 
@@ -278,6 +293,7 @@ tools/build.py          build + test, no make needed
 tools/flash.py          flash through ST-Link (OpenOCD)
 tools/live_status.py    read live PIR / LDR / timer state through the ST-Link
 tools/dashboard.py      live test dashboard in the browser (http://localhost:8765)
+BathroomController.bat  Windows launcher: dashboard, tests, build, flash, setup
 .vscode/                one-click Test, Build, Flash tasks
 docs/                   design, wiring, programming, test plan, images
 ```
