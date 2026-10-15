@@ -2,7 +2,9 @@
 
 *An open-source board that switches a bathroom light and exhaust fan from one PIR sensor, with a separate timer for each.*
 
-(Text for the EasyEDA / OSHWLab project page. The name was chosen by the project owner; a trademark or name clash search has not been done.)
+(Text for the EasyEDA / OSHWLab project page.)
+
+*Name check, 2026-10-15:* no GitHub repository, OSHWLab project or web page named "AutoBath-Light-Fan" was found. "AutoBath" on its own is used by car-detailing businesses (a different field) and two unrelated hobby repositories on GitHub. No trademark register was searched: do that before selling anything under this name.
 
 ## Introduction
 AutoBath-Light-Fan replaces the fixed delay of a normal PIR light switch with a small microcontroller (a GD32F103C8T6 on a Blue Pill style board, which plugs into the PCB). When someone walks in, the light turns on at once and the fan starts 30 seconds later. The light switches off 7 minutes after the last movement and the fan after 10 minutes, each on its own timer. About 30 seconds before the light goes off, it blinks off briefly: if you are sitting still, wave your hand to keep it on, which solves the usual "PIR loses a motionless person" problem.
