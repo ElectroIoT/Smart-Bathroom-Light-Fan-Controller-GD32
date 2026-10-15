@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" font-family="Segoe UI, Arial, Helvetica, sans-serif">
   <rect width="1200" height="760" rx="14" fill="#ffffff"/>
-  <text x="600" y="32" text-anchor="middle" font-size="21" font-weight="700" fill="#10264d">Custom PCB rev 1: block diagram and board zones</text>
+  <text x="600" y="32" text-anchor="middle" font-size="21" font-weight="700" fill="#10264d">AutoBath-Light-Fan PCB rev 1: block diagram and board zones</text>
 
   <!-- zones -->
   <rect x="20" y="55" width="500" height="600" rx="10" fill="#fff0f0" stroke="#c62828" stroke-width="2" stroke-dasharray="8 4"/>

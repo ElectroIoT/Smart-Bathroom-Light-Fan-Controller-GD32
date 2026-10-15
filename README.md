@@ -285,12 +285,12 @@ Quantities are for **one controller**. *Required* = needed for the basic system,
 
 The PIR is an HC-SR501-type module; the relay module model and your lamp and fan ratings were not known when this list was written. Check them against [`docs/hardware_design.md`](docs/hardware_design.md) before buying or installing, and have a qualified electrician install or inspect the mains side. No prices are listed because they vary by seller.
 
-## 🧩 Custom PCB (planned, EasyEDA)
+## 🧩 AutoBath-Light-Fan PCB (planned, EasyEDA)
 
 A custom board is being designed: your Blue Pill plugs into sockets, and the PCB carries the two relays with mains terminals, fuses, a varistor, an on-board 5 V AC-DC module, the LED, button and sensor connectors, and the relay drivers. **Design draft only: not built, not reviewed.** See [`docs/pcb/README.md`](docs/pcb/README.md) for the decisions, [`netlist.csv`](docs/pcb/netlist.csv), [`bom.csv`](docs/pcb/bom.csv), the layout and safety rules, and the staged bring-up plan. On that board the relays are driven by NPN transistors, so set `RELAY_ACTIVE_LOW 0` in `config.h`.
 
 <p align="center">
-  <img src="docs/pcb/pcb-block-diagram.svg" alt="Custom PCB block diagram: mains zone, isolation slot and low-voltage zone" width="100%">
+  <img src="docs/pcb/pcb-block-diagram.svg" alt="AutoBath-Light-Fan PCB block diagram: mains zone, isolation slot and low-voltage zone" width="100%">
 </p>
 
 ## 🗂 Layout

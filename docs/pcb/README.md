@@ -1,4 +1,4 @@
-# Custom PCB (EasyEDA) - rev 1 design package
+# AutoBath-Light-Fan: custom PCB (EasyEDA), rev 1 design package
 
 > **Status: DESIGN DRAFT. Nothing here has been built or reviewed.** Part details were not checked against datasheets (the datasheet lookups were not possible), so every part and footprint below has a "verify" flag. This board switches **230 V mains**: build and test it in stages (section 8) and have a **qualified electrician review the mains section** before it is installed.
 
@@ -17,6 +17,7 @@ Files in this folder:
 - [`netlist.csv`](netlist.csv): every signal, the Blue Pill socket pin and where it goes.
 - [`bom.csv`](bom.csv): every part with value, footprint hint, notes and a "must verify" flag.
 - [`pcb-block-diagram.svg`](pcb-block-diagram.svg): zones, slot and blocks.
+- [`PROJECT_INTRO.md`](PROJECT_INTRO.md): the project introduction text for the EasyEDA / OSHWLab page.
 
 ## 2. One firmware change for this board
 
@@ -59,7 +60,7 @@ Current budget (5 V rail): two relay coils about 70 mA each, plus the Blue Pill 
 - **No low-voltage track crosses the mains zone**, and no mains copper goes under the Blue Pill.
 - **Fuses and varistor close to the input terminal.** Put F1 first.
 - **Mounting holes** for plastic M3 standoffs only; keep mains copper well away from the screws.
-- **Silkscreen:** mark the mains area with "230 V" and a warning, and label every terminal (L, N, PE, LIGHT, FAN).
+- **Silkscreen:** print the project name and revision (**AutoBath-Light-Fan R1**) and the date, mark the mains area with "230 V" and a warning, and label every terminal (L, N, PE, LIGHT, FAN).
 - **Bathroom:** after assembly and testing, apply conformal coating (not on relays, headers or terminals), and mount the board in a closed enclosure outside the wet zone.
 
 ## 6. Before you order (checklist)
