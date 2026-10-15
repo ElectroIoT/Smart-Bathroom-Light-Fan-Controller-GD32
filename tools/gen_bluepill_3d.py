@@ -18,16 +18,16 @@ Extras, written to docs/pcb/3d/extras/ (reference or building blocks):
 Origin of every model: the TOP surface of the host PCB under the module, at the centre of the board. The board floats at
 Z0 = SOCKET_H + HDR_PLASTIC above it (the lift is built in, so no Z offset is needed in the 3D model manager).
 
-ASSUMPTIONS TO CHECK ON YOUR BOARD (edit the constants and re-run): board 53.34 x 22.86 mm (2.1 x 0.9 in), header row
-spacing ROW_MM = 20.32 mm (0.8 in), socket height SOCKET_H = 8.5 mm. Models are approximate, not an official drawing.
+MEASURED FROM A PHOTO (about +-0.4 mm, check on your board, edit the constants and re-run): board 53.34 x 22.5 mm, header row
+spacing ROW_MM = 15.24 mm (0.6 in); socket height SOCKET_H = 8.5 mm is a typical value, not measured. Models are approximate, not an official drawing.
 """
 import math
 import os
 import zipfile
 
 # ---------------------------------------------------------------- dimensions (edit and re-run)
-L_MM, W_MM, T_MM = 53.34, 22.86, 1.6     # board length (X, USB end = +X), width (Y), thickness
-ROW_MM = 20.32                           # distance between the two header rows (ASSUMED: measure!)
+L_MM, W_MM, T_MM = 53.34, 22.5, 1.6      # board length (X, USB end = +X), width (Y), thickness (measured from a photo, about +-0.4 mm)
+ROW_MM = 15.24                           # distance between the two header rows: 0.6 in (photo scaled by the 2.54 mm pin pitch, and two community footprints)
 PITCH = 2.54
 SOCKET_H = 8.5                           # height of the female sockets on the host PCB (measure)
 HDR_PLASTIC = 2.5                        # male header plastic block under the board
@@ -131,10 +131,10 @@ def part_board():
         for x in XS:
             box("gold", x, y, ZT, 1.7, 1.7, 0.05)                                   # pad
     ps = 0.13
-    for i, name in enumerate(LEFT):                                                  # pin names (silkscreen)
-        text("silk", name, XS[i], ROW_MM / 2 - 2.55, ZT + 0.01, (1, 0), (0, 1), ps)
+    for i, name in enumerate(LEFT):                                                  # pin names (silkscreen), outside the pad row like the real board
+        text("silk", name, XS[i], ROW_MM / 2 + 2.3, ZT + 0.01, (-1, 0), (0, -1), ps)
     for i, name in enumerate(RIGHT):
-        text("silk", name, XS[i], -ROW_MM / 2 + 2.55, ZT + 0.01, (-1, 0), (0, -1), ps)
+        text("silk", name, XS[i], -ROW_MM / 2 - 2.3, ZT + 0.01, (-1, 0), (0, -1), ps)
 
     # micro USB (+X end), overhanging the edge
     box("metal", L_MM / 2 - 3.9, 0, ZT, 5.6, 7.5, 2.6)
@@ -160,20 +160,20 @@ def part_board():
     box("metal", -12.0, 0, ZT, 4.6, 10.4, 3.4)
     box("black", -12.0, 0, ZT + 3.4, 4.0, 9.8, 0.05)
     text("silk", "8.000", -12.0, 0, ZT + 3.46, (0, -1), (1, 0), 0.12, mid=True)
-    box("metal", -6.5, 5.5, ZT, 1.5, 3.2, 0.9)
-    box("black", 17.5, 4.5, ZT, 3.6, 5.0, 3.3)
-    box("metal", 17.5, 4.5, ZT + 3.3, 2.6, 3.8, 0.3)
-    box("black", 17.5, 4.5, ZT + 3.6, 2.0, 2.0, 0.8)
-    text("silk", "RESET", 14.7, 4.5, ZT + 0.01, (0, -1), (1, 0), 0.10, mid=True)
+    box("metal", -6.5, 4.6, ZT, 1.5, 3.2, 0.9)
+    box("black", 17.5, 3.9, ZT, 3.6, 5.0, 3.3)
+    box("metal", 17.5, 3.9, ZT + 3.3, 2.6, 3.8, 0.3)
+    box("black", 17.5, 3.9, ZT + 3.6, 2.0, 2.0, 0.8)
+    text("silk", "RESET", 14.7, 3.9, ZT + 0.01, (0, -1), (1, 0), 0.10, mid=True)
 
     # BOOT0 / BOOT1 header (2x3) with two jumpers
-    box("black", 14.0, -4.5, ZT, 7.62, 5.08, 2.5)
+    box("black", 14.0, -3.6, ZT, 7.62, 5.08, 2.5)
     for ix in (-2.54, 0.0, 2.54):
         for iy in (-1.27, 1.27):
-            box("gold", 14.0 + ix, -4.5 + iy, ZT + 2.5, 0.64, 0.64, 3.0)
+            box("gold", 14.0 + ix, -3.6 + iy, ZT + 2.5, 0.64, 0.64, 3.0)
     for ix in (0.0, 2.54):
-        box("yellow", 14.0 + ix, -4.5, ZT + 2.5, 2.4, 5.0, 5.5)
-    text("silk", "BOOT", 8.7, -4.5, ZT + 0.01, (0, -1), (1, 0), 0.10, mid=True)
+        box("yellow", 14.0 + ix, -3.6, ZT + 2.5, 2.4, 5.0, 5.5)
+    text("silk", "BOOT", 8.7, -3.6, ZT + 0.01, (0, -1), (1, 0), 0.10, mid=True)
 
     # 3.3 V regulator (SOT-223), LEDs, small passives
     box("black", 12.0, 1.5, ZT, 3.5, 6.5, 1.6)
@@ -181,8 +181,8 @@ def part_board():
     box("green", -17.5, -5.2, ZT, 1.2, 2.0, 0.6)
     text("silk", "PC13", -20.5, -5.2, ZT + 0.01, (0, -1), (1, 0), 0.10, mid=True)
     box("red", -17.5, 5.2, ZT, 1.2, 2.0, 0.6)
-    for (x, y, r) in ((-14.5, -5.2, 0), (-14.5, 5.2, 0), (-3.0, -6.2, 0), (-3.0, 6.2, 0), (7.0, -4.5, 90), (7.0, 4.5, 90),
-                      (-9.0, 4.0, 0), (-9.0, -4.0, 0), (-14.5, 0.0, 90), (5.0, -6.2, 0), (5.0, 6.2, 0), (-6.5, -2.5, 90)):
+    for (x, y, r) in ((-14.5, -5.2, 0), (-14.5, 5.2, 0), (-3.0, -5.6, 0), (-3.0, 5.6, 0), (7.0, -4.5, 90), (7.0, 4.5, 90),
+                      (-9.0, 4.0, 0), (-9.0, -4.0, 0), (-14.5, 0.0, 90), (5.0, -5.6, 0), (5.0, 5.6, 0), (-6.5, -2.5, 90)):
         box("tan", x, y, ZT, 1.6, 0.8, 0.45, r)
     for (x, y) in ((0.0, 5.2), (0.0, -5.2), (-5.0, 0.0), (10.0, -4.0), (10.0, 4.5)):
         box("tan", x, y, ZT, 0.8, 1.6, 0.45)
@@ -316,7 +316,7 @@ def emit(folder, base, parts, full):
     write_wrl(os.path.join(folder, base + "_mm.wrl"), 1.0)
     if full:
         write_wrl(os.path.join(folder, base + "_kicad_scale.wrl"), 2.54)
-        write_obj_zip(os.path.join(folder, base + "_obj.zip"), base.lower())
+        write_obj_zip(os.path.join(folder, base + "_obj.zip"), base.lower() + "_rev2")   # unique title: EasyEDA rejects a duplicate model title
     print("  %-52s faces %5d" % (base, sum(len(f) for _, f in mesh.values())))
 
 

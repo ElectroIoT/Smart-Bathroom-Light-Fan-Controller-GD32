@@ -4,7 +4,7 @@ import math, os
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..") if "__file__" in globals() else "."
 OUTDIR = os.path.normpath(os.path.join(ROOT, "docs", "pcb", "eda"))
 os.makedirs(OUTDIR, exist_ok=True)
-ROW, PITCH, LEN, W = 20.32, 2.54, 53.34, 22.86
+ROW, PITCH, LEN, W = 15.24, 2.54, 53.34, 22.5   # row spacing and size measured from a photo (see docs/pcb/3d/README.md)
 
 def esc(s): return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
@@ -52,7 +52,7 @@ def rect_wires(x1,y1,x2,y2,layer,w):
 
 # ---------------- packages ----------------
 def pkg_bluepill():
-    o = ['<package name="BLUEPILL_40P"><description>Blue Pill module 53.34 x 22.86 mm, rows 20.32 mm apart (assumed, measure yours)</description>']
+    o = ['<package name="BLUEPILL_40P"><description>Blue Pill module 53.34 x 22.5 mm, rows 15.24 mm apart (measured from a photo, check yours)</description>']
     x0 = (19*PITCH)/2
     for i in range(20):
         x = x0 - i*PITCH      # pin 1 / pin 21 at +X, exactly where the 3D model has B12 and GND (USB end of the model = +X)

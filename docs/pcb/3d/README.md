@@ -1,67 +1,58 @@
-# Blue Pill (GD32F103C8T6) 3D models for EasyEDA, KiCad and other tools
+# Blue Pill (GD32F103C8T6 / STM32F103C8T6) part kit: 3D model, footprint, symbol
 
-Two ready-to-use models of a Blue Pill style board, **one with the pin headers and one without**, with the silkscreen text (pin names, RESET, BOOT, PC13, SWD) built into the 3D shape.
+A drop-in part for anyone who wants to design a carrier board for a Blue Pill style module, in **EasyEDA Pro** or **KiCad**. It has a 3D model (with the silkscreen text built in), a 2 x 20 through-hole footprint and a 40-pin symbol, all with the same pin numbering.
 
-| | Without header pins | With header pins |
+![Blue Pill with header pins](preview_WITH_header.jpg)
+
+![Blue Pill, all 40 pins and their roles in the AutoBath project](BluePill_pinout_all_pins.png)
+
+## What is in the box
+
+| What | File | Notes |
 |---|---|---|
-| Preview | ![without](preview_WITHOUT_header.jpg) | ![with](preview_WITH_header.jpg) |
-| EasyEDA / VRML (mm) | `BluePill_GD32F103C8T6_WITHOUT_header_mm.wrl` | `BluePill_GD32F103C8T6_WITH_header_mm.wrl` |
-| KiCad scale VRML | `..._WITHOUT_header_kicad_scale.wrl` | `..._WITH_header_kicad_scale.wrl` |
-| OBJ + MTL zip | `..._WITHOUT_header_obj.zip` | `..._WITH_header_obj.zip` |
-| Contains | board, gold pads, GD32F103C8T6 chip with marking, 8 MHz and 32.768 kHz crystals, micro-USB, reset button, BOOT0/BOOT1 jumpers, regulator, LEDs, SWD header, small parts, white silkscreen | everything on the left **plus both 1x20 male pin headers** (black plastic under the board, long gold pins down into the socket, tips above the board) |
+| 3D model with header pins | `BluePill_GD32F103C8T6_WITH_header_*` | for a good-looking assembly picture |
+| 3D model without header pins | `BluePill_GD32F103C8T6_WITHOUT_header_*` | use when your own socket / header part already draws the pins |
+| EasyEDA / EAGLE library | [`../eda/AutoBath_parts_and_BluePill.lbr`](../eda/) | Blue Pill symbol, footprint `BLUEPILL_40P` and device, plus the other parts of the AutoBath board |
+| KiCad footprint + symbol | [`../kicad/`](../kicad/) | `.kicad_mod` points at the `_kicad_scale.wrl` model |
+| Pin picture | `BluePill_pinout_all_pins.png` / `.svg` | every pin name and its role in this project |
 
-**Which one to use?** Use **WITH header** for a pretty 3D preview of the complete module. Use **WITHOUT header** when your own footprint or library part already draws the pin headers or sockets, so they are not doubled.
+Model formats: `..._mm.wrl` (VRML, millimetres), `..._kicad_scale.wrl` (VRML in KiCad's 2.54 scale), `..._obj.zip` (OBJ + MTL for EasyEDA Pro, titles end in `_rev2`).
+Extras in [`extras/`](extras/): one male header strip, one female socket strip, the module plugged into two sockets, and a tagged pin reference model (not for a PCB).
 
-## Reference extras (`extras/`)
-- `PinHeader_1x20_male_strip_mm.wrl`: one male header strip, to place once per row yourself.
-- `Socket_1x20_female_strip_mm.wrl`: one female socket strip.
-- `BluePill_WITH_header_and_sockets_assembly_mm.wrl`: the module plugged into two sockets (assembly view).
-- `BluePill_WITH_header_pinout_tags_reference_mm.wrl`: the module with colour-coded **project pin tags** (PIR OUT, RELAY1 LIGHT, LED FAULT, and so on) beside the headers, for pictures. The tags stick out beyond the board, so do not use it on a PCB.
+## Facts used, and where they come from
+These were checked against a top-down photo and community data on 2026-10-15. None of it is an official drawing.
+- **Size:** about 53.3 x 22.5 mm. [stm32-base.org](https://stm32-base.org/boards/STM32F103C8T6-Blue-Pill.html) lists 23 x 53 mm; scaling a top-down photo of the board by its 2.54 mm pin pitch gives 53.2 x 22.2 mm. Treat width as 22.5 mm +- 0.5 mm.
+- **Row spacing: 15.24 mm (0.6 in).** From the same photo (the two pad rows are 0.6 in apart); two independent community KiCad footprints (`l3VGV/blue-pill-kicad`, `DiamondTacoSoup/KiCad_BluePill_STM32F103C8T6_Schematic_Footprint`) use the same value. An earlier version of this kit assumed 20.32 mm, which was wrong.
+- **Pin order:** header 1 runs VBAT, C13, C14, C15, A0 ... B11, NRST, 3.3, G, G; header 2 runs 3.3, G, 5V, B9 ... B12 (stm32-base.org, and the silkscreen in the photo).
+- **Layout:** micro-USB at the end with B12 and GND, SWD header and the 8 MHz crystal at the end with 3.3 V and VBAT, BOOT jumpers and the reset button next to the USB connector. Silkscreen names sit outside the pad rows. Square pads mark VBAT and 3.3 V on the real board.
 
-![pinout tags](preview_pinout_tags_reference.jpg)
+## Using it
+### EasyEDA Pro
+1. File, Import, EAGLE, pick `../eda/AutoBath_parts_and_BluePill.lbr`, option **Extract Libraries**, tick all, Confirm. The device `BLUEPILL_GD32F103C8T6` appears under Library, Device, Personal (and in the Shift+F search).
+2. Add a 3D model: **New 3D Model**, pick one of the `_obj.zip` files, tick the model, Save. (The title must be unique in your library, otherwise EasyEDA says "Duplicate title".)
+3. Open footprint `BLUEPILL_40P` in the footprint editor, 3D Model, Personal list, pick the model, Confirm, Save. The 3D view shows the module standing in the pads.
 
-## Adding a model in EasyEDA Pro (tested)
-EasyEDA Pro (V3.2.206) accepts **`.zip` (OBJ + MTL), `.obj`, `.step` and `.stp`**. It rejects `.wrl` ("incorrect file format"), so use the OBJ zips from this folder:
-1. On the start page choose **New 3D Model** (or Library, 3D Model tab, Add).
-2. Pick the owner, keep the unit **default (mm)**, and select `BluePill_GD32F103C8T6_WITH_header_obj.zip` or `..._WITHOUT_header_obj.zip`.
-3. Tick the model in the **Model list** and click **Save**. The model appears under **Library, 3D Model, Personal**.
-4. Attach it to a footprint with the footprint editor's 3D model option.
+### KiCad
+Copy `../kicad/BluePill_GD32F103C8T6.kicad_mod` into a `.pretty` library next to `BluePill_GD32F103C8T6_WITH_header_kicad_scale.wrl`, add the `.kicad_sym` to a symbol library, and set the model path if you move the files.
 
-Both models were imported this way into the EasyEDA Pro personal library of the project owner (private). Pro's library menu for a personal 3D model offers Replace, Link to New Device, Modify, Save as and Delete, but **no "make public" option**, so sharing with everyone happens through this GitHub folder (or through a public OSHWLab project that uses the models).
+## Pin numbering
+Pins 1 to 20 are on the right, bottom to top (B12 up to 3.3). Pins 21 to 40 are on the left, bottom to top (GND up to VBAT). In the footprint, pin 1 and pin 21 are at the same end (the USB end of the model), pad 1 is square.
 
-![Blue Pill all 40 pins](BluePill_pinout_all_pins.png)
+## Model coordinates
+Origin is the top surface of the host PCB under the module, board centre. USB at **+X**; the row with B12 at **+Y**. The board floats 11 mm above the origin (8.5 mm socket plus 2.5 mm header plastic), so no Z offset is needed.
 
-One picture of the board with every pin name and its role in this project: [`BluePill_pinout_all_pins.png`](BluePill_pinout_all_pins.png) (SVG next to it). The EasyEDA schematic symbol uses the usual Blue Pill numbering: pins 1 to 20 on the right (B12 up to 3.3), pins 21 to 40 on the left (GND up to VBT), footprint pads numbered 1 to 40.
-
-## Placeable Device (symbol + footprint) and schematic for EasyEDA Pro
-`../eda/` holds two EAGLE files made by [`tools/gen_eagle_schematic.py`](../../../tools/gen_eagle_schematic.py):
-- `AutoBath_parts_and_BluePill.lbr`: the Blue Pill device (40-pin symbol, plain pin names B12, A0, GND, 3.3, RES, VBT) plus simple parts.
-- `AutoBath-Light-Fan_schematic.sch`: the full controller schematic (mains input, fuses, varistor, AC-DC module, two relay drivers, PIR, LDR, buttons, six LEDs, optional DHT and UART), nets joined by name labels, taken from `netlist.csv`.
-In EasyEDA Pro: File, Import, EAGLE, pick a file, option **Import Document and Extract Libraries** (for the .sch) or **Extract Libraries** (for the .lbr). Attach the 3D model to footprint `BLUEPILL_2X20` in the footprint editor (3D Model Manager, Personal list). Footprints other than the Blue Pill and plain headers are PLACEHOLDERS: verify the relay, AC-DC module and fuse holder against their datasheets.
-
-**Orientation:** the footprint pads match the 3D model's pin positions: pad 1 (B12) is at +X on the +Y row and pad 21 (GND) at +X on the -Y row, the USB end of the model. The model's USB-end assumption is from memory, not a datasheet: confirm which end of your real Blue Pill the USB connector is on before relying on it.
-
-## Adding a model in EasyEDA Standard edition
-1. Top menu **New → PCB 3D Lib**, then import `..._mm.wrl` (or the `_obj.zip`: EasyEDA wants OBJ zipped with its MTL; file extensions must be lowercase).
-2. In your PCB or footprint open **Tools → 3D Model Manager**, select the footprint, pick the imported model on the right.
-3. Match the model outline to the footprint (width, height, X, Y, rotation), then click **Update**, and check the **3D preview**.
-4. If the model comes out 2.54 times too big or too small, use the `_kicad_scale.wrl` version instead.
-
-(Steps from EasyEDA's own Standard-edition guide. EasyEDA Pro and other tools use different menus.)
-
-## Model coordinates and assumptions
-- Origin: the **top surface of the host PCB** under the module, at the centre of the board. USB connector at **+X**, the left header (looking down with USB at the top) at **+Y**.
-- The board floats **11 mm** above the origin (8.5 mm socket + 2.5 mm header plastic), so no Z offset is needed.
-- **These are approximate models, not official drawings.** Measure your own board and edit the constants at the top of [`tools/gen_bluepill_3d.py`](../../../tools/gen_bluepill_3d.py), then run it again:
-  - board **53.34 x 22.86 mm** (2.1 x 0.9 in),
-  - header row spacing **20.32 mm (0.8 in)** (the 22.86 mm figure is the board width: measure the row spacing on your board),
-  - socket height **8.5 mm**.
+## Still unverified
+- Row spacing and board size are measured from a photo (about +-0.4 mm). Put calipers on your own board before sending anything to a board house; edit the constants at the top of [`tools/gen_bluepill_3d.py`](../../../tools/gen_bluepill_3d.py) and [`tools/gen_eagle_schematic.py`](../../../tools/gen_eagle_schematic.py) and run them again.
+- Header pin length and socket height (8.5 mm) are typical values, not measured.
+- Boards from different makers differ slightly (clones, USB connector style, component placement).
 
 ## Regenerate
 ```bash
-python tools/gen_bluepill_3d.py
+python tools/gen_bluepill_3d.py          # 3D models
+python tools/gen_eagle_schematic.py      # EasyEDA / EAGLE library and the AutoBath schematic
+python tools/gen_kicad_bluepill.py       # KiCad footprint and symbol
+python tools/gen_bluepill_pinpic.py      # pin picture (SVG)
 ```
-All files in this folder are produced by that one script (pure Python, no extra packages).
 
 ## License
-Not chosen yet. A common choice for models like these is **CC0 1.0** (public domain) or **CC BY 4.0**. Add the licence you want before you publish.
+Not chosen yet. For something meant to be shared, CC0 1.0 (public domain) or CC BY 4.0 are the usual choices. Add the licence you want before you publish it somewhere other than this repository.
