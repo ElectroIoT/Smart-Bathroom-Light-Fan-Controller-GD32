@@ -1,5 +1,5 @@
 Ref,Qty,Part,Value / spec,Footprint (check in EasyEDA),Notes,Must verify
-U_MCU,1,Blue Pill style GD32F103C8T6 board,"plugs in, 3.3 V logic",2 x 1x20 female header 2.54 mm,"Rows are about 22.86 mm (0.9 in) apart on a Blue Pill: measure YOUR board with calipers before placing the sockets.",Yes: row spacing and board outline
+U_MCU,1,Blue Pill style GD32F103C8T6 board,"plugs in, 3.3 V logic",2 x 1x20 female header 2.54 mm,"The Blue Pill outline is about 53.3 x 22.9 mm (2.1 x 0.9 in) and the two header rows are probably about 20.3 mm (0.8 in) apart: 22.86 mm is the board WIDTH, not the row spacing. Measure YOUR board with calipers before placing the sockets.",Yes: row spacing and board outline
 J1 J2,2,Female pin socket,1x20 2.54 mm,"1x20 female header, through-hole",Sockets for the Blue Pill (do not solder the board in).,No
 PS1,1,AC-DC module,"5 V 600 mA 3 W, 100-240 VAC in (HLK-PM01 type)",Through-hole module: AC pins one side and DC pins the other,"Isolated module. Check the real pin spacing and height from the datasheet and keep the slot between its AC and DC sides.",Yes: datasheet pinout and size
 F1,1,Fuse for the module,"slow-blow, about 1 A 250 V (check the module datasheet)","5x20 mm fuse holder, enclosed, through-hole",Place right after the mains input.,Yes: rating from the AC-DC module datasheet

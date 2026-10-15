@@ -18,6 +18,7 @@ Files in this folder:
 - [`bom.csv`](bom.csv): every part with value, footprint hint, notes and a "must verify" flag.
 - [`pcb-block-diagram.svg`](pcb-block-diagram.svg): zones, slot and blocks.
 - [`PROJECT_INTRO.md`](PROJECT_INTRO.md): the project introduction text for the EasyEDA / OSHWLab page.
+- [`3d/`](3d/README.md): **3D models of the Blue Pill, one with and one without header pins** (VRML and OBJ, with silkscreen text), plus extras. Use them in the EasyEDA 3D Model Manager.
 - [`EASYEDA_PAGE.md`](EASYEDA_PAGE.md): the ready-to-paste EasyEDA / OSHWLab project page (name, short description, description, tags, license options) and `AutoBath-Light-Fan-cover.png` as the cover image.
 
 ## 2. One firmware change for this board
@@ -67,7 +68,7 @@ Current budget (5 V rail): two relay coils about 70 mA each, plus the Blue Pill 
 ## 6. Before you order (checklist)
 
 - [ ] Every footprint compared with its datasheet drawing.
-- [ ] Blue Pill socket row spacing measured on your own board.
+- [ ] Blue Pill outline and header row spacing measured on your own board (likely 53.3 x 22.9 mm and 20.3 mm rows, not yet confirmed); update the 3D model constants in `tools/gen_bluepill_3d.py` if they differ.
 - [ ] AC-DC module pinout, size and fuse recommendation checked in its datasheet.
 - [ ] Relay contact rating checked against your lamp (inrush) and fan, and F2 sized for them.
 - [ ] Terminal blocks rated for 250 V and the load current.
