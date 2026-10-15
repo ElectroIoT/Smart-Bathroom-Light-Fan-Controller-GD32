@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE eagle SYSTEM "eagle.dtd">
+<eagle version="9.6.2"><drawing><settings><setting alwaysvectorfont="no"/><setting verticaltext="up"/></settings>
+<grid distance="2.54" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="0.254" altunitdist="mm" altunit="mm"/>
+<layers><layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/><layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/><layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/><layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/><layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/><layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/><layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/><layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/><layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/><layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/><layer number="28" name="bValues" color="7" fill="1" visible="yes" active="yes"/><layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes"/><layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/><layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/><layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/><layer number="93" name="Pins" color="2" fill="1" visible="yes" active="yes"/><layer number="94" name="Symbols" color="4" fill="1" visible="yes" active="yes"/><layer number="95" name="Names" color="7" fill="1" visible="yes" active="yes"/><layer number="96" name="Values" color="7" fill="1" visible="yes" active="yes"/><layer number="97" name="Info" color="7" fill="1" visible="yes" active="yes"/><layer number="98" name="Guide" color="6" fill="1" visible="yes" active="yes"/></layers><library name="AutoBath"><description>AutoBath-Light-Fan parts (symbols are simple boxes; footprints marked PLACEHOLDER must be verified)</description>
+<packages><package name="HDR_1X2"><description>1x2 pin header 2.54 mm</description>
+<pad name="1" x="-1.270" y="0.000" drill="1.00" diameter="1.80" shape="square"/>
+<pad name="2" x="1.270" y="0.000" drill="1.00" diameter="1.80" shape="round"/>
+<wire x1="-2.540" y1="-1.300" x2="2.540" y2="-1.300" width="0.2" layer="21"/>
+<wire x1="2.540" y1="-1.300" x2="2.540" y2="1.300" width="0.2" layer="21"/>
+<wire x1="2.540" y1="1.300" x2="-2.540" y2="1.300" width="0.2" layer="21"/>
+<wire x1="-2.540" y1="1.300" x2="-2.540" y2="-1.300" width="0.2" layer="21"/>
+<text x="0" y="2.80" size="1.27" layer="25" align="center">&gt;NAME</text><text x="0" y="-2.80" size="1.27" layer="27" align="center">&gt;VALUE</text></package>
+<package name="HDR_1X3"><description>1x3 pin header 2.54 mm</description>
+<pad name="1" x="-2.540" y="0.000" drill="1.00" diameter="1.80" shape="square"/>
+<pad name="2" x="0.000" y="0.000" drill="1.00" diameter="1.80" shape="round"/>
+<pad name="3" x="2.540" y="0.000" drill="1.00" diameter="1.80" shape="round"/>
+<wire x1="-3.810" y1="-1.300" x2="3.810" y2="-1.300" width="0.2" layer="21"/>
+<wire x1="3.810" y1="-1.300" x2="3.810" y2="1.300" width="0.2" layer="21"/>
+<wire x1="3.810" y1="1.300" x2="-3.810" y2="1.300" width="0.2" layer="21"/>
+<wire x1="-3.810" y1="1.300" x2="-3.810" y2="-1.300" width="0.2" layer="21"/>
+<text x="0" y="2.80" size="1.27" layer="25" align="center">&gt;NAME</text><text x="0" y="-2.80" size="1.27" layer="27" align="center">&gt;VALUE</text></package>
+<package name="TERM_3P_5.08"><description>3-pole screw terminal 5.08 mm</description>
+<pad name="1" x="-5.080" y="0.000" drill="1.30" diameter="2.60" shape="square"/>
+<pad name="2" x="0.000" y="0.000" drill="1.30" diameter="2.60" shape="round"/>
+<pad name="3" x="5.080" y="0.000" drill="1.30" diameter="2.60" shape="round"/>
+<wire x1="-7.750" y1="-5.000" x2="7.750" y2="-5.000" width="0.2" layer="21"/>
+<wire x1="7.750" y1="-5.000" x2="7.750" y2="5.000" width="0.2" layer="21"/>
+<wire x1="7.750" y1="5.000" x2="-7.750" y2="5.000" width="0.2" layer="21"/>
+<wire x1="-7.750" y1="5.000" x2="-7.750" y2="-5.000" width="0.2" layer="21"/>
+<text x="0" y="6.50" size="1.27" layer="25" align="center">&gt;NAME</text><text x="0" y="-6.50" size="1.27" layer="27" align="center">&gt;VALUE</text></package>
+<package name="AXIAL_10.16"><description>axial resistor 0.4in (0207)</description>
+<pad name="1" x="-5.080" y="0.000" drill="1.00" diameter="1.80" shape="square"/>
+<pad name="2" x="5.080" y="0.000" drill="1.00" diameter="1.80" shape="round"/>
+<wire x1="-4.250" y1="-1.300" x2="4.250" y2="-1.300" width="0.2" layer="21"/>
+<wire x1="4.250" y1="-1.300" x2="4.250" y2="1.300" width="0.2" layer="21"/>
+<wire x1="4.250" y1="1.300" x2="-4.250" y2="1.300" width="0.2" layer="21"/>
+<wire x1="-4.250" y1="1.300" x2="-4.250" y2="-1.300" width="0.2" layer="21"/>
+<text x="0" y="2.80" size="1.27" layer="25" align="center">&gt;NAME</text><text x="0" y="-2.80" size="1.27" layer="27" align="center">&gt;VALUE</text></package>
+<package name="DO41_10.16"><description>DO-41 diode, pad 1 is the cathode (banded end)</description>
+<pad name="1" x="-5.080" y="0.000" drill="1.00" diameter="1.80" shape="square"/>
+<pad name="2" x="5.080" y="0.000" drill="1.00" diameter="1.80" shape="round"/>
+<wire x1="-4.250" y1="-1.750" x2="4.250" y2="-1.750" width="0.2" layer="21"/>
+<wire x1="4.250" y1="-1.750" x2="4.250" y2="1.750" width="0.2" layer="21"/>
+<wire x1="4.250" y1="1.750" x2="-4.250" y2="1.750" width="0.2" layer="21"/>
+<wire x1="-4.250" y1="1.750" x2="-4.250" y2="-1.750" width="0.2" layer="21"/>
+<text x="0" y="3.25" size="1.27" layer="25" align="center">&gt;NAME</text><text x="0" y="-3.25" size="1.27" layer="27" align="center">&gt;VALUE</text></package>
+<package name="RADIAL_2.5"><description>radial electrolytic 2.5 mm lead pitch (6.3 mm can)</description>
+<pad name="1" x="-1.250" y="0.000" drill="1.00" diameter="1.80" shape="square"/>
+<pad name="2" x="1.250" y="0.000" drill="1.00" diameter="1.80" shape="round"/>
+<wire x1="-3.250" y1="-3.250" x2="3.250" y2="-3.250" width="0.2" layer="21"/>
+<wire x1="3.250" y1="-3.250" x2="3.250" y2="3.250" width="0.2" layer="21"/>
+<wire x1="3.250" y1="3.250" x2="-3.250" y2="3.250" width="0.2" layer="21"/>
+<wire x1="-3.250" y1="3.250" x2="-3.250" y2="-3.250" width="0.2" layer="21"/>
+<text x="0" y="4.75" size="1.27" layer="25" align="center">&gt;NAME</text><text x="0" y="-4.75" size="1.27" layer="27" align="center">&gt;VALUE</text></package>
+<package name="DISC_5.0"><description>radial ceramic 5 mm pitch</description>
+<pad name="1" x="-2.500" y="0.000" drill="1.00" diameter="1.80" shape="square"/>
+<pad name="2" x="2.500" y="0.000" drill="1.00" diameter="1.80" shape="round"/>
+<wire x1="-3.000" y1="-1.500" x2="3.000" y2="-1.500" width="0.2" layer="21"/>
+<wire x1="3.000" y1="-1.500" x2="3.000" y2="1.500" width="0.2" layer="21"/>
+<wire x1="3.000" y1="1.500" x2="-3.000" y2="1.500" width="0.2" layer="21"/>
+<wire x1="-3.000" y1="1.500" x2="-3.000" y2="-1.500" width="0.2" layer="21"/>
+<text x="0" y="3.00" size="1.27" layer="25" align="center">&gt;NAME</text><text x="0" y="-3.00" size="1.27" layer="27" align="center">&gt;VALUE</text></package>
+<package name="VARISTOR_7.5"><description>varistor disc, 7.5 mm pitch</description>
+<pad name="1" x="-3.750" y="0.000" drill="1.00" diameter="1.80" shape="square"/>
+<pad name="2" x="3.750" y="0.000" drill="1.00" diameter="1.80" shape="round"/>
+<wire x1="-4.500" y1="-2.000" x2="4.500" y2="-2.000" width="0.2" layer="21"/>
+<wire x1="4.500" y1="-2.000" x2="4.500" y2="2.000" width="0.2" layer="21"/>
+<wire x1="4.500" y1="2.000" x2="-4.500" y2="2.000" width="0.2" layer="21"/>
+<wire x1="-4.500" y1="2.000" x2="-4.500" y2="-2.000" width="0.2" layer="21"/>
+<text x="0" y="3.50" size="1.27" layer="25" align="center">&gt;NAME</text><text x="0" y="-3.50" size="1.27" layer="27" align="center">&gt;VALUE</text></package>
+<package name="FUSE_5X20_22.5"><description>5x20 mm fuse holder, 22.5 mm pitch (check yours)</description>
+<pad name="1" x="-11.250" y="0.000" drill="1.30" diameter="2.60" shape="square"/>
+<pad name="2" x="11.250" y="0.000" drill="1.30" diameter="2.60" shape="round"/>
+<wire x1="-13.000" y1="-4.000" x2="13.000" y2="-4.000" width="0.2" layer="21"/>
+<wire x1="13.000" y1="-4.000" x2="13.000" y2="4.000" width="0.2" layer="21"/>
+<wire x1="13.000" y1="4.000" x2="-13.000" y2="4.000" width="0.2" layer="21"/>
+<wire x1="-13.000" y1="4.000" x2="-13.000" y2="-4.000" width="0.2" layer="21"/>
+<text x="0" y="5.50" size="1.27" layer="25" align="center">&gt;NAME</text><text x="0" y="-5.50" size="1.27" layer="27" align="center">&gt;VALUE</text></package>
+<package name="TO92_2.54"><description>TO-92 (pin order E,B,C for S8050 flat face to you; check the datasheet)</description>
+<pad name="1" x="-2.540" y="0.000" drill="1.00" diameter="1.80" shape="square"/>
+<pad name="2" x="0.000" y="0.000" drill="1.00" diameter="1.80" shape="round"/>
+<pad name="3" x="2.540" y="0.000" drill="1.00" diameter="1.80" shape="round"/>
+<wire x1="-2.500" y1="-2.250" x2="2.500" y2="-2.250" width="0.2" layer="21"/>
+<wire x1="2.500" y1="-2.250" x2="2.500" y2="2.250" width="0.2" layer="21"/>
+<wire x1="2.500" y1="2.250" x2="-2.500" y2="2.250" width="0.2" layer="21"/>
+<wire x1="-2.500" y1="2.250" x2="-2.500" y2="-2.250" width="0.2" layer="21"/>
+<text x="0" y="3.75" size="1.27" layer="25" align="center">&gt;NAME</text><text x="0" y="-3.75" size="1.27" layer="27" align="center">&gt;VALUE</text></package>
+<package name="RELAY_SRD_5PIN"><description>SRD-05VDC relay style, PLACEHOLDER pad positions: verify against the maker drawing</description>
+<pad name="1" x="0.000" y="0.000" drill="1.00" diameter="1.80" shape="square"/>
+<pad name="2" x="0.000" y="-7.500" drill="1.00" diameter="1.80" shape="round"/>
+<pad name="3" x="14.200" y="-7.500" drill="1.00" diameter="1.80" shape="round"/>
+<pad name="4" x="14.200" y="0.000" drill="1.00" diameter="1.80" shape="round"/>
+<pad name="5" x="-7.500" y="0.000" drill="1.00" diameter="1.80" shape="round"/>
+<wire x1="-9.500" y1="-8.000" x2="9.500" y2="-8.000" width="0.2" layer="21"/>
+<wire x1="9.500" y1="-8.000" x2="9.500" y2="8.000" width="0.2" layer="21"/>
+<wire x1="9.500" y1="8.000" x2="-9.500" y2="8.000" width="0.2" layer="21"/>
+<wire x1="-9.500" y1="8.000" x2="-9.500" y2="-8.000" width="0.2" layer="21"/>
+<text x="0" y="9.50" size="1.27" layer="25" align="center">&gt;NAME</text><text x="0" y="-9.50" size="1.27" layer="27" align="center">&gt;VALUE</text></package>
+<package name="ACDC_4PIN"><description>AC-DC module style (HLK-PM01), PLACEHOLDER pad positions: verify against the datasheet</description>
+<pad name="1" x="-15.000" y="5.000" drill="1.20" diameter="2.40" shape="square"/>
+<pad name="2" x="-15.000" y="-5.000" drill="1.20" diameter="2.40" shape="round"/>
+<pad name="3" x="15.000" y="-5.000" drill="1.20" diameter="2.40" shape="round"/>
+<pad name="4" x="15.000" y="5.000" drill="1.20" diameter="2.40" shape="round"/>
+<wire x1="-17.500" y1="-10.000" x2="17.500" y2="-10.000" width="0.2" layer="21"/>
+<wire x1="17.500" y1="-10.000" x2="17.500" y2="10.000" width="0.2" layer="21"/>
+<wire x1="17.500" y1="10.000" x2="-17.500" y2="10.000" width="0.2" layer="21"/>
+<wire x1="-17.500" y1="10.000" x2="-17.500" y2="-10.000" width="0.2" layer="21"/>
+<text x="0" y="11.50" size="1.27" layer="25" align="center">&gt;NAME</text><text x="0" y="-11.50" size="1.27" layer="27" align="center">&gt;VALUE</text></package>
+<package name="BLUEPILL_2X20"><description>Blue Pill module 53.34 x 22.86 mm, rows 20.32 mm apart (assumed, measure yours)</description>
+<pad name="L1" x="-24.130" y="10.160" drill="1.0" diameter="1.8" shape="square"/>
+<pad name="R1" x="-24.130" y="-10.160" drill="1.0" diameter="1.8" shape="square"/>
+<pad name="L2" x="-21.590" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R2" x="-21.590" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L3" x="-19.050" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R3" x="-19.050" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L4" x="-16.510" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R4" x="-16.510" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L5" x="-13.970" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R5" x="-13.970" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L6" x="-11.430" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R6" x="-11.430" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L7" x="-8.890" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R7" x="-8.890" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L8" x="-6.350" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R8" x="-6.350" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L9" x="-3.810" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R9" x="-3.810" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L10" x="-1.270" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R10" x="-1.270" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L11" x="1.270" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R11" x="1.270" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L12" x="3.810" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R12" x="3.810" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L13" x="6.350" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R13" x="6.350" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L14" x="8.890" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R14" x="8.890" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L15" x="11.430" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R15" x="11.430" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L16" x="13.970" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R16" x="13.970" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L17" x="16.510" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R17" x="16.510" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L18" x="19.050" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R18" x="19.050" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L19" x="21.590" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R19" x="21.590" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="L20" x="24.130" y="10.160" drill="1.0" diameter="1.8" shape="round"/>
+<pad name="R20" x="24.130" y="-10.160" drill="1.0" diameter="1.8" shape="round"/>
+<wire x1="-26.670" y1="-11.430" x2="26.670" y2="-11.430" width="0.2" layer="21"/>
+<wire x1="26.670" y1="-11.430" x2="26.670" y2="11.430" width="0.2" layer="21"/>
+<wire x1="26.670" y1="11.430" x2="-26.670" y2="11.430" width="0.2" layer="21"/>
+<wire x1="-26.670" y1="11.430" x2="-26.670" y2="-11.430" width="0.2" layer="21"/>
+<text x="0" y="0" size="1.27" layer="25" align="center">&gt;NAME</text><text x="0" y="-2" size="1.27" layer="27" align="center">&gt;VALUE</text></package></packages>
+<symbols><symbol name="BLUEPILL">
+<wire x1="-35.560" y1="-26.670" x2="35.560" y2="-26.670" width="0.254" layer="94"/>
+<wire x1="35.560" y1="-26.670" x2="35.560" y2="26.670" width="0.254" layer="94"/>
+<wire x1="35.560" y1="26.670" x2="-35.560" y2="26.670" width="0.254" layer="94"/>
+<wire x1="-35.560" y1="26.670" x2="-35.560" y2="-26.670" width="0.254" layer="94"/>
+<text x="-35.56" y="27.67" size="1.778" layer="95">&gt;NAME</text>
+<text x="-35.56" y="-27.67" size="1.778" layer="96" align="top-left">&gt;VALUE</text>
+<pin name="PB12_DHT_DATA__L1" x="-38.10" y="24.13" length="short" direction="pas"/>
+<pin name="PB13_LED_HEARTBEAT__L2" x="-38.10" y="21.59" length="short" direction="pas"/>
+<pin name="PB14__L3" x="-38.10" y="19.05" length="short" direction="pas"/>
+<pin name="PB15__L4" x="-38.10" y="16.51" length="short" direction="pas"/>
+<pin name="PA8__L5" x="-38.10" y="13.97" length="short" direction="pas"/>
+<pin name="PA9_UART_TX__L6" x="-38.10" y="11.43" length="short" direction="pas"/>
+<pin name="PA10__L7" x="-38.10" y="8.89" length="short" direction="pas"/>
+<pin name="PA11_USB_DM__L8" x="-38.10" y="6.35" length="short" direction="pas"/>
+<pin name="PA12_USB_DP__L9" x="-38.10" y="3.81" length="short" direction="pas"/>
+<pin name="PA15__L10" x="-38.10" y="1.27" length="short" direction="pas"/>
+<pin name="PB3__L11" x="-38.10" y="-1.27" length="short" direction="pas"/>
+<pin name="PB4__L12" x="-38.10" y="-3.81" length="short" direction="pas"/>
+<pin name="PB5__L13" x="-38.10" y="-6.35" length="short" direction="pas"/>
+<pin name="PB6__L14" x="-38.10" y="-8.89" length="short" direction="pas"/>
+<pin name="PB7__L15" x="-38.10" y="-11.43" length="short" direction="pas"/>
+<pin name="PB8__L16" x="-38.10" y="-13.97" length="short" direction="pas"/>
+<pin name="PB9__L17" x="-38.10" y="-16.51" length="short" direction="pas"/>
+<pin name="5V_5V_IN__L18" x="-38.10" y="-19.05" length="short" direction="pas"/>
+<pin name="GND__L19" x="-38.10" y="-21.59" length="short" direction="pas"/>
+<pin name="3V3_3V3_OUT__L20" x="-38.10" y="-24.13" length="short" direction="pas"/>
+<pin name="GND__R1" x="38.10" y="24.13" length="short" direction="pas" rot="R180"/>
+<pin name="GND__R2" x="38.10" y="21.59" length="short" direction="pas" rot="R180"/>
+<pin name="3V3__R3" x="38.10" y="19.05" length="short" direction="pas" rot="R180"/>
+<pin name="NRST_RESET__R4" x="38.10" y="16.51" length="short" direction="pas" rot="R180"/>
+<pin name="PB11_LED_FAN_ENABLED__R5" x="38.10" y="13.97" length="short" direction="pas" rot="R180"/>
+<pin name="PB10_LDR_DIGITAL_IN__R6" x="38.10" y="11.43" length="short" direction="pas" rot="R180"/>
+<pin name="PB1_BTN_FAN__R7" x="38.10" y="8.89" length="short" direction="pas" rot="R180"/>
+<pin name="PB0_BTN_LIGHT__R8" x="38.10" y="6.35" length="short" direction="pas" rot="R180"/>
+<pin name="PA7_LDR_ADC__R9" x="38.10" y="3.81" length="short" direction="pas" rot="R180"/>
+<pin name="PA6_LED_FAULT__R10" x="38.10" y="1.27" length="short" direction="pas" rot="R180"/>
+<pin name="PA5_LED_FAN__R11" x="38.10" y="-1.27" length="short" direction="pas" rot="R180"/>
+<pin name="PA4_LED_LIGHT__R12" x="38.10" y="-3.81" length="short" direction="pas" rot="R180"/>
+<pin name="PA3_LED_PIR__R13" x="38.10" y="-6.35" length="short" direction="pas" rot="R180"/>
+<pin name="PA2_RELAY2_FAN__R14" x="38.10" y="-8.89" length="short" direction="pas" rot="R180"/>
+<pin name="PA1_RELAY1_LIGHT__R15" x="38.10" y="-11.43" length="short" direction="pas" rot="R180"/>
+<pin name="PA0_PIR_OUT__R16" x="38.10" y="-13.97" length="short" direction="pas" rot="R180"/>
+<pin name="PC15__R17" x="38.10" y="-16.51" length="short" direction="pas" rot="R180"/>
+<pin name="PC14__R18" x="38.10" y="-19.05" length="short" direction="pas" rot="R180"/>
+<pin name="PC13_LED_ONBOARD__R19" x="38.10" y="-21.59" length="short" direction="pas" rot="R180"/>
+<pin name="VBAT__R20" x="38.10" y="-24.13" length="short" direction="pas" rot="R180"/>
+</symbol>
+<symbol name="SYM_RES">
+<wire x1="-6.350" y1="-2.540" x2="6.350" y2="-2.540" width="0.254" layer="94"/>
+<wire x1="6.350" y1="-2.540" x2="6.350" y2="2.540" width="0.254" layer="94"/>
+<wire x1="6.350" y1="2.540" x2="-6.350" y2="2.540" width="0.254" layer="94"/>
+<wire x1="-6.350" y1="2.540" x2="-6.350" y2="-2.540" width="0.254" layer="94"/>
+<text x="-6.35" y="3.54" size="1.778" layer="95">&gt;NAME</text>
+<text x="-6.35" y="-3.54" size="1.778" layer="96" align="top-left">&gt;VALUE</text>
+<pin name="1" x="-8.89" y="0.00" length="short" direction="pas"/>
+<pin name="2" x="8.89" y="0.00" length="short" direction="pas" rot="R180"/>
+</symbol>
+<symbol name="SYM_CAP">
+<wire x1="-6.350" y1="-2.540" x2="6.350" y2="-2.540" width="0.254" layer="94"/>
+<wire x1="6.350" y1="-2.540" x2="6.350" y2="2.540" width="0.254" layer="94"/>
+<wire x1="6.350" y1="2.540" x2="-6.350" y2="2.540" width="0.254" layer="94"/>
+<wire x1="-6.350" y1="2.540" x2="-6.350" y2="-2.540" width="0.254" layer="94"/>
+<text x="-6.35" y="3.54" size="1.778" layer="95">&gt;NAME</text>
+<text x="-6.35" y="-3.54" size="1.778" layer="96" align="top-left">&gt;VALUE</text>
+<pin name="+" x="-8.89" y="0.00" length="short" direction="pas"/>
+<pin name="-" x="8.89" y="0.00" length="short" direction="pas" rot="R180"/>
+</symbol>
+<symbol name="SYM_CAP_CER">
+<wire x1="-6.350" y1="-2.540" x2="6.350" y2="-2.540" width="0.254" layer="94"/>
+<wire x1="6.350" y1="-2.540" x2="6.350" y2="2.540" width="0.254" layer="94"/>
+<wire x1="6.350" y1="2.540" x2="-6.350" y2="2.540" width="0.254" layer="94"/>
+<wire x1="-6.350" y1="2.540" x2="-6.350" y2="-2.540" width="0.254" layer="94"/>
+<text x="-6.35" y="3.54" size="1.778" layer="95">&gt;NAME</text>
+<text x="-6.35" y="-3.54" size="1.778" layer="96" align="top-left">&gt;VALUE</text>
+<pin name="1" x="-8.89" y="0.00" length="short" direction="pas"/>
+<pin name="2" x="8.89" y="0.00" length="short" direction="pas" rot="R180"/>
+</symbol>
+<symbol name="SYM_DIODE">
+<wire x1="-6.350" y1="-2.540" x2="6.350" y2="-2.540" width="0.254" layer="94"/>
+<wire x1="6.350" y1="-2.540" x2="6.350" y2="2.540" width="0.254" layer="94"/>
+<wire x1="6.350" y1="2.540" x2="-6.350" y2="2.540" width="0.254" layer="94"/>
+<wire x1="-6.350" y1="2.540" x2="-6.350" y2="-2.540" width="0.254" layer="94"/>
+<text x="-6.35" y="3.54" size="1.778" layer="95">&gt;NAME</text>
+<text x="-6.35" y="-3.54" size="1.778" layer="96" align="top-left">&gt;VALUE</text>
+<pin name="A" x="-8.89" y="0.00" length="short" direction="pas"/>
+<pin name="K" x="8.89" y="0.00" length="short" direction="pas" rot="R180"/>
+</symbol>
+<symbol name="SYM_VARISTOR">
+<wire x1="-6.350" y1="-2.540" x2="6.350" y2="-2.540" width="0.254" layer="94"/>
+<wire x1="6.350" y1="-2.540" x2="6.350" y2="2.540" width="0.254" layer="94"/>
+<wire x1="6.350" y1="2.540" x2="-6.350" y2="2.540" width="0.254" layer="94"/>
+<wire x1="-6.350" y1="2.540" x2="-6.350" y2="-2.540" width="0.254" layer="94"/>
+<text x="-6.35" y="3.54" size="1.778" layer="95">&gt;NAME</text>
+<text x="-6.35" y="-3.54" size="1.778" layer="96" align="top-left">&gt;VALUE</text>
+<pin name="1" x="-8.89" y="0.00" length="short" direction="pas"/>
+<pin name="2" x="8.89" y="0.00" length="short" direction="pas" rot="R180"/>
+</symbol>
+<symbol name="SYM_FUSE">
+<wire x1="-6.350" y1="-2.540" x2="6.350" y2="-2.540" width="0.254" layer="94"/>
+<wire x1="6.350" y1="-2.540" x2="6.350" y2="2.540" width="0.254" layer="94"/>
+<wire x1="6.350" y1="2.540" x2="-6.350" y2="2.540" width="0.254" layer="94"/>
+<wire x1="-6.350" y1="2.540" x2="-6.350" y2="-2.540" width="0.254" layer="94"/>
+<text x="-6.35" y="3.54" size="1.778" layer="95">&gt;NAME</text>
+<text x="-6.35" y="-3.54" size="1.778" layer="96" align="top-left">&gt;VALUE</text>
+<pin name="1" x="-8.89" y="0.00" length="short" direction="pas"/>
+<pin name="2" x="8.89" y="0.00" length="short" direction="pas" rot="R180"/>
+</symbol>
+<symbol name="SYM_NPN">
+<wire x1="-6.350" y1="-3.810" x2="6.350" y2="-3.810" width="0.254" layer="94"/>
+<wire x1="6.350" y1="-3.810" x2="6.350" y2="3.810" width="0.254" layer="94"/>
+<wire x1="6.350" y1="3.810" x2="-6.350" y2="3.810" width="0.254" layer="94"/>
+<wire x1="-6.350" y1="3.810" x2="-6.350" y2="-3.810" width="0.254" layer="94"/>
+<text x="-6.35" y="4.81" size="1.778" layer="95">&gt;NAME</text>
+<text x="-6.35" y="-4.81" size="1.778" layer="96" align="top-left">&gt;VALUE</text>
+<pin name="B" x="-8.89" y="1.27" length="short" direction="pas"/>
+<pin name="C" x="8.89" y="1.27" length="short" direction="pas" rot="R180"/>
+<pin name="E" x="8.89" y="-1.27" length="short" direction="pas" rot="R180"/>
+</symbol>
+<symbol name="SYM_HDR2">
+<wire x1="-6.350" y1="-3.810" x2="6.350" y2="-3.810" width="0.254" layer="94"/>
+<wire x1="6.350" y1="-3.810" x2="6.350" y2="3.810" width="0.254" layer="94"/>
+<wire x1="6.350" y1="3.810" x2="-6.350" y2="3.810" width="0.254" layer="94"/>
+<wire x1="-6.350" y1="3.810" x2="-6.350" y2="-3.810" width="0.254" layer="94"/>
+<text x="-6.35" y="4.81" size="1.778" layer="95">&gt;NAME</text>
+<text x="-6.35" y="-4.81" size="1.778" layer="96" align="top-left">&gt;VALUE</text>
+<pin name="1" x="-8.89" y="1.27" length="short" direction="pas"/>
+<pin name="2" x="-8.89" y="-1.27" length="short" direction="pas"/>
+</symbol>
+<symbol name="SYM_HDR3">
+<wire x1="-6.350" y1="-5.080" x2="6.350" y2="-5.080" width="0.254" layer="94"/>
+<wire x1="6.350" y1="-5.080" x2="6.350" y2="5.080" width="0.254" layer="94"/>
+<wire x1="6.350" y1="5.080" x2="-6.350" y2="5.080" width="0.254" layer="94"/>
+<wire x1="-6.350" y1="5.080" x2="-6.350" y2="-5.080" width="0.254" layer="94"/>
+<text x="-6.35" y="6.08" size="1.778" layer="95">&gt;NAME</text>
+<text x="-6.35" y="-6.08" size="1.778" layer="96" align="top-left">&gt;VALUE</text>
+<pin name="1" x="-8.89" y="2.54" length="short" direction="pas"/>
+<pin name="2" x="-8.89" y="0.00" length="short" direction="pas"/>
+<pin name="3" x="-8.89" y="-2.54" length="short" direction="pas"/>
+</symbol>
+<symbol name="SYM_TERM3">
+<wire x1="-6.350" y1="-5.080" x2="6.350" y2="-5.080" width="0.254" layer="94"/>
+<wire x1="6.350" y1="-5.080" x2="6.350" y2="5.080" width="0.254" layer="94"/>
+<wire x1="6.350" y1="5.080" x2="-6.350" y2="5.080" width="0.254" layer="94"/>
+<wire x1="-6.350" y1="5.080" x2="-6.350" y2="-5.080" width="0.254" layer="94"/>
+<text x="-6.35" y="6.08" size="1.778" layer="95">&gt;NAME</text>
+<text x="-6.35" y="-6.08" size="1.778" layer="96" align="top-left">&gt;VALUE</text>
+<pin name="1" x="-8.89" y="2.54" length="short" direction="pas"/>
+<pin name="2" x="-8.89" y="0.00" length="short" direction="pas"/>
+<pin name="3" x="-8.89" y="-2.54" length="short" direction="pas"/>
+</symbol>
+<symbol name="SYM_RELAY">
+<wire x1="-7.620" y1="-5.080" x2="7.620" y2="-5.080" width="0.254" layer="94"/>
+<wire x1="7.620" y1="-5.080" x2="7.620" y2="5.080" width="0.254" layer="94"/>
+<wire x1="7.620" y1="5.080" x2="-7.620" y2="5.080" width="0.254" layer="94"/>
+<wire x1="-7.620" y1="5.080" x2="-7.620" y2="-5.080" width="0.254" layer="94"/>
+<text x="-7.62" y="6.08" size="1.778" layer="95">&gt;NAME</text>
+<text x="-7.62" y="-6.08" size="1.778" layer="96" align="top-left">&gt;VALUE</text>
+<pin name="COIL_P" x="-10.16" y="2.54" length="short" direction="pas"/>
+<pin name="COIL_N" x="-10.16" y="0.00" length="short" direction="pas"/>
+<pin name="COM" x="10.16" y="2.54" length="short" direction="pas" rot="R180"/>
+<pin name="NO" x="10.16" y="0.00" length="short" direction="pas" rot="R180"/>
+<pin name="NC" x="10.16" y="-2.54" length="short" direction="pas" rot="R180"/>
+</symbol>
+<symbol name="SYM_ACDC5V">
+<wire x1="-6.350" y1="-3.810" x2="6.350" y2="-3.810" width="0.254" layer="94"/>
+<wire x1="6.350" y1="-3.810" x2="6.350" y2="3.810" width="0.254" layer="94"/>
+<wire x1="6.350" y1="3.810" x2="-6.350" y2="3.810" width="0.254" layer="94"/>
+<wire x1="-6.350" y1="3.810" x2="-6.350" y2="-3.810" width="0.254" layer="94"/>
+<text x="-6.35" y="4.81" size="1.778" layer="95">&gt;NAME</text>
+<text x="-6.35" y="-4.81" size="1.778" layer="96" align="top-left">&gt;VALUE</text>
+<pin name="ACL" x="-8.89" y="1.27" length="short" direction="pas"/>
+<pin name="ACN" x="-8.89" y="-1.27" length="short" direction="pas"/>
+<pin name="VO_P" x="8.89" y="1.27" length="short" direction="pas" rot="R180"/>
+<pin name="VO_N" x="8.89" y="-1.27" length="short" direction="pas" rot="R180"/>
+</symbol></symbols>
+<devicesets>
+<deviceset name="BLUEPILL_GD32F103C8T6" prefix="U"><description>Blue Pill GD32F103C8T6 module (pin names carry this project's pin roles)</description>
+<gates><gate name="G$1" symbol="BLUEPILL" x="0" y="0"/></gates>
+<devices><device name="" package="BLUEPILL_2X20"><connects>
+<connect gate="G$1" pin="PB12_DHT_DATA__L1" pad="L1"/>
+<connect gate="G$1" pin="PB13_LED_HEARTBEAT__L2" pad="L2"/>
+<connect gate="G$1" pin="PB14__L3" pad="L3"/>
+<connect gate="G$1" pin="PB15__L4" pad="L4"/>
+<connect gate="G$1" pin="PA8__L5" pad="L5"/>
+<connect gate="G$1" pin="PA9_UART_TX__L6" pad="L6"/>
+<connect gate="G$1" pin="PA10__L7" pad="L7"/>
+<connect gate="G$1" pin="PA11_USB_DM__L8" pad="L8"/>
+<connect gate="G$1" pin="PA12_USB_DP__L9" pad="L9"/>
+<connect gate="G$1" pin="PA15__L10" pad="L10"/>
+<connect gate="G$1" pin="PB3__L11" pad="L11"/>
+<connect gate="G$1" pin="PB4__L12" pad="L12"/>
+<connect gate="G$1" pin="PB5__L13" pad="L13"/>
+<connect gate="G$1" pin="PB6__L14" pad="L14"/>
+<connect gate="G$1" pin="PB7__L15" pad="L15"/>
+<connect gate="G$1" pin="PB8__L16" pad="L16"/>
+<connect gate="G$1" pin="PB9__L17" pad="L17"/>
+<connect gate="G$1" pin="5V_5V_IN__L18" pad="L18"/>
+<connect gate="G$1" pin="GND__L19" pad="L19"/>
+<connect gate="G$1" pin="3V3_3V3_OUT__L20" pad="L20"/>
+<connect gate="G$1" pin="GND__R1" pad="R1"/>
+<connect gate="G$1" pin="GND__R2" pad="R2"/>
+<connect gate="G$1" pin="3V3__R3" pad="R3"/>
+<connect gate="G$1" pin="NRST_RESET__R4" pad="R4"/>
+<connect gate="G$1" pin="PB11_LED_FAN_ENABLED__R5" pad="R5"/>
+<connect gate="G$1" pin="PB10_LDR_DIGITAL_IN__R6" pad="R6"/>
+<connect gate="G$1" pin="PB1_BTN_FAN__R7" pad="R7"/>
+<connect gate="G$1" pin="PB0_BTN_LIGHT__R8" pad="R8"/>
+<connect gate="G$1" pin="PA7_LDR_ADC__R9" pad="R9"/>
+<connect gate="G$1" pin="PA6_LED_FAULT__R10" pad="R10"/>
+<connect gate="G$1" pin="PA5_LED_FAN__R11" pad="R11"/>
+<connect gate="G$1" pin="PA4_LED_LIGHT__R12" pad="R12"/>
+<connect gate="G$1" pin="PA3_LED_PIR__R13" pad="R13"/>
+<connect gate="G$1" pin="PA2_RELAY2_FAN__R14" pad="R14"/>
+<connect gate="G$1" pin="PA1_RELAY1_LIGHT__R15" pad="R15"/>
+<connect gate="G$1" pin="PA0_PIR_OUT__R16" pad="R16"/>
+<connect gate="G$1" pin="PC15__R17" pad="R17"/>
+<connect gate="G$1" pin="PC14__R18" pad="R18"/>
+<connect gate="G$1" pin="PC13_LED_ONBOARD__R19" pad="R19"/>
+<connect gate="G$1" pin="VBAT__R20" pad="R20"/>
+</connects><technologies><technology name=""/></technologies></device></devices></deviceset>
+<deviceset name="RES" prefix="R"><description>Resistor</description>
+<gates><gate name="G$1" symbol="SYM_RES" x="0" y="0"/></gates>
+<devices><device name="" package="AXIAL_10.16"><connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+</connects><technologies><technology name=""/></technologies></device></devices></deviceset>
+<deviceset name="CAP" prefix="C"><description>Electrolytic capacitor</description>
+<gates><gate name="G$1" symbol="SYM_CAP" x="0" y="0"/></gates>
+<devices><device name="" package="RADIAL_2.5"><connects>
+<connect gate="G$1" pin="+" pad="1"/>
+<connect gate="G$1" pin="-" pad="2"/>
+</connects><technologies><technology name=""/></technologies></device></devices></deviceset>
+<deviceset name="CAP_CER" prefix="C"><description>Ceramic capacitor</description>
+<gates><gate name="G$1" symbol="SYM_CAP_CER" x="0" y="0"/></gates>
+<devices><device name="" package="DISC_5.0"><connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+</connects><technologies><technology name=""/></technologies></device></devices></deviceset>
+<deviceset name="DIODE" prefix="D"><description>Diode (K = banded end)</description>
+<gates><gate name="G$1" symbol="SYM_DIODE" x="0" y="0"/></gates>
+<devices><device name="" package="DO41_10.16"><connects>
+<connect gate="G$1" pin="A" pad="2"/>
+<connect gate="G$1" pin="K" pad="1"/>
+</connects><technologies><technology name=""/></technologies></device></devices></deviceset>
+<deviceset name="VARISTOR" prefix="RV"><description>Varistor</description>
+<gates><gate name="G$1" symbol="SYM_VARISTOR" x="0" y="0"/></gates>
+<devices><device name="" package="VARISTOR_7.5"><connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+</connects><technologies><technology name=""/></technologies></device></devices></deviceset>
+<deviceset name="FUSE" prefix="F"><description>Fuse in a holder</description>
+<gates><gate name="G$1" symbol="SYM_FUSE" x="0" y="0"/></gates>
+<devices><device name="" package="FUSE_5X20_22.5"><connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+</connects><technologies><technology name=""/></technologies></device></devices></deviceset>
+<deviceset name="NPN" prefix="Q"><description>NPN transistor TO-92</description>
+<gates><gate name="G$1" symbol="SYM_NPN" x="0" y="0"/></gates>
+<devices><device name="" package="TO92_2.54"><connects>
+<connect gate="G$1" pin="B" pad="2"/>
+<connect gate="G$1" pin="C" pad="3"/>
+<connect gate="G$1" pin="E" pad="1"/>
+</connects><technologies><technology name=""/></technologies></device></devices></deviceset>
+<deviceset name="HDR2" prefix="J"><description>2-pin header</description>
+<gates><gate name="G$1" symbol="SYM_HDR2" x="0" y="0"/></gates>
+<devices><device name="" package="HDR_1X2"><connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+</connects><technologies><technology name=""/></technologies></device></devices></deviceset>
+<deviceset name="HDR3" prefix="J"><description>3-pin header</description>
+<gates><gate name="G$1" symbol="SYM_HDR3" x="0" y="0"/></gates>
+<devices><device name="" package="HDR_1X3"><connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+<connect gate="G$1" pin="3" pad="3"/>
+</connects><technologies><technology name=""/></technologies></device></devices></deviceset>
+<deviceset name="TERM3" prefix="J"><description>3-pole screw terminal</description>
+<gates><gate name="G$1" symbol="SYM_TERM3" x="0" y="0"/></gates>
+<devices><device name="" package="TERM_3P_5.08"><connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+<connect gate="G$1" pin="3" pad="3"/>
+</connects><technologies><technology name=""/></technologies></device></devices></deviceset>
+<deviceset name="RELAY" prefix="K"><description>SPDT relay 5 V coil, use COM and NO</description>
+<gates><gate name="G$1" symbol="SYM_RELAY" x="0" y="0"/></gates>
+<devices><device name="" package="RELAY_SRD_5PIN"><connects>
+<connect gate="G$1" pin="COIL_P" pad="1"/>
+<connect gate="G$1" pin="COIL_N" pad="2"/>
+<connect gate="G$1" pin="COM" pad="3"/>
+<connect gate="G$1" pin="NO" pad="4"/>
+<connect gate="G$1" pin="NC" pad="5"/>
+</connects><technologies><technology name=""/></technologies></device></devices></deviceset>
+<deviceset name="ACDC5V" prefix="PS"><description>AC-DC 5V 3W module (HLK-PM01 style)</description>
+<gates><gate name="G$1" symbol="SYM_ACDC5V" x="0" y="0"/></gates>
+<devices><device name="" package="ACDC_4PIN"><connects>
+<connect gate="G$1" pin="ACL" pad="1"/>
+<connect gate="G$1" pin="ACN" pad="2"/>
+<connect gate="G$1" pin="VO_N" pad="3"/>
+<connect gate="G$1" pin="VO_P" pad="4"/>
+</connects><technologies><technology name=""/></technologies></device></devices></deviceset>
+</devicesets></library></drawing></eagle>
