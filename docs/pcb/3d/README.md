@@ -13,6 +13,7 @@ A drop-in part for anyone who wants to design a carrier board for a Blue Pill st
 | 3D model with header pins | `BluePill_GD32F103C8T6_WITH_header_*` | for a good-looking assembly picture |
 | 3D model without header pins | `BluePill_GD32F103C8T6_WITHOUT_header_*` | use when your own socket / header part already draws the pins |
 | EasyEDA / EAGLE library | [`../eda/AutoBath_parts_and_BluePill.lbr`](../eda/) | Blue Pill symbol, footprint `BLUEPILL_40P` and device, plus the other parts of the AutoBath board |
+| EasyEDA Pro device export | [`../easyeda/`](../easyeda/) | `.elibz2` with device, symbol and footprint (3D model added separately, see its README) |
 | KiCad footprint + symbol | [`../kicad/`](../kicad/) | `.kicad_mod` points at the `_kicad_scale.wrl` model |
 | Pin picture | `BluePill_pinout_all_pins.png` / `.svg` | every pin name and its role in this project |
 
