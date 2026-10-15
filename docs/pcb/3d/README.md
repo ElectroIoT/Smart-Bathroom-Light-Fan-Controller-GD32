@@ -29,6 +29,9 @@ EasyEDA Pro (V3.2.206) accepts **`.zip` (OBJ + MTL), `.obj`, `.step` and `.stp`*
 
 Both models were imported this way into the EasyEDA Pro personal library of the project owner (private). Pro's library menu for a personal 3D model offers Replace, Link to New Device, Modify, Save as and Delete, but **no "make public" option**, so sharing with everyone happens through this GitHub folder (or through a public OSHWLab project that uses the models).
 
+## Placeable Device (symbol + footprint) for EasyEDA Pro
+`BluePill_GD32F103C8T6.lbr` (made by `tools/gen_bluepill_lbr.py`) is an EAGLE library with a 40-pin symbol, a 2 x 20 through-hole footprint (2.54 mm pitch, rows 20.32 mm apart, assumed) and the device that joins them. In EasyEDA Pro: File, Import, EAGLE, pick the file, option **Extract Libraries**, tick all, Confirm. The device `BLUEPILL_GD32F103C8T6` then shows under Library, Device, Personal, and in the Shift+F search. Link a 3D model to the footprint `BLUEPILL_2X20` in the footprint editor afterwards.
+
 ## Adding a model in EasyEDA Standard edition
 1. Top menu **New → PCB 3D Lib**, then import `..._mm.wrl` (or the `_obj.zip`: EasyEDA wants OBJ zipped with its MTL; file extensions must be lowercase).
 2. In your PCB or footprint open **Tools → 3D Model Manager**, select the footprint, pick the imported model on the right.
