@@ -18,6 +18,7 @@ Files in this folder:
 - [`bom.csv`](bom.csv): every part with value, footprint hint, notes and a "must verify" flag.
 - [`pcb-block-diagram.svg`](pcb-block-diagram.svg): zones, slot and blocks.
 - [`PROJECT_INTRO.md`](PROJECT_INTRO.md): the project introduction text for the EasyEDA / OSHWLab page.
+- [`EASYEDA_PAGE.md`](EASYEDA_PAGE.md): the ready-to-paste EasyEDA / OSHWLab project page (name, short description, description, tags, license options) and `AutoBath-Light-Fan-cover.png` as the cover image.
 
 ## 2. One firmware change for this board
 
