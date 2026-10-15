@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1240" width="1000" height="1240" font-family="Segoe UI, Arial, sans-serif">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="500" y="44" text-anchor="middle" font-size="30" font-weight="700" fill="#0d2a5c">Blue Pill GD32F103C8T6 - all 40 pins</text>
+<text x="500" y="74" text-anchor="middle" font-size="16" fill="#555">Pin name (bold) and the role it has in the AutoBath-Light-Fan controller. USB end at the top.</text>
+<rect x="360" y="90" width="280" height="1072" rx="10" fill="#1b3a8a" stroke="#0b1f55" stroke-width="3"/>
+<rect x="440" y="74" width="120" height="48" fill="#cfd8dc" stroke="#607d8b" stroke-width="2"/>
+<text x="500" y="104" text-anchor="middle" font-size="14" fill="#263238">USB</text>
+<rect x="455" y="400" width="90" height="90" fill="#222" stroke="#000"/><text x="500" y="450" text-anchor="middle" font-size="15" fill="#eee">GD32</text><text x="500" y="470" text-anchor="middle" font-size="13" fill="#bbb">F103C8T6</text>
+<text x="500" y="340" text-anchor="middle" font-size="16" fill="#cfe3ff">8 MHz</text>
+<text x="500" y="1092" text-anchor="middle" font-size="14" fill="#cfe3ff">SWD</text>
+<text x="500" y="1070" text-anchor="middle" font-size="14" fill="#cfe3ff">PC13 LED   BOOT0 / BOOT1</text>
+<rect x="330" y="143" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="150" r="5" fill="#b88a00"/>
+<text x="310" y="157" text-anchor="end" font-size="20" font-weight="700" fill="#00838f">PB12</text>
+<text x="310" y="172" text-anchor="end" font-size="14" fill="#00838f">DHT_DATA</text>
+<text x="378" y="154" text-anchor="middle" font-size="12" fill="#9fb4e6">1</text>
+<rect x="330" y="191" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="198" r="5" fill="#b88a00"/>
+<text x="310" y="205" text-anchor="end" font-size="20" font-weight="700" fill="#2e7d32">PB13</text>
+<text x="310" y="220" text-anchor="end" font-size="14" fill="#2e7d32">LED_HEARTBEAT</text>
+<text x="378" y="202" text-anchor="middle" font-size="12" fill="#9fb4e6">2</text>
+<rect x="330" y="239" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="246" r="5" fill="#b88a00"/>
+<text x="310" y="253" text-anchor="end" font-size="20" font-weight="700" fill="#9e9e9e">PB14</text>
+<text x="378" y="250" text-anchor="middle" font-size="12" fill="#9fb4e6">3</text>
+<rect x="330" y="287" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="294" r="5" fill="#b88a00"/>
+<text x="310" y="301" text-anchor="end" font-size="20" font-weight="700" fill="#9e9e9e">PB15</text>
+<text x="378" y="298" text-anchor="middle" font-size="12" fill="#9fb4e6">4</text>
+<rect x="330" y="335" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="342" r="5" fill="#b88a00"/>
+<text x="310" y="349" text-anchor="end" font-size="20" font-weight="700" fill="#9e9e9e">PA8</text>
+<text x="378" y="346" text-anchor="middle" font-size="12" fill="#9fb4e6">5</text>
+<rect x="330" y="383" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="390" r="5" fill="#b88a00"/>
+<text x="310" y="397" text-anchor="end" font-size="20" font-weight="700" fill="#00838f">PA9</text>
+<text x="310" y="412" text-anchor="end" font-size="14" fill="#00838f">UART_TX</text>
+<text x="378" y="394" text-anchor="middle" font-size="12" fill="#9fb4e6">6</text>
+<rect x="330" y="431" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="438" r="5" fill="#b88a00"/>
+<text x="310" y="445" text-anchor="end" font-size="20" font-weight="700" fill="#9e9e9e">PA10</text>
+<text x="378" y="442" text-anchor="middle" font-size="12" fill="#9fb4e6">7</text>
+<rect x="330" y="479" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="486" r="5" fill="#b88a00"/>
+<text x="310" y="493" text-anchor="end" font-size="20" font-weight="700" fill="#8d6e63">PA11</text>
+<text x="310" y="508" text-anchor="end" font-size="14" fill="#8d6e63">USB_DM</text>
+<text x="378" y="490" text-anchor="middle" font-size="12" fill="#9fb4e6">8</text>
+<rect x="330" y="527" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="534" r="5" fill="#b88a00"/>
+<text x="310" y="541" text-anchor="end" font-size="20" font-weight="700" fill="#8d6e63">PA12</text>
+<text x="310" y="556" text-anchor="end" font-size="14" fill="#8d6e63">USB_DP</text>
+<text x="378" y="538" text-anchor="middle" font-size="12" fill="#9fb4e6">9</text>
+<rect x="330" y="575" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="582" r="5" fill="#b88a00"/>
+<text x="310" y="589" text-anchor="end" font-size="20" font-weight="700" fill="#9e9e9e">PA15</text>
+<text x="378" y="586" text-anchor="middle" font-size="12" fill="#9fb4e6">10</text>
+<rect x="330" y="623" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="630" r="5" fill="#b88a00"/>
+<text x="310" y="637" text-anchor="end" font-size="20" font-weight="700" fill="#9e9e9e">PB3</text>
+<text x="378" y="634" text-anchor="middle" font-size="12" fill="#9fb4e6">11</text>
+<rect x="330" y="671" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="678" r="5" fill="#b88a00"/>
+<text x="310" y="685" text-anchor="end" font-size="20" font-weight="700" fill="#9e9e9e">PB4</text>
+<text x="378" y="682" text-anchor="middle" font-size="12" fill="#9fb4e6">12</text>
+<rect x="330" y="719" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="726" r="5" fill="#b88a00"/>
+<text x="310" y="733" text-anchor="end" font-size="20" font-weight="700" fill="#9e9e9e">PB5</text>
+<text x="378" y="730" text-anchor="middle" font-size="12" fill="#9fb4e6">13</text>
+<rect x="330" y="767" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="774" r="5" fill="#b88a00"/>
+<text x="310" y="781" text-anchor="end" font-size="20" font-weight="700" fill="#9e9e9e">PB6</text>
+<text x="378" y="778" text-anchor="middle" font-size="12" fill="#9fb4e6">14</text>
+<rect x="330" y="815" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="822" r="5" fill="#b88a00"/>
+<text x="310" y="829" text-anchor="end" font-size="20" font-weight="700" fill="#9e9e9e">PB7</text>
+<text x="378" y="826" text-anchor="middle" font-size="12" fill="#9fb4e6">15</text>
+<rect x="330" y="863" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="870" r="5" fill="#b88a00"/>
+<text x="310" y="877" text-anchor="end" font-size="20" font-weight="700" fill="#9e9e9e">PB8</text>
+<text x="378" y="874" text-anchor="middle" font-size="12" fill="#9fb4e6">16</text>
+<rect x="330" y="911" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="918" r="5" fill="#b88a00"/>
+<text x="310" y="925" text-anchor="end" font-size="20" font-weight="700" fill="#9e9e9e">PB9</text>
+<text x="378" y="922" text-anchor="middle" font-size="12" fill="#9fb4e6">17</text>
+<rect x="330" y="959" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="966" r="5" fill="#b88a00"/>
+<text x="310" y="973" text-anchor="end" font-size="20" font-weight="700" fill="#c62828">5V</text>
+<text x="310" y="988" text-anchor="end" font-size="14" fill="#c62828">5V_IN</text>
+<text x="378" y="970" text-anchor="middle" font-size="12" fill="#9fb4e6">18</text>
+<rect x="330" y="1007" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="1014" r="5" fill="#b88a00"/>
+<text x="310" y="1021" text-anchor="end" font-size="20" font-weight="700" fill="#212121">GND</text>
+<text x="378" y="1018" text-anchor="middle" font-size="12" fill="#9fb4e6">19</text>
+<rect x="330" y="1055" width="30" height="14" fill="#d4af37"/>
+<circle cx="345" cy="1062" r="5" fill="#b88a00"/>
+<text x="310" y="1069" text-anchor="end" font-size="20" font-weight="700" fill="#ef6c00">3V3</text>
+<text x="310" y="1084" text-anchor="end" font-size="14" fill="#ef6c00">3V3_OUT</text>
+<text x="378" y="1066" text-anchor="middle" font-size="12" fill="#9fb4e6">20</text>
+<rect x="640" y="143" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="150" r="5" fill="#b88a00"/>
+<text x="690" y="157" text-anchor="start" font-size="20" font-weight="700" fill="#212121">GND</text>
+<text x="622" y="154" text-anchor="middle" font-size="12" fill="#9fb4e6">1</text>
+<rect x="640" y="191" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="198" r="5" fill="#b88a00"/>
+<text x="690" y="205" text-anchor="start" font-size="20" font-weight="700" fill="#212121">GND</text>
+<text x="622" y="202" text-anchor="middle" font-size="12" fill="#9fb4e6">2</text>
+<rect x="640" y="239" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="246" r="5" fill="#b88a00"/>
+<text x="690" y="253" text-anchor="start" font-size="20" font-weight="700" fill="#ef6c00">3V3</text>
+<text x="622" y="250" text-anchor="middle" font-size="12" fill="#9fb4e6">3</text>
+<rect x="640" y="287" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="294" r="5" fill="#b88a00"/>
+<text x="690" y="301" text-anchor="start" font-size="20" font-weight="700" fill="#6a1b9a">NRST</text>
+<text x="690" y="316" text-anchor="start" font-size="14" fill="#6a1b9a">RESET</text>
+<text x="622" y="298" text-anchor="middle" font-size="12" fill="#9fb4e6">4</text>
+<rect x="640" y="335" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="342" r="5" fill="#b88a00"/>
+<text x="690" y="349" text-anchor="start" font-size="20" font-weight="700" fill="#2e7d32">PB11</text>
+<text x="690" y="364" text-anchor="start" font-size="14" fill="#2e7d32">LED_FAN_ENABLED</text>
+<text x="622" y="346" text-anchor="middle" font-size="12" fill="#9fb4e6">5</text>
+<rect x="640" y="383" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="390" r="5" fill="#b88a00"/>
+<text x="690" y="397" text-anchor="start" font-size="20" font-weight="700" fill="#00838f">PB10</text>
+<text x="690" y="412" text-anchor="start" font-size="14" fill="#00838f">LDR_DIGITAL_IN</text>
+<text x="622" y="394" text-anchor="middle" font-size="12" fill="#9fb4e6">6</text>
+<rect x="640" y="431" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="438" r="5" fill="#b88a00"/>
+<text x="690" y="445" text-anchor="start" font-size="20" font-weight="700" fill="#00838f">PB1</text>
+<text x="690" y="460" text-anchor="start" font-size="14" fill="#00838f">BTN_FAN</text>
+<text x="622" y="442" text-anchor="middle" font-size="12" fill="#9fb4e6">7</text>
+<rect x="640" y="479" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="486" r="5" fill="#b88a00"/>
+<text x="690" y="493" text-anchor="start" font-size="20" font-weight="700" fill="#00838f">PB0</text>
+<text x="690" y="508" text-anchor="start" font-size="14" fill="#00838f">BTN_LIGHT</text>
+<text x="622" y="490" text-anchor="middle" font-size="12" fill="#9fb4e6">8</text>
+<rect x="640" y="527" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="534" r="5" fill="#b88a00"/>
+<text x="690" y="541" text-anchor="start" font-size="20" font-weight="700" fill="#00838f">PA7</text>
+<text x="690" y="556" text-anchor="start" font-size="14" fill="#00838f">LDR_ADC</text>
+<text x="622" y="538" text-anchor="middle" font-size="12" fill="#9fb4e6">9</text>
+<rect x="640" y="575" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="582" r="5" fill="#b88a00"/>
+<text x="690" y="589" text-anchor="start" font-size="20" font-weight="700" fill="#2e7d32">PA6</text>
+<text x="690" y="604" text-anchor="start" font-size="14" fill="#2e7d32">LED_FAULT</text>
+<text x="622" y="586" text-anchor="middle" font-size="12" fill="#9fb4e6">10</text>
+<rect x="640" y="623" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="630" r="5" fill="#b88a00"/>
+<text x="690" y="637" text-anchor="start" font-size="20" font-weight="700" fill="#2e7d32">PA5</text>
+<text x="690" y="652" text-anchor="start" font-size="14" fill="#2e7d32">LED_FAN</text>
+<text x="622" y="634" text-anchor="middle" font-size="12" fill="#9fb4e6">11</text>
+<rect x="640" y="671" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="678" r="5" fill="#b88a00"/>
+<text x="690" y="685" text-anchor="start" font-size="20" font-weight="700" fill="#2e7d32">PA4</text>
+<text x="690" y="700" text-anchor="start" font-size="14" fill="#2e7d32">LED_LIGHT</text>
+<text x="622" y="682" text-anchor="middle" font-size="12" fill="#9fb4e6">12</text>
+<rect x="640" y="719" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="726" r="5" fill="#b88a00"/>
+<text x="690" y="733" text-anchor="start" font-size="20" font-weight="700" fill="#2e7d32">PA3</text>
+<text x="690" y="748" text-anchor="start" font-size="14" fill="#2e7d32">LED_PIR</text>
+<text x="622" y="730" text-anchor="middle" font-size="12" fill="#9fb4e6">13</text>
+<rect x="640" y="767" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="774" r="5" fill="#b88a00"/>
+<text x="690" y="781" text-anchor="start" font-size="20" font-weight="700" fill="#1565c0">PA2</text>
+<text x="690" y="796" text-anchor="start" font-size="14" fill="#1565c0">RELAY2_FAN</text>
+<text x="622" y="778" text-anchor="middle" font-size="12" fill="#9fb4e6">14</text>
+<rect x="640" y="815" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="822" r="5" fill="#b88a00"/>
+<text x="690" y="829" text-anchor="start" font-size="20" font-weight="700" fill="#1565c0">PA1</text>
+<text x="690" y="844" text-anchor="start" font-size="14" fill="#1565c0">RELAY1_LIGHT</text>
+<text x="622" y="826" text-anchor="middle" font-size="12" fill="#9fb4e6">15</text>
+<rect x="640" y="863" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="870" r="5" fill="#b88a00"/>
+<text x="690" y="877" text-anchor="start" font-size="20" font-weight="700" fill="#00838f">PA0</text>
+<text x="690" y="892" text-anchor="start" font-size="14" fill="#00838f">PIR_OUT</text>
+<text x="622" y="874" text-anchor="middle" font-size="12" fill="#9fb4e6">16</text>
+<rect x="640" y="911" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="918" r="5" fill="#b88a00"/>
+<text x="690" y="925" text-anchor="start" font-size="20" font-weight="700" fill="#9e9e9e">PC15</text>
+<text x="622" y="922" text-anchor="middle" font-size="12" fill="#9fb4e6">17</text>
+<rect x="640" y="959" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="966" r="5" fill="#b88a00"/>
+<text x="690" y="973" text-anchor="start" font-size="20" font-weight="700" fill="#9e9e9e">PC14</text>
+<text x="622" y="970" text-anchor="middle" font-size="12" fill="#9fb4e6">18</text>
+<rect x="640" y="1007" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="1014" r="5" fill="#b88a00"/>
+<text x="690" y="1021" text-anchor="start" font-size="20" font-weight="700" fill="#2e7d32">PC13</text>
+<text x="690" y="1036" text-anchor="start" font-size="14" fill="#2e7d32">LED_ONBOARD</text>
+<text x="622" y="1018" text-anchor="middle" font-size="12" fill="#9fb4e6">19</text>
+<rect x="640" y="1055" width="30" height="14" fill="#d4af37"/>
+<circle cx="655" cy="1062" r="5" fill="#b88a00"/>
+<text x="690" y="1069" text-anchor="start" font-size="20" font-weight="700" fill="#ef6c00">VBAT</text>
+<text x="622" y="1066" text-anchor="middle" font-size="12" fill="#9fb4e6">20</text>
+<rect x="40" y="1170" width="18" height="18" fill="#c62828"/><text x="66" y="1184" font-size="14" fill="#333">5V</text>
+<rect x="96" y="1170" width="18" height="18" fill="#ef6c00"/><text x="122" y="1184" font-size="14" fill="#333">3.3 V / VBAT</text>
+<rect x="232" y="1170" width="18" height="18" fill="#212121"/><text x="258" y="1184" font-size="14" fill="#333">GND</text>
+<rect x="296" y="1170" width="18" height="18" fill="#2e7d32"/><text x="322" y="1184" font-size="14" fill="#333">LED output</text>
+<rect x="416" y="1170" width="18" height="18" fill="#1565c0"/><text x="442" y="1184" font-size="14" fill="#333">Relay driver</text>
+<rect x="552" y="1170" width="18" height="18" fill="#00838f"/><text x="578" y="1184" font-size="14" fill="#333">Sensor / button / UART</text>
+<rect x="768" y="1170" width="18" height="18" fill="#9e9e9e"/><text x="794" y="1184" font-size="14" fill="#333">Unused</text>
+<text x="500" y="1220" text-anchor="middle" font-size="12" fill="#777">Header order follows the usual Blue Pill silkscreen. Check against your own board before wiring.</text>
+</svg>

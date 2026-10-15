@@ -17,13 +17,27 @@ RIGHT = [("GND","GND"),("GND","GND"),("3V3","3V3"),("NRST","RESET"),("PB11","LED
          ("PB1","BTN_FAN"),("PB0","BTN_LIGHT"),("PA7","LDR_ADC"),("PA6","LED_FAULT"),("PA5","LED_FAN"),("PA4","LED_LIGHT"),
          ("PA3","LED_PIR"),("PA2","RELAY2_FAN"),("PA1","RELAY1_LIGHT"),("PA0","PIR_OUT"),("PC15",""),("PC14",""),("PC13","LED_ONBOARD"),("VBAT","VBAT")]
 
-def bp_pinname(side, i, lab, role):
-    n = lab + ("_" + role if role and role != lab else "")
-    return "%s__%s%d" % (n, side, i + 1)   # unique per pad
+def short(lab):
+    return {"3V3":"3.3","NRST":"RES","VBAT":"VBT"}.get(lab, lab[1:] if lab[0] == "P" else lab)
 
-BP_PINS = {}   # pad -> pin name
-for i, (l, r) in enumerate(LEFT): BP_PINS["L%d" % (i+1)] = bp_pinname("L", i, l, r)
-for i, (l, r) in enumerate(RIGHT): BP_PINS["R%d" % (i+1)] = bp_pinname("R", i, l, r)
+# symbol numbering as in the usual Blue Pill symbol: right side 1..20 bottom-to-top = LEFT header list,
+# left side 21..40 bottom-to-top = RIGHT header list.
+BP_PINS = {}   # key (L1..L20 / R1..R20) -> pin name
+BP_PADNUM = {} # key -> pad number "1".."40"
+_seen = {}
+for key, lab in [("L%d" % (i+1), LEFT[i][0]) for i in range(20)] + [("R%d" % (i+1), RIGHT[i][0]) for i in range(20)]:
+    n = short(lab)
+    _seen[n] = _seen.get(n, 0) + 1
+_cnt = {}
+for i in range(40):
+    key = ("L%d" % (i+1)) if i < 20 else ("R%d" % (i-19))
+    lab = (LEFT[i][0] if i < 20 else RIGHT[i-20][0])
+    n = short(lab)
+    if _seen[n] > 1:
+        _cnt[n] = _cnt.get(n, 0) + 1
+        n = n + "​" * (_cnt[n] - 1)   # invisible, keeps pin names unique while showing plain GND / 3.3
+    BP_PINS[key] = n
+    BP_PADNUM[key] = str(i+1)
 
 LAYERS = [(1,"Top",4),(16,"Bottom",1),(17,"Pads",2),(18,"Vias",2),(20,"Dimension",15),(21,"tPlace",7),(22,"bPlace",7),
           (25,"tNames",7),(26,"bNames",7),(27,"tValues",7),(28,"bValues",7),(51,"tDocu",7),(52,"bDocu",7),
@@ -38,15 +52,15 @@ def rect_wires(x1,y1,x2,y2,layer,w):
 
 # ---------------- packages ----------------
 def pkg_bluepill():
-    o = ['<package name="BLUEPILL_2X20"><description>Blue Pill module 53.34 x 22.86 mm, rows 20.32 mm apart (assumed, measure yours)</description>']
+    o = ['<package name="BLUEPILL_40P"><description>Blue Pill module 53.34 x 22.86 mm, rows 20.32 mm apart (assumed, measure yours)</description>']
     x0 = -(19*PITCH)/2
     for i in range(20):
         x = x0 + i*PITCH
-        for side, y in (("L", ROW/2), ("R", -ROW/2)):
-            o.append('<pad name="%s%d" x="%.3f" y="%.3f" drill="1.0" diameter="1.8" shape="%s"/>' % (side, i+1, x, y, "square" if i == 0 else "round"))
+        for side, y, base in (("L", ROW/2, 0), ("R", -ROW/2, 20)):
+            o.append('<pad name="%d" x="%.3f" y="%.3f" drill="1.0" diameter="1.8" shape="%s"/>' % (base+i+1, x, y, "square" if i == 0 and side == "L" else "round"))
     o += rect_wires(-LEN/2,-W/2,LEN/2,W/2,21,0.2)
     o.append('<text x="0" y="0" size="1.27" layer="25" align="center">&gt;NAME</text><text x="0" y="-2" size="1.27" layer="27" align="center">&gt;VALUE</text></package>')
-    return "\n".join(o), "BLUEPILL_2X20"
+    return "\n".join(o), "BLUEPILL_40P"
 
 def pkg_pads(name, pads, bw, bh, desc, drill=1.0, dia=1.8):
     """pads: list of (padname, x, y)"""
@@ -103,8 +117,8 @@ def box_symbol(name, left, right, title=">NAME"):
 
 # bluepill symbol (detailed), built directly
 def bp_symbol():
-    names_l = [BP_PINS["L%d" % (i+1)] for i in range(20)]
-    names_r = [BP_PINS["R%d" % (i+1)] for i in range(20)]
+    names_l = [BP_PINS["R%d" % (i+1)] for i in range(19, -1, -1)]   # pins 40..21 top to bottom
+    names_r = [BP_PINS["L%d" % (i+1)] for i in range(19, -1, -1)]   # pins 20..1 top to bottom
     # display names: strip the __Xn suffix is not possible in pin names, so keep it
     return box_symbol("BLUEPILL", names_l, names_r)
 bp_symbol()
@@ -118,10 +132,10 @@ def addset(name, prefix, left, right, package, desc, pinpad=None, symname=None):
     return name
 
 # Blue Pill
-DEVICESETS["BLUEPILL_GD32F103C8T6"] = dict(prefix="U", symbol="BLUEPILL", package="BLUEPILL_2X20",
+DEVICESETS["BLUEPILL_GD32F103C8T6"] = dict(prefix="U", symbol="BLUEPILL", package="BLUEPILL_40P",
     desc="Blue Pill GD32F103C8T6 module (pin names carry this project's pin roles)",
-    pinpad={BP_PINS[k]: k for k in BP_PINS})
-PACKAGES["BLUEPILL_2X20"] = pkg_bluepill()[0]
+    pinpad={BP_PINS[k]: BP_PADNUM[k] for k in BP_PINS})
+PACKAGES["BLUEPILL_40P"] = pkg_bluepill()[0]
 
 addset("RES", "R", ["1"], ["2"], "AXIAL_10.16", "Resistor")
 addset("CAP", "C", ["+"], ["-"], "RADIAL_2.5", "Electrolytic capacitor", {"+": "1", "-": "2"})

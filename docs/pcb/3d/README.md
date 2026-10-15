@@ -29,9 +29,13 @@ EasyEDA Pro (V3.2.206) accepts **`.zip` (OBJ + MTL), `.obj`, `.step` and `.stp`*
 
 Both models were imported this way into the EasyEDA Pro personal library of the project owner (private). Pro's library menu for a personal 3D model offers Replace, Link to New Device, Modify, Save as and Delete, but **no "make public" option**, so sharing with everyone happens through this GitHub folder (or through a public OSHWLab project that uses the models).
 
+![Blue Pill all 40 pins](BluePill_pinout_all_pins.png)
+
+One picture of the board with every pin name and its role in this project: [`BluePill_pinout_all_pins.png`](BluePill_pinout_all_pins.png) (SVG next to it). The EasyEDA schematic symbol uses the usual Blue Pill numbering: pins 1 to 20 on the right (B12 up to 3.3), pins 21 to 40 on the left (GND up to VBT), footprint pads numbered 1 to 40.
+
 ## Placeable Device (symbol + footprint) and schematic for EasyEDA Pro
 `../eda/` holds two EAGLE files made by [`tools/gen_eagle_schematic.py`](../../../tools/gen_eagle_schematic.py):
-- `AutoBath_parts_and_BluePill.lbr`: the Blue Pill device (40-pin symbol whose pin names carry this project's roles, e.g. `PA0_PIR_OUT`, `PA9_UART_TX`) plus simple parts.
+- `AutoBath_parts_and_BluePill.lbr`: the Blue Pill device (40-pin symbol, plain pin names B12, A0, GND, 3.3, RES, VBT) plus simple parts.
 - `AutoBath-Light-Fan_schematic.sch`: the full controller schematic (mains input, fuses, varistor, AC-DC module, two relay drivers, PIR, LDR, buttons, six LEDs, optional DHT and UART), nets joined by name labels, taken from `netlist.csv`.
 In EasyEDA Pro: File, Import, EAGLE, pick a file, option **Import Document and Extract Libraries** (for the .sch) or **Extract Libraries** (for the .lbr). Attach the 3D model to footprint `BLUEPILL_2X20` in the footprint editor (3D Model Manager, Personal list). Footprints other than the Blue Pill and plain headers are PLACEHOLDERS: verify the relay, AC-DC module and fuse holder against their datasheets.
 
