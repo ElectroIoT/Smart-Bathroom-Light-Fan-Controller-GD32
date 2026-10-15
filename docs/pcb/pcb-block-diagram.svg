@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+  <rect width="1200" height="760" rx="14" fill="#ffffff"/>
+  <text x="600" y="32" text-anchor="middle" font-size="21" font-weight="700" fill="#10264d">Custom PCB rev 1: block diagram and board zones</text>
+
+  <!-- zones -->
+  <rect x="20" y="55" width="500" height="600" rx="10" fill="#fff0f0" stroke="#c62828" stroke-width="2" stroke-dasharray="8 4"/>
+  <text x="35" y="78" font-size="15" font-weight="700" fill="#c62828">MAINS ZONE (230 V AC) - keep clear of everything else</text>
+  <rect x="560" y="55" width="620" height="600" rx="10" fill="#eef5ff" stroke="#2a62c9" stroke-width="2" stroke-dasharray="8 4"/>
+  <text x="575" y="78" font-size="15" font-weight="700" fill="#2a62c9">LOW-VOLTAGE ZONE (5 V / 3.3 V)</text>
+  <!-- slot -->
+  <rect x="528" y="55" width="24" height="600" rx="4" fill="#e0e0e0" stroke="#777" stroke-width="1.5"/>
+  <text x="540" y="360" text-anchor="middle" font-size="12" fill="#444" transform="rotate(-90 540 360)">ISOLATION SLOT (min 1 mm wide) + at least 6 mm copper-free gap each side</text>
+
+  <!-- mains path -->
+  <rect x="40" y="100" width="140" height="90" rx="8" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="110" y="125" text-anchor="middle" font-size="14" font-weight="700">J_AC</text>
+  <text x="110" y="145" text-anchor="middle" font-size="12">L  /  N  /  PE</text>
+  <text x="110" y="165" text-anchor="middle" font-size="11" fill="#555">screw terminal 250 V</text>
+
+  <rect x="220" y="100" width="90" height="40" rx="6" fill="#fff3cd" stroke="#b58900" stroke-width="2"/>
+  <text x="265" y="125" text-anchor="middle" font-size="13" font-weight="700" fill="#7a5a00">F1 fuse</text>
+  <rect x="220" y="160" width="90" height="40" rx="6" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="265" y="185" text-anchor="middle" font-size="13" font-weight="700">RV1 MOV</text>
+
+  <rect x="350" y="100" width="150" height="100" rx="8" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="425" y="130" text-anchor="middle" font-size="14" font-weight="700">PS1 AC-DC</text>
+  <text x="425" y="150" text-anchor="middle" font-size="12">5 V 600 mA, isolated</text>
+  <text x="425" y="170" text-anchor="middle" font-size="11" fill="#555">AC pins here, DC pins</text>
+  <text x="425" y="186" text-anchor="middle" font-size="11" fill="#555">on the far side</text>
+
+  <rect x="60" y="270" width="90" height="40" rx="6" fill="#fff3cd" stroke="#b58900" stroke-width="2"/>
+  <text x="105" y="295" text-anchor="middle" font-size="13" font-weight="700" fill="#7a5a00">F2 load fuse</text>
+
+  <rect x="190" y="250" width="140" height="80" rx="8" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="260" y="275" text-anchor="middle" font-size="14" font-weight="700">K1 light relay</text>
+  <text x="260" y="295" text-anchor="middle" font-size="12">COM = phase (F2)</text>
+  <text x="260" y="313" text-anchor="middle" font-size="12">NO = to J_LIGHT</text>
+  <rect x="360" y="250" width="140" height="80" rx="8" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="430" y="275" text-anchor="middle" font-size="14" font-weight="700">K2 fan relay</text>
+  <text x="430" y="295" text-anchor="middle" font-size="12">COM = phase (F2)</text>
+  <text x="430" y="313" text-anchor="middle" font-size="12">NO = to J_FAN</text>
+
+  <rect x="190" y="470" width="140" height="70" rx="8" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="260" y="498" text-anchor="middle" font-size="14" font-weight="700">J_LIGHT</text>
+  <text x="260" y="518" text-anchor="middle" font-size="12">L switched / N / PE</text>
+  <rect x="360" y="470" width="140" height="70" rx="8" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="430" y="498" text-anchor="middle" font-size="14" font-weight="700">J_FAN</text>
+  <text x="430" y="518" text-anchor="middle" font-size="12">L switched / N / PE</text>
+
+  <g fill="none" stroke="#c62828" stroke-width="3">
+    <path d="M180 120 H220"/><path d="M310 120 H350"/>
+    <path d="M265 140 V160"/>
+    <path d="M110 190 V270"/>
+    <path d="M150 290 H190"/><path d="M170 290 V230 H430 V250"/>
+    <path d="M260 330 V470"/><path d="M430 330 V470"/>
+  </g>
+  <path d="M500 290 H528" stroke="#999" stroke-width="2" stroke-dasharray="4 4" fill="none"/>
+  <text x="514" y="282" text-anchor="middle" font-size="10" fill="#777">coil</text>
+  <text x="40" y="580" font-size="12" fill="#7f0000">Phase is switched by K1 / K2. Neutral and earth go to the load terminals.</text>
+  <text x="40" y="600" font-size="12" fill="#7f0000">Mains tracks 2.5 mm or wider; 3 mm or more between L and N.</text>
+  <text x="40" y="620" font-size="12" fill="#7f0000">Earth (PE) is only passed through, never joined to GND.</text>
+
+  <!-- LV side -->
+  <rect x="580" y="100" width="170" height="100" rx="8" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="665" y="128" text-anchor="middle" font-size="14" font-weight="700">+5 V rail</text>
+  <text x="665" y="148" text-anchor="middle" font-size="12">from PS1 DC pins</text>
+  <text x="665" y="166" text-anchor="middle" font-size="12">C1 470 uF + C2 100 nF</text>
+  <text x="665" y="184" text-anchor="middle" font-size="12">D3 Schottky to Blue Pill 5V</text>
+
+  <rect x="800" y="100" width="360" height="330" rx="10" fill="#fff" stroke="#10264d" stroke-width="3"/>
+  <text x="980" y="128" text-anchor="middle" font-size="15" font-weight="700">Blue Pill (GD32F103C8T6) in sockets J1 / J2</text>
+  <g font-size="12.5" fill="#10264d">
+    <text x="815" y="160">PA0  PIR OUT</text>
+    <text x="815" y="182">PA1  relay 1 drive</text>
+    <text x="815" y="204">PA2  relay 2 drive</text>
+    <text x="815" y="226">PA3  PIR LED</text>
+    <text x="815" y="248">PA4  light LED</text>
+    <text x="815" y="270">PA5  fan LED</text>
+    <text x="815" y="292">PA6  FAULT LED</text>
+    <text x="1000" y="160">PA7  LDR (ADC)</text>
+    <text x="1000" y="182">PB0  light button</text>
+    <text x="1000" y="204">PB1  fan button</text>
+    <text x="1000" y="226">PB11 FAN-EN LED</text>
+    <text x="1000" y="248">PB13 heartbeat LED</text>
+    <text x="1000" y="270">PB12 DHT (option)</text>
+    <text x="1000" y="292">PA9  debug TX</text>
+  </g>
+  <text x="980" y="330" text-anchor="middle" font-size="12" fill="#555">SWD header stays reachable at the board edge</text>
+  <text x="980" y="350" text-anchor="middle" font-size="12" fill="#555">BOOT0 / BOOT1 jumpers at 0</text>
+  <text x="980" y="372" text-anchor="middle" font-size="12" fill="#555">3V3 pin feeds LDR divider and optional sensors</text>
+
+  <rect x="580" y="250" width="205" height="130" rx="8" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="682" y="276" text-anchor="middle" font-size="14" font-weight="700">Relay drivers (x2)</text>
+  <text x="682" y="298" text-anchor="middle" font-size="12">GPIO - 1k - NPN base</text>
+  <text x="682" y="316" text-anchor="middle" font-size="12">10k base to GND (OFF at reset)</text>
+  <text x="682" y="334" text-anchor="middle" font-size="12">coil to +5V, NPN to GND</text>
+  <text x="682" y="352" text-anchor="middle" font-size="12">1N4007 flyback across coil</text>
+  <text x="682" y="370" text-anchor="middle" font-size="11" fill="#a00">ACTIVE-HIGH (RELAY_ACTIVE_LOW 0)</text>
+
+  <g fill="none" stroke="#2a62c9" stroke-width="3">
+    <path d="M750 150 H800"/><path d="M785 315 H800"/>
+    <path d="M580 340 V470"/>
+  </g>
+  <path d="M500 290 H528 M500 390 H528" stroke="#999" stroke-width="2" stroke-dasharray="4 4" fill="none"/>
+  <text x="515" y="272" text-anchor="middle" font-size="10" fill="#777">coil</text>
+
+  <!-- connectors -->
+  <rect x="580" y="430" width="580" height="215" rx="10" fill="#fff" stroke="#2a62c9" stroke-width="1.5"/>
+  <text x="595" y="455" font-size="14" font-weight="700" fill="#2a62c9">Edge connectors (2.54 mm headers)</text>
+  <g font-size="12.5" fill="#10264d">
+    <text x="595" y="482">J_PIR   5V / OUT / GND    (R_PIR_A 1k series)</text>
+    <text x="595" y="504">J_LDR   3V3 / PA7 + R_LDR 10k to GND</text>
+    <text x="595" y="526">J_BTN1, J_BTN2   pin + GND</text>
+    <text x="595" y="548">J_LED1..6   anode / cathode, 330 R on board</text>
+    <text x="595" y="570">J_UART   TX / GND (optional)</text>
+    <text x="595" y="592">J_DHT 3V3 / DATA / GND, J_LDRD   (not populated)</text>
+    <text x="595" y="620" fill="#a00">Place the connectors along the board edge, away from the mains zone.</text>
+  </g>
+
+  <rect x="20" y="675" width="1160" height="75" rx="10" fill="#fff3cd" stroke="#b58900"/>
+  <text x="38" y="700" font-size="13" font-weight="700" fill="#7a5a00">Status: DESIGN DRAFT, not yet reviewed.</text>
+  <text x="38" y="718" font-size="12.5" fill="#7a5a00">Verify every part's datasheet (footprints, pin order, ratings) before ordering. Test the low-voltage side first with no mains,</text>
+  <text x="38" y="736" font-size="12.5" fill="#7a5a00">then with mains only inside a closed box. A qualified electrician should review the mains section.</text>
+</svg>

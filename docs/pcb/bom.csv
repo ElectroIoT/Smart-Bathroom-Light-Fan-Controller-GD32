@@ -1,0 +1,31 @@
+Ref,Qty,Part,Value / spec,Footprint (check in EasyEDA),Notes,Must verify
+U_MCU,1,Blue Pill style GD32F103C8T6 board,"plugs in, 3.3 V logic",2 x 1x20 female header 2.54 mm,"Rows are about 22.86 mm (0.9 in) apart on a Blue Pill: measure YOUR board with calipers before placing the sockets.",Yes: row spacing and board outline
+J1 J2,2,Female pin socket,1x20 2.54 mm,"1x20 female header, through-hole",Sockets for the Blue Pill (do not solder the board in).,No
+PS1,1,AC-DC module,"5 V 600 mA 3 W, 100-240 VAC in (HLK-PM01 type)",Through-hole module: AC pins one side and DC pins the other,"Isolated module. Check the real pin spacing and height from the datasheet and keep the slot between its AC and DC sides.",Yes: datasheet pinout and size
+F1,1,Fuse for the module,"slow-blow, about 1 A 250 V (check the module datasheet)","5x20 mm fuse holder, enclosed, through-hole",Place right after the mains input.,Yes: rating from the AC-DC module datasheet
+F2,1,Fuse for the loads,"slow-blow, sized for the lamp and fan current (for example 2 A) 250 V","5x20 mm fuse holder, enclosed",In series with phase to the relay common pins (K1 and K2 COM).,Yes: size to your real load and trace width
+RV1,1,Varistor,"about 275 VAC rated disc (for example 10D471K type), across L and N after F1",Radial disc 7.5 mm pitch,Surge protection for the module and relays.,Yes: voltage rating
+K1 K2,2,PCB relay,"5 V coil, about 70 mA, contacts 250 VAC (Songle SRD-05VDC-SL-C type)",SRD relay footprint (5 pins),"Single-pole changeover. Use NO and COM. Derate the printed 10 A rating for LED-lamp inrush and the fan motor.",Yes: footprint from the maker drawing
+Q1 Q2,2,NPN transistor,"S8050 or 2N2222, TO-92",TO-92,Low-side relay coil drivers.,No
+R_B1 R_B2,2,Resistor,1 kOhm 0.25 W,Axial/0207,Base resistors from the GPIO.,No
+R_PD1 R_PD2,2,Resistor,10 kOhm 0.25 W,Axial/0207,Pull-down on each base so the relays stay OFF while the MCU resets.,No
+D1 D2,2,Diode,"1N4007 (or 1N4148), flyback",DO-41,"Across each relay coil, cathode to +5V.",No
+D3,1,Schottky diode,1N5819 (1 A),DO-41,5V rail to the Blue Pill 5V pin (prevents back-feeding USB).,No
+C1,1,Electrolytic capacitor,"470 uF 10 V (or higher voltage)",Radial 6.3 mm pitch 2.5 mm,Bulk capacitor on +5V near the relays.,No
+C2,1,Ceramic capacitor,100 nF,Radial 5 mm,Decoupling on +5V.,No
+R_L1..R_L6,6,Resistor,330 Ohm 0.25 W (100 Ohm for blue/white LEDs),Axial/0207,One per external LED.,No
+J_LED1..J_LED6,6,2-pin header or screw terminal,"anode, cathode",1x2 2.54 mm,For panel LEDs on short wires.,No
+J_BTN1 J_BTN2,2,2-pin header,"pin and GND",1x2 2.54 mm,Panel push buttons (normally-open).,No
+J_PIR,1,3-pin header,"5V, OUT, GND",1x3 2.54 mm,HC-SR501 type PIR.,Yes: pin order of your PIR
+R_PIR_A,1,Resistor,"1 kOhm (10 kOhm only if the PIR output is 5 V)",Axial/0207,Series protection into PA0.,No
+R_PIR_B,1,Resistor,20 kOhm (DNP unless the PIR output is 5 V),Axial/0207,Divider bottom leg.,No
+J_LDR,1,2-pin header,"3V3, PA7",1x2 2.54 mm,Bare LDR on short wires.,No
+R_LDR,1,Resistor,10 kOhm 0.25 W,Axial/0207,LDR divider bottom resistor.,No
+J_DHT,1,3-pin header,"3V3, DATA, GND (DNP)",1x3 2.54 mm,Optional humidity sensor.,Yes: DHT pin order
+R_DHT,1,Resistor,10 kOhm (DNP),Axial/0207,DHT data pull-up (not needed on 3-pin modules).,No
+J_LDRD,1,3-pin header,"3V3, DO, GND (DNP)",1x3 2.54 mm,Optional digital LDR module.,No
+J_UART,1,2-pin header,"TX, GND",1x2 2.54 mm,Optional debug serial.,No
+J_AC,1,Screw terminal,"3 pin, 5.0/5.08 mm pitch, 250 V rated (L, N, PE)",KF301/KF350-type 3P,Mains input.,Yes: voltage and current rating of the terminal
+J_LIGHT,1,Screw terminal,"3 pin, 5.0/5.08 mm pitch, 250 V rated (L switched, N, PE)",3P,Lamp output.,Yes: rating
+J_FAN,1,Screw terminal,"3 pin, 5.0/5.08 mm pitch, 250 V rated (L switched, N, PE)",3P,Fan output.,Yes: rating
+H1..H4,4,Mounting hole,M3 plastic standoff,M3 hole,"Use plastic standoffs only; keep mains copper far from the holes.",No
