@@ -39,6 +39,8 @@ One picture of the board with every pin name and its role in this project: [`Blu
 - `AutoBath-Light-Fan_schematic.sch`: the full controller schematic (mains input, fuses, varistor, AC-DC module, two relay drivers, PIR, LDR, buttons, six LEDs, optional DHT and UART), nets joined by name labels, taken from `netlist.csv`.
 In EasyEDA Pro: File, Import, EAGLE, pick a file, option **Import Document and Extract Libraries** (for the .sch) or **Extract Libraries** (for the .lbr). Attach the 3D model to footprint `BLUEPILL_2X20` in the footprint editor (3D Model Manager, Personal list). Footprints other than the Blue Pill and plain headers are PLACEHOLDERS: verify the relay, AC-DC module and fuse holder against their datasheets.
 
+**Orientation:** the footprint pads match the 3D model's pin positions: pad 1 (B12) is at +X on the +Y row and pad 21 (GND) at +X on the -Y row, the USB end of the model. The model's USB-end assumption is from memory, not a datasheet: confirm which end of your real Blue Pill the USB connector is on before relying on it.
+
 ## Adding a model in EasyEDA Standard edition
 1. Top menu **New → PCB 3D Lib**, then import `..._mm.wrl` (or the `_obj.zip`: EasyEDA wants OBJ zipped with its MTL; file extensions must be lowercase).
 2. In your PCB or footprint open **Tools → 3D Model Manager**, select the footprint, pick the imported model on the right.

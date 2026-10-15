@@ -53,9 +53,9 @@ def rect_wires(x1,y1,x2,y2,layer,w):
 # ---------------- packages ----------------
 def pkg_bluepill():
     o = ['<package name="BLUEPILL_40P"><description>Blue Pill module 53.34 x 22.86 mm, rows 20.32 mm apart (assumed, measure yours)</description>']
-    x0 = -(19*PITCH)/2
+    x0 = (19*PITCH)/2
     for i in range(20):
-        x = x0 + i*PITCH
+        x = x0 - i*PITCH      # pin 1 / pin 21 at +X, exactly where the 3D model has B12 and GND (USB end of the model = +X)
         for side, y, base in (("L", ROW/2, 0), ("R", -ROW/2, 20)):
             o.append('<pad name="%d" x="%.3f" y="%.3f" drill="1.0" diameter="1.8" shape="%s"/>' % (base+i+1, x, y, "square" if i == 0 and side == "L" else "round"))
     o += rect_wires(-LEN/2,-W/2,LEN/2,W/2,21,0.2)
