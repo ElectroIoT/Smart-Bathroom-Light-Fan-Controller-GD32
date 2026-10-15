@@ -29,12 +29,23 @@ import zipfile
 L_MM, W_MM, T_MM = 53.34, 22.5, 1.6      # board length (X, USB end = +X), width (Y), thickness (measured from a photo, about +-0.4 mm)
 ROW_MM = 15.24                           # distance between the two header rows: 0.6 in (photo scaled by the 2.54 mm pin pitch, and two community footprints)
 PITCH = 2.54
-SOCKET_H = 8.5                           # height of the female sockets on the host PCB (measure)
 HDR_PLASTIC = 2.5                        # male header plastic block under the board
-PIN_TIP = 3.0                            # header pin tip above the board top
-PIN_IN = 6.0                             # pin length below the plastic (inserted into the socket)
+# Default models are SOLDER-IN parts: the header plastic sits on the host PCB, the pins pass down through it (like any
+# through-hole part) and the pin tips stick out only a little above the module. The socket variant is only used for the
+# "sockets assembly" extra.
+SOCKET_H = 0.0                           # height of female sockets under the plastic (0 = soldered straight into the PCB)
+PIN_TIP = 1.0                            # header pin tip above the board top
+PIN_IN = 3.2                             # pin length below the plastic (through the 1.6 mm host PCB, a little past it)
 Z0 = SOCKET_H + HDR_PLASTIC              # underside of the board (= lift above the host PCB)
 ZT = Z0 + T_MM                           # top of the board
+
+
+def configure(socket_h, pin_in, pin_tip):
+    """Switch between the solder-in default and the socket assembly variant."""
+    global SOCKET_H, PIN_IN, PIN_TIP, Z0, ZT
+    SOCKET_H, PIN_IN, PIN_TIP = socket_h, pin_in, pin_tip
+    Z0 = SOCKET_H + HDR_PLASTIC
+    ZT = Z0 + T_MM
 
 OUT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "docs", "pcb", "3d")
 
@@ -316,7 +327,7 @@ def emit(folder, base, parts, full):
     write_wrl(os.path.join(folder, base + "_mm.wrl"), 1.0)
     if full:
         write_wrl(os.path.join(folder, base + "_kicad_scale.wrl"), 2.54)
-        write_obj_zip(os.path.join(folder, base + "_obj.zip"), base.lower() + "_rev2")   # unique title: EasyEDA rejects a duplicate model title
+        write_obj_zip(os.path.join(folder, base + "_obj.zip"), base.lower() + "_rev3")   # unique title: EasyEDA rejects a duplicate model title
     print("  %-52s faces %5d" % (base, sum(len(f) for _, f in mesh.values())))
 
 
@@ -330,8 +341,11 @@ def main():
     for base, parts in MAIN:
         emit(OUT_DIR, base, parts, True)
     for base, parts in EXTRAS:
+        if "sockets_assembly" in base:
+            configure(8.5, 6.0, 3.0)                                 # module plugged into female sockets
         emit(extras_dir, base, parts, False)
-    print("written to", OUT_DIR, "| board underside z =", Z0, "mm")
+        configure(0.0, 3.2, 1.0)
+    print("written to", OUT_DIR, "| board underside z =", Z0, "mm (solder-in)")
 
 
 if __name__ == "__main__":
