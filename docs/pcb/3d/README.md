@@ -20,7 +20,16 @@ Two ready-to-use models of a Blue Pill style board, **one with the pin headers a
 
 ![pinout tags](preview_pinout_tags_reference.jpg)
 
-## Adding a model in EasyEDA (Standard edition)
+## Adding a model in EasyEDA Pro (tested)
+EasyEDA Pro (V3.2.206) accepts **`.zip` (OBJ + MTL), `.obj`, `.step` and `.stp`**. It rejects `.wrl` ("incorrect file format"), so use the OBJ zips from this folder:
+1. On the start page choose **New 3D Model** (or Library, 3D Model tab, Add).
+2. Pick the owner, keep the unit **default (mm)**, and select `BluePill_GD32F103C8T6_WITH_header_obj.zip` or `..._WITHOUT_header_obj.zip`.
+3. Tick the model in the **Model list** and click **Save**. The model appears under **Library, 3D Model, Personal**.
+4. Attach it to a footprint with the footprint editor's 3D model option.
+
+Both models were imported this way into the EasyEDA Pro personal library of the project owner (private). Pro's library menu for a personal 3D model offers Replace, Link to New Device, Modify, Save as and Delete, but **no "make public" option**, so sharing with everyone happens through this GitHub folder (or through a public OSHWLab project that uses the models).
+
+## Adding a model in EasyEDA Standard edition
 1. Top menu **New → PCB 3D Lib**, then import `..._mm.wrl` (or the `_obj.zip`: EasyEDA wants OBJ zipped with its MTL; file extensions must be lowercase).
 2. In your PCB or footprint open **Tools → 3D Model Manager**, select the footprint, pick the imported model on the right.
 3. Match the model outline to the footprint (width, height, X, Y, rotation), then click **Update**, and check the **3D preview**.
