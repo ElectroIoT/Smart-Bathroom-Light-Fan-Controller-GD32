@@ -8,3 +8,5 @@ The 3D model is only referenced by ID in this file, it is **not inside it**. To 
 3. Open footprint `BLUEPILL_40P`, 3D Model, pick it from the Personal list, Save.
 
 Exported 2026-10-15 from V3.2.206. Not tested by importing into a second account yet. Measurements are from a photo, see [`../3d/README.md`](../3d/README.md).
+
+Licence: CC BY 4.0, see [`../LICENSE.md`](../LICENSE.md).

@@ -56,4 +56,4 @@ python tools/gen_bluepill_pinpic.py      # pin picture (SVG)
 ```
 
 ## License
-Not chosen yet. For something meant to be shared, CC0 1.0 (public domain) or CC BY 4.0 are the usual choices. Add the licence you want before you publish it somewhere other than this repository.
+CC BY 4.0: free to use, change and sell with credit. See [`../LICENSE.md`](../LICENSE.md).
