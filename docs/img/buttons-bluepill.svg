@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 517" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+<style>.blink { animation: blink 1s steps(1) infinite; } @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.15; } }</style>
+<rect width="1000" height="517" rx="14" fill="#f6f9ff" stroke="#c9d6ee"/>
+<text x="500" y="32" font-size="20" font-weight="700" fill="#10264d" text-anchor="middle">Two push buttons and the FAN-ENABLED LED to the Blue Pill</text>
+<rect x="20" y="55" width="360" height="330" rx="10" fill="none" stroke="#2a62c9" stroke-width="1.5" stroke-dasharray="7 4"/>
+<text x="34" y="77" font-size="14" font-weight="700" fill="#2a62c9" text-anchor="start">INSIDE the plastic box</text>
+<rect x="380" y="55" width="600" height="330" rx="10" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="7 4"/>
+<text x="394" y="77" font-size="14" font-weight="700" fill="#555" text-anchor="start">OUTSIDE (box lid / front panel)</text>
+<rect x="40" y="90" width="150" height="280" rx="10" fill="#e3edff" stroke="#2a62c9" stroke-width="2"/>
+<text x="52" y="114" font-size="15" font-weight="700" fill="#2a62c9" text-anchor="start">BLUE PILL</text>
+<text x="52" y="132" font-size="12" font-weight="400" fill="#2a62c9" text-anchor="start">GD32F103C8T6</text>
+<text x="52" y="358" font-size="11" font-weight="400" fill="#5a6f99" text-anchor="start">USB end at the top</text>
+<rect x="186" y="110" width="104" height="30" rx="5" fill="#3949ab" stroke="#3949ab" stroke-width="1"/>
+<text x="238" y="130" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">PB0 (B0)</text>
+<line x1="290" y1="125" x2="600" y2="125" stroke="#444" stroke-width="2"/>
+<rect x="600" y="111" width="70" height="28" rx="14" fill="#cfd8dc" stroke="#444" stroke-width="2"/>
+<text x="635" y="130" font-size="11" font-weight="700" fill="#10264d" text-anchor="middle">BUTTON</text>
+<line x1="670" y1="125" x2="900" y2="125" stroke="#444" stroke-width="2"/>
+<text x="320" y="103" font-size="12" font-weight="400" fill="#10264d" text-anchor="start">LIGHT override: ON 30 min, again = cancel</text>
+<line x1="900" y1="125" x2="900" y2="290" stroke="#000" stroke-width="2.5"/>
+<rect x="186" y="175" width="104" height="30" rx="5" fill="#3949ab" stroke="#3949ab" stroke-width="1"/>
+<text x="238" y="195" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">PB1 (B1)</text>
+<line x1="290" y1="190" x2="600" y2="190" stroke="#444" stroke-width="2"/>
+<rect x="600" y="176" width="70" height="28" rx="14" fill="#cfd8dc" stroke="#444" stroke-width="2"/>
+<text x="635" y="195" font-size="11" font-weight="700" fill="#10264d" text-anchor="middle">BUTTON</text>
+<line x1="670" y1="190" x2="900" y2="190" stroke="#444" stroke-width="2"/>
+<text x="320" y="168" font-size="12" font-weight="400" fill="#10264d" text-anchor="start">FAN enable / disable: toggle, kept in flash</text>
+<line x1="900" y1="190" x2="900" y2="290" stroke="#000" stroke-width="2.5"/>
+<rect x="186" y="275" width="104" height="30" rx="5" fill="#000000" stroke="#000000" stroke-width="1"/>
+<text x="238" y="295" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<line x1="290" y1="290" x2="900" y2="290" stroke="#000" stroke-width="2.5"/>
+<text x="600" y="282" font-size="12" font-weight="400" fill="#000" text-anchor="middle">button other leg to GND (no resistor: internal pull-up)</text>
+<rect x="186" y="320" width="104" height="30" rx="5" fill="#43a047" stroke="#43a047" stroke-width="1"/>
+<text x="238" y="340" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">PB11 (B11)</text>
+<line x1="290" y1="335" x2="480" y2="335" stroke="#444" stroke-width="2"/>
+<rect x="480" y="325" width="70" height="20" rx="0" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="515" y="319" font-size="12" font-weight="400" fill="#10264d" text-anchor="middle">330 &#937;</text>
+<line x1="550" y1="335" x2="650" y2="335" stroke="#444" stroke-width="2"/>
+<circle cx="670" cy="335" r="20" fill="#43a047"/>
+<line x1="690" y1="335" x2="900" y2="335" stroke="#000" stroke-width="2.5"/>
+<line x1="900" y1="335" x2="900" y2="290" stroke="#000" stroke-width="2.5"/>
+<text x="705" y="327" font-size="12" font-weight="400" fill="#10264d" text-anchor="start">FAN-ENABLED: on = fan active</text>
+<rect x="20" y="405" width="960" height="94" rx="8" fill="#fff6d6" stroke="#b58900" stroke-width="1"/>
+<text x="35" y="427" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">Buttons are active LOW (BUTTON_ACTIVE_LOW 1): the pin is pulled up inside the chip, pressing connects it to GND. Debounce 40 ms in firmware.</text>
+<text x="35" y="447" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">Hold BOTH buttons for 5 s = LED silent mode (all LEDs dark except the red FAULT LED); hold again to bring them back.</text>
+<text x="35" y="467" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">Use buttons with their own cable up to a few metres; for long runs add a 100 nF capacitor across each button. Keep away from the 230 V wiring.</text>
+<text x="35" y="487" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">LED wiring for the other five LEDs: leds-bluepill.svg.</text>
+</svg>

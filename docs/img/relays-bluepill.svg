@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 757" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+<style>.blink { animation: blink 1s steps(1) infinite; } @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.15; } }</style>
+<rect width="1000" height="757" rx="14" fill="#f6f9ff" stroke="#c9d6ee"/>
+<text x="500" y="32" font-size="20" font-weight="700" fill="#10264d" text-anchor="middle">Both relays: Blue Pill pin -&gt; opto driver -&gt; relay -&gt; terminal block</text>
+<rect x="20" y="52" width="760" height="245" rx="10" fill="none" stroke="#2a62c9" stroke-width="1.5" stroke-dasharray="7 4"/>
+<text x="34" y="74" font-size="14" font-weight="700" fill="#2a62c9" text-anchor="start">INSIDE the box - low voltage (Blue Pill + opto driver)</text>
+<rect x="780" y="52" width="200" height="245" rx="10" fill="none" stroke="#c62828" stroke-width="1.5" stroke-dasharray="7 4"/>
+<text x="794" y="74" font-size="13" font-weight="700" fill="#c62828" text-anchor="start">230 V side (terminal block)</text>
+<text x="400" y="74" font-size="15" font-weight="700" fill="#10264d" text-anchor="start">LIGHT relay - channel 1</text>
+<rect x="36" y="92" width="104" height="30" rx="5" fill="#c62828" stroke="#c62828" stroke-width="1"/>
+<text x="88" y="112" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">5V</text>
+<rect x="36" y="177" width="104" height="30" rx="5" fill="#f9a825" stroke="#f9a825" stroke-width="1"/>
+<text x="88" y="197" font-size="14" font-weight="700" fill="#000" text-anchor="middle">PA1 (A1)</text>
+<rect x="36" y="252" width="104" height="30" rx="5" fill="#000000" stroke="#000000" stroke-width="1"/>
+<text x="88" y="272" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<line x1="140" y1="107" x2="730" y2="107" stroke="#c62828" stroke-width="2.5"/>
+<text x="300" y="99" font-size="12" font-weight="700" fill="#c62828" text-anchor="start">+5V</text>
+<line x1="140" y1="267" x2="700" y2="267" stroke="#000" stroke-width="2.5"/>
+<text x="520" y="285" font-size="12" font-weight="700" fill="#000" text-anchor="start">GND</text>
+<line x1="140" y1="192" x2="330" y2="192" stroke="#444" stroke-width="2"/>
+<text x="160" y="184" font-size="12" font-weight="700" fill="#10264d" text-anchor="start">IN1 (active LOW)</text>
+<line x1="240" y1="107" x2="240" y2="152" stroke="#444" stroke-width="2"/>
+<circle cx="240" cy="107" r="3.5" fill="#444"/>
+<line x1="240" y1="152" x2="255" y2="152" stroke="#444" stroke-width="2"/>
+<rect x="255" y="142" width="70" height="20" rx="0" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="290" y="136" font-size="12" font-weight="400" fill="#10264d" text-anchor="middle">R2 470 &#937;</text>
+<line x1="325" y1="152" x2="330" y2="152" stroke="#444" stroke-width="2"/>
+<rect x="330" y="132" width="90" height="85" rx="4" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="375" y="179" font-size="13" font-weight="700" fill="#10264d" text-anchor="middle">PC-817</text>
+<text x="337" y="156" font-size="11" font-weight="700" fill="#888" text-anchor="start">1</text>
+<text x="337" y="196" font-size="11" font-weight="700" fill="#888" text-anchor="start">2</text>
+<text x="413" y="156" font-size="11" font-weight="700" fill="#888" text-anchor="end">4</text>
+<text x="413" y="196" font-size="11" font-weight="700" fill="#888" text-anchor="end">3</text>
+<line x1="420" y1="152" x2="440" y2="152" stroke="#444" stroke-width="2"/>
+<line x1="440" y1="152" x2="440" y2="107" stroke="#444" stroke-width="2"/>
+<circle cx="440" cy="107" r="3.5" fill="#444"/>
+<line x1="420" y1="192" x2="450" y2="192" stroke="#444" stroke-width="2"/>
+<rect x="450" y="182" width="70" height="20" rx="0" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="485" y="176" font-size="12" font-weight="400" fill="#10264d" text-anchor="middle">R1 2.2 k</text>
+<line x1="520" y1="192" x2="600" y2="192" stroke="#444" stroke-width="2"/>
+<circle cx="560" cy="192" r="3.5" fill="#444"/>
+<line x1="560" y1="192" x2="560" y2="222" stroke="#444" stroke-width="2"/>
+<rect x="550" y="222" width="20" height="35" rx="0" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="578" y="245" font-size="12" font-weight="400" fill="#10264d" text-anchor="start">R3 10 k</text>
+<line x1="560" y1="257" x2="560" y2="267" stroke="#444" stroke-width="2"/>
+<circle cx="560" cy="267" r="3.5" fill="#444"/>
+<rect x="600" y="177" width="80" height="36" rx="4" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="640" y="200" font-size="12" font-weight="700" fill="#10264d" text-anchor="middle">S8050 NPN</text>
+<text x="606" y="173" font-size="11" font-weight="700" fill="#888" text-anchor="start">B</text>
+<text x="668" y="173" font-size="11" font-weight="700" fill="#888" text-anchor="start">C</text>
+<text x="668" y="227" font-size="11" font-weight="700" fill="#888" text-anchor="start">E</text>
+<line x1="660" y1="213" x2="660" y2="267" stroke="#444" stroke-width="2"/>
+<circle cx="660" cy="267" r="3.5" fill="#444"/>
+<rect x="645" y="122" width="30" height="45" rx="0" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="638" y="147" font-size="12" font-weight="700" fill="#10264d" text-anchor="end">COIL</text>
+<text x="638" y="161" font-size="11" font-weight="400" fill="#10264d" text-anchor="end">5 V</text>
+<line x1="660" y1="107" x2="660" y2="122" stroke="#444" stroke-width="2"/>
+<circle cx="660" cy="107" r="3.5" fill="#444"/>
+<line x1="660" y1="167" x2="660" y2="177" stroke="#444" stroke-width="2"/>
+<circle cx="660" cy="182" r="3.5" fill="#444"/>
+<line x1="730" y1="107" x2="730" y2="135" stroke="#444" stroke-width="2"/>
+<circle cx="730" cy="107" r="3.5" fill="#444"/>
+<polyline points="720,157 740,157 730,137 720,157" fill="none" stroke="#444" stroke-width="2"/>
+<line x1="719" y1="135" x2="741" y2="135" stroke="#444" stroke-width="3"/>
+<line x1="730" y1="157" x2="730" y2="182" stroke="#444" stroke-width="2"/>
+<line x1="660" y1="182" x2="730" y2="182" stroke="#444" stroke-width="2"/>
+<text x="742" y="151" font-size="10" font-weight="400" fill="#10264d" text-anchor="start">1N4007</text>
+<rect x="790" y="122" width="90" height="105" rx="4" fill="#fff" stroke="#c62828" stroke-width="2"/>
+<text x="835" y="145" font-size="11" font-weight="700" fill="#c62828" text-anchor="middle">SRD-05VDC</text>
+<text x="835" y="159" font-size="11" font-weight="700" fill="#c62828" text-anchor="middle">-SL-C contacts</text>
+<line x1="880" y1="177" x2="925" y2="177" stroke="#c62828" stroke-width="2.5"/>
+<text x="884" y="173" font-size="11" font-weight="700" fill="#c62828" text-anchor="start">COM</text>
+<line x1="880" y1="197" x2="925" y2="197" stroke="#2e7d32" stroke-width="2.5"/>
+<text x="884" y="193" font-size="11" font-weight="700" fill="#2e7d32" text-anchor="start">NO</text>
+<line x1="880" y1="217" x2="925" y2="217" stroke="#777" stroke-width="2.5"/>
+<text x="884" y="213" font-size="11" font-weight="700" fill="#777" text-anchor="start">NC</text>
+<rect x="925" y="162" width="45" height="65" rx="4" fill="#2e7d32" stroke="#1b5e20" stroke-width="1"/>
+<text x="947" y="180" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">COM</text>
+<text x="947" y="200" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">NO</text>
+<text x="947" y="220" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">NC</text>
+<text x="870" y="249" font-size="10" font-weight="400" fill="#10264d" text-anchor="middle">DG305-5.0-03P</text>
+<text x="870" y="263" font-size="10" font-weight="400" fill="#10264d" text-anchor="middle">NO + COM switch the lamp</text>
+<rect x="20" y="307" width="760" height="245" rx="10" fill="none" stroke="#2a62c9" stroke-width="1.5" stroke-dasharray="7 4"/>
+<text x="34" y="329" font-size="14" font-weight="700" fill="#2a62c9" text-anchor="start">INSIDE the box - low voltage (Blue Pill + opto driver)</text>
+<rect x="780" y="307" width="200" height="245" rx="10" fill="none" stroke="#c62828" stroke-width="1.5" stroke-dasharray="7 4"/>
+<text x="794" y="329" font-size="13" font-weight="700" fill="#c62828" text-anchor="start">230 V side (terminal block)</text>
+<text x="400" y="329" font-size="15" font-weight="700" fill="#10264d" text-anchor="start">FAN relay - channel 2</text>
+<rect x="36" y="347" width="104" height="30" rx="5" fill="#c62828" stroke="#c62828" stroke-width="1"/>
+<text x="88" y="367" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">5V</text>
+<rect x="36" y="432" width="104" height="30" rx="5" fill="#00acc1" stroke="#00acc1" stroke-width="1"/>
+<text x="88" y="452" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">PA2 (A2)</text>
+<rect x="36" y="507" width="104" height="30" rx="5" fill="#000000" stroke="#000000" stroke-width="1"/>
+<text x="88" y="527" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<line x1="140" y1="362" x2="730" y2="362" stroke="#c62828" stroke-width="2.5"/>
+<text x="300" y="354" font-size="12" font-weight="700" fill="#c62828" text-anchor="start">+5V</text>
+<line x1="140" y1="522" x2="700" y2="522" stroke="#000" stroke-width="2.5"/>
+<text x="520" y="540" font-size="12" font-weight="700" fill="#000" text-anchor="start">GND</text>
+<line x1="140" y1="447" x2="330" y2="447" stroke="#444" stroke-width="2"/>
+<text x="160" y="439" font-size="12" font-weight="700" fill="#10264d" text-anchor="start">IN2 (active LOW)</text>
+<line x1="240" y1="362" x2="240" y2="407" stroke="#444" stroke-width="2"/>
+<circle cx="240" cy="362" r="3.5" fill="#444"/>
+<line x1="240" y1="407" x2="255" y2="407" stroke="#444" stroke-width="2"/>
+<rect x="255" y="397" width="70" height="20" rx="0" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="290" y="391" font-size="12" font-weight="400" fill="#10264d" text-anchor="middle">R2 470 &#937;</text>
+<line x1="325" y1="407" x2="330" y2="407" stroke="#444" stroke-width="2"/>
+<rect x="330" y="387" width="90" height="85" rx="4" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="375" y="434" font-size="13" font-weight="700" fill="#10264d" text-anchor="middle">PC-817</text>
+<text x="337" y="411" font-size="11" font-weight="700" fill="#888" text-anchor="start">1</text>
+<text x="337" y="451" font-size="11" font-weight="700" fill="#888" text-anchor="start">2</text>
+<text x="413" y="411" font-size="11" font-weight="700" fill="#888" text-anchor="end">4</text>
+<text x="413" y="451" font-size="11" font-weight="700" fill="#888" text-anchor="end">3</text>
+<line x1="420" y1="407" x2="440" y2="407" stroke="#444" stroke-width="2"/>
+<line x1="440" y1="407" x2="440" y2="362" stroke="#444" stroke-width="2"/>
+<circle cx="440" cy="362" r="3.5" fill="#444"/>
+<line x1="420" y1="447" x2="450" y2="447" stroke="#444" stroke-width="2"/>
+<rect x="450" y="437" width="70" height="20" rx="0" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="485" y="431" font-size="12" font-weight="400" fill="#10264d" text-anchor="middle">R1 2.2 k</text>
+<line x1="520" y1="447" x2="600" y2="447" stroke="#444" stroke-width="2"/>
+<circle cx="560" cy="447" r="3.5" fill="#444"/>
+<line x1="560" y1="447" x2="560" y2="477" stroke="#444" stroke-width="2"/>
+<rect x="550" y="477" width="20" height="35" rx="0" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="578" y="500" font-size="12" font-weight="400" fill="#10264d" text-anchor="start">R3 10 k</text>
+<line x1="560" y1="512" x2="560" y2="522" stroke="#444" stroke-width="2"/>
+<circle cx="560" cy="522" r="3.5" fill="#444"/>
+<rect x="600" y="432" width="80" height="36" rx="4" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="640" y="455" font-size="12" font-weight="700" fill="#10264d" text-anchor="middle">S8050 NPN</text>
+<text x="606" y="428" font-size="11" font-weight="700" fill="#888" text-anchor="start">B</text>
+<text x="668" y="428" font-size="11" font-weight="700" fill="#888" text-anchor="start">C</text>
+<text x="668" y="482" font-size="11" font-weight="700" fill="#888" text-anchor="start">E</text>
+<line x1="660" y1="468" x2="660" y2="522" stroke="#444" stroke-width="2"/>
+<circle cx="660" cy="522" r="3.5" fill="#444"/>
+<rect x="645" y="377" width="30" height="45" rx="0" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="638" y="402" font-size="12" font-weight="700" fill="#10264d" text-anchor="end">COIL</text>
+<text x="638" y="416" font-size="11" font-weight="400" fill="#10264d" text-anchor="end">5 V</text>
+<line x1="660" y1="362" x2="660" y2="377" stroke="#444" stroke-width="2"/>
+<circle cx="660" cy="362" r="3.5" fill="#444"/>
+<line x1="660" y1="422" x2="660" y2="432" stroke="#444" stroke-width="2"/>
+<circle cx="660" cy="437" r="3.5" fill="#444"/>
+<line x1="730" y1="362" x2="730" y2="390" stroke="#444" stroke-width="2"/>
+<circle cx="730" cy="362" r="3.5" fill="#444"/>
+<polyline points="720,412 740,412 730,392 720,412" fill="none" stroke="#444" stroke-width="2"/>
+<line x1="719" y1="390" x2="741" y2="390" stroke="#444" stroke-width="3"/>
+<line x1="730" y1="412" x2="730" y2="437" stroke="#444" stroke-width="2"/>
+<line x1="660" y1="437" x2="730" y2="437" stroke="#444" stroke-width="2"/>
+<text x="742" y="406" font-size="10" font-weight="400" fill="#10264d" text-anchor="start">1N4007</text>
+<rect x="790" y="377" width="90" height="105" rx="4" fill="#fff" stroke="#c62828" stroke-width="2"/>
+<text x="835" y="400" font-size="11" font-weight="700" fill="#c62828" text-anchor="middle">SRD-05VDC</text>
+<text x="835" y="414" font-size="11" font-weight="700" fill="#c62828" text-anchor="middle">-SL-C contacts</text>
+<line x1="880" y1="432" x2="925" y2="432" stroke="#c62828" stroke-width="2.5"/>
+<text x="884" y="428" font-size="11" font-weight="700" fill="#c62828" text-anchor="start">COM</text>
+<line x1="880" y1="452" x2="925" y2="452" stroke="#2e7d32" stroke-width="2.5"/>
+<text x="884" y="448" font-size="11" font-weight="700" fill="#2e7d32" text-anchor="start">NO</text>
+<line x1="880" y1="472" x2="925" y2="472" stroke="#777" stroke-width="2.5"/>
+<text x="884" y="468" font-size="11" font-weight="700" fill="#777" text-anchor="start">NC</text>
+<rect x="925" y="417" width="45" height="65" rx="4" fill="#2e7d32" stroke="#1b5e20" stroke-width="1"/>
+<text x="947" y="435" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">COM</text>
+<text x="947" y="455" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">NO</text>
+<text x="947" y="475" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">NC</text>
+<text x="870" y="504" font-size="10" font-weight="400" fill="#10264d" text-anchor="middle">DG305-5.0-03P</text>
+<text x="870" y="518" font-size="10" font-weight="400" fill="#10264d" text-anchor="middle">NO + COM switch the fan</text>
+<rect x="20" y="565" width="960" height="174" rx="8" fill="#fff6d6" stroke="#b58900" stroke-width="1"/>
+<text x="35" y="587" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">Active LOW (RELAY_ACTIVE_LOW 1): pin goes LOW -&gt; PC-817 LED lights (5 V through R2 470 &#937;) -&gt; its transistor feeds the S8050 base through R1 2.2</text>
+<text x="35" y="607" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">   k -&gt; relay pulls in.</text>
+<text x="35" y="627" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">R3 10 k from the S8050 base to GND keeps the relay off while the Blue Pill boots. 1N4007 across the coil, bar to +5V. The 230 V side never touches</text>
+<text x="35" y="647" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">   the Blue Pill.</text>
+<text x="35" y="667" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">Contacts: COM = common (mains in), NO = closed while the relay is ON (lamp / fan), NC = closed while OFF. Stage as drawn in the AutoBath</text>
+<text x="35" y="687" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">   schematic: bench test with NO mains first.</text>
+<text x="35" y="707" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">A ready-made 2-channel relay module instead? IN1 -&gt; PA1, IN2 -&gt; PA2, VCC -&gt; 5V, GND -&gt; GND (see connections.svg).</text>
+<text x="35" y="727" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">Mains wiring only by a qualified electrician; keep mains copper well away from the Blue Pill side.</text>
+</svg>
