@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 502" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+<style>.blink { animation: blink 1s steps(1) infinite; } @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.15; } }</style>
+<rect width="1000" height="502" rx="14" fill="#f6f9ff" stroke="#c9d6ee"/>
+<text x="500" y="32" font-size="20" font-weight="700" fill="#10264d" text-anchor="middle">PIR motion sensor (HC-SR501 type) to the Blue Pill</text>
+<rect x="20" y="55" width="960" height="280" rx="10" fill="none" stroke="#2a62c9" stroke-width="1.5" stroke-dasharray="7 4"/>
+<text x="34" y="77" font-size="14" font-weight="700" fill="#2a62c9" text-anchor="start">Low voltage only</text>
+<rect x="40" y="90" width="150" height="230" rx="10" fill="#e3edff" stroke="#2a62c9" stroke-width="2"/>
+<text x="52" y="114" font-size="15" font-weight="700" fill="#2a62c9" text-anchor="start">BLUE PILL</text>
+<text x="52" y="132" font-size="12" font-weight="400" fill="#2a62c9" text-anchor="start">GD32F103C8T6</text>
+<text x="52" y="308" font-size="11" font-weight="400" fill="#5a6f99" text-anchor="start">USB end at the top</text>
+<rect x="186" y="115" width="104" height="30" rx="5" fill="#c62828" stroke="#c62828" stroke-width="1"/>
+<text x="238" y="135" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">5V</text>
+<rect x="186" y="175" width="104" height="30" rx="5" fill="#8e24aa" stroke="#8e24aa" stroke-width="1"/>
+<text x="238" y="195" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">PA0 (A0)</text>
+<rect x="186" y="235" width="104" height="30" rx="5" fill="#000000" stroke="#000000" stroke-width="1"/>
+<text x="238" y="255" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<rect x="620" y="100" width="200" height="190" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+<text x="720" y="126" font-size="15" font-weight="700" fill="#1b5e20" text-anchor="middle">PIR module</text>
+<text x="720" y="146" font-size="12" font-weight="400" fill="#1b5e20" text-anchor="middle">HC-SR501 type</text>
+<circle cx="720" cy="215" r="42" fill="#fff" stroke="#2e7d32" stroke-width="2"/><circle cx="720" cy="215" r="26" fill="#c8e6c9" stroke="#2e7d32"/>
+<line x1="290" y1="130" x2="620" y2="130" stroke="#c62828" stroke-width="2.5"/>
+<rect x="620" y="120" width="40" height="20" rx="3" fill="#fff" stroke="#444" stroke-width="1.5"/>
+<text x="640" y="135" font-size="11" font-weight="700" fill="#10264d" text-anchor="middle">VCC</text>
+<line x1="290" y1="190" x2="620" y2="190" stroke="#8e24aa" stroke-width="2.5"/>
+<rect x="620" y="180" width="40" height="20" rx="3" fill="#fff" stroke="#444" stroke-width="1.5"/>
+<text x="640" y="195" font-size="11" font-weight="700" fill="#10264d" text-anchor="middle">OUT</text>
+<line x1="290" y1="250" x2="620" y2="250" stroke="#000" stroke-width="2.5"/>
+<rect x="620" y="240" width="40" height="20" rx="3" fill="#fff" stroke="#444" stroke-width="1.5"/>
+<text x="640" y="255" font-size="11" font-weight="700" fill="#10264d" text-anchor="middle">GND</text>
+<text x="455" y="122" font-size="12" font-weight="700" fill="#c62828" text-anchor="middle">+5 V</text>
+<text x="455" y="182" font-size="12" font-weight="700" fill="#8e24aa" text-anchor="middle">signal: HIGH = motion</text>
+<text x="455" y="242" font-size="12" font-weight="700" fill="#000" text-anchor="middle">0 V</text>
+<text x="840" y="140" font-size="12" font-weight="400" fill="#10264d" text-anchor="start">sensitivity pot</text>
+<text x="840" y="160" font-size="12" font-weight="400" fill="#10264d" text-anchor="start">time pot: minimum</text>
+<text x="840" y="180" font-size="12" font-weight="400" fill="#10264d" text-anchor="start">jumper: H (repeat)</text>
+<rect x="20" y="350" width="960" height="134" rx="8" fill="#fff6d6" stroke="#b58900" stroke-width="1"/>
+<text x="35" y="372" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">PIR output is 3.3 V HIGH on motion (PIR_ACTIVE_HIGH 1); PA0 is set as input with pull-down (PIR_PULL). The firmware ignores the PIR for 60 s after</text>
+<text x="35" y="392" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">   power-up.</text>
+<text x="35" y="412" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">Set the PIR time pot to its minimum and the jumper to H (retrigger); the 7 min / 10 min timers are in firmware, not on the PIR. Power the PIR from</text>
+<text x="35" y="432" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">   5V.</text>
+<text x="35" y="452" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">Mount it looking at the room, not at the lamp or a window. A PIR output stuck HIGH for 30 min raises the red FAULT LED (PA6).</text>
+<text x="35" y="472" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">PIR set-up and mounting: pir-setup.svg. Real pin positions on the board: pinout.svg.</text>
+</svg>

@@ -83,6 +83,40 @@ Example: motion at 0:00 and again at 4:00 → light off at 11:00, fan off at 14:
 | Debug text (optional) | PA9 / A9 (TX, 9600 baud) |
 | ST-Link programming | PA13 (SWDIO), PA14 (SWCLK), GND |
 
+### Part-by-part wiring to the Blue Pill
+
+One diagram per part, each showing the Blue Pill pin names. (Regenerate with `python tools/gen_part_wiring.py`; the pin map is in [`include/config.h`](include/config.h).)
+
+#### Relays: PA1 (light) and PA2 (fan)
+<p align="center">
+  <img src="docs/img/relays-bluepill.svg" alt="Both relays: Blue Pill PA1 and PA2 to the opto driver, relay COM NO NC and terminal block" width="100%">
+</p>
+
+#### Status LEDs: PA3, PA4, PA5, PA6, PB11, PB13
+<p align="center">
+  <img src="docs/img/leds-bluepill.svg" alt="All six external LEDs, each with a 330 ohm resistor to its Blue Pill pin and a common GND" width="100%">
+</p>
+
+#### PIR sensor: PA0
+<p align="center">
+  <img src="docs/img/pir-bluepill.svg" alt="PIR VCC to 5V, OUT to PA0, GND to GND" width="100%">
+</p>
+
+#### Buttons: PB0 and PB1
+<p align="center">
+  <img src="docs/img/buttons-bluepill.svg" alt="Light override button on PB0, fan button on PB1, FAN-ENABLED LED on PB11" width="100%">
+</p>
+
+#### Daylight sensor (LDR): PA7 or PB10
+<p align="center">
+  <img src="docs/img/ldr-bluepill.svg" alt="Bare LDR divider to PA7, or a digital LDR module to PB10" width="100%">
+</p>
+
+#### Humidity sensor (optional): PB12
+<p align="center">
+  <img src="docs/img/humidity-bluepill.svg" alt="DHT11 or DHT22 data on PB12 with a 10 k pull-up" width="100%">
+</p>
+
 ### Final wiring diagram (complete system, including the 230 V side)
 
 <p align="center">

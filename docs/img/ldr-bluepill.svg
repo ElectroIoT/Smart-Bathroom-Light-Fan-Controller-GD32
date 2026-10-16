@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 557" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+<style>.blink { animation: blink 1s steps(1) infinite; } @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.15; } }</style>
+<rect width="1000" height="557" rx="14" fill="#f6f9ff" stroke="#c9d6ee"/>
+<text x="500" y="32" font-size="20" font-weight="700" fill="#10264d" text-anchor="middle">Daylight sensor (bare LDR, or a digital LDR module) to the Blue Pill</text>
+<rect x="20" y="55" width="960" height="290" rx="10" fill="none" stroke="#2a62c9" stroke-width="1.5" stroke-dasharray="7 4"/>
+<text x="34" y="77" font-size="14" font-weight="700" fill="#2a62c9" text-anchor="start">Low voltage only (optional, DAYLIGHT_SENSOR)</text>
+<rect x="40" y="90" width="150" height="240" rx="10" fill="#e3edff" stroke="#2a62c9" stroke-width="2"/>
+<text x="52" y="114" font-size="15" font-weight="700" fill="#2a62c9" text-anchor="start">BLUE PILL</text>
+<text x="52" y="132" font-size="12" font-weight="400" fill="#2a62c9" text-anchor="start">GD32F103C8T6</text>
+<text x="52" y="318" font-size="11" font-weight="400" fill="#5a6f99" text-anchor="start">USB end at the top</text>
+<text x="330" y="100" font-size="13" font-weight="700" fill="#10264d" text-anchor="start">Option A: bare LDR + 10 k divider (DAYLIGHT_SENSOR 2)</text>
+<rect x="186" y="115" width="104" height="30" rx="5" fill="#ef6c00" stroke="#ef6c00" stroke-width="1"/>
+<text x="238" y="135" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">3V3</text>
+<rect x="186" y="170" width="104" height="30" rx="5" fill="#6d4c41" stroke="#6d4c41" stroke-width="1"/>
+<text x="238" y="190" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">PA7 (A7) ADC</text>
+<rect x="186" y="275" width="104" height="30" rx="5" fill="#000000" stroke="#000000" stroke-width="1"/>
+<text x="238" y="295" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">GND</text>
+<line x1="290" y1="130" x2="560" y2="130" stroke="#ef6c00" stroke-width="2.5"/>
+<rect x="560" y="112" width="90" height="36" rx="18" fill="#ffe0b2" stroke="#e65100" stroke-width="2"/>
+<text x="605" y="135" font-size="13" font-weight="700" fill="#e65100" text-anchor="middle">LDR</text>
+<line x1="650" y1="130" x2="700" y2="130" stroke="#ef6c00" stroke-width="2.5"/>
+<line x1="700" y1="130" x2="700" y2="160" stroke="#ef6c00" stroke-width="2.5"/>
+<line x1="290" y1="185" x2="700" y2="185" stroke="#6d4c41" stroke-width="2.5"/>
+<circle cx="700" cy="185" r="3.5" fill="#444"/>
+<line x1="700" y1="160" x2="700" y2="185" stroke="#444" stroke-width="2"/>
+<line x1="700" y1="185" x2="700" y2="215" stroke="#444" stroke-width="2"/>
+<rect x="690" y="215" width="20" height="45" rx="0" fill="#fff" stroke="#444" stroke-width="2"/>
+<text x="680" y="243" font-size="12" font-weight="400" fill="#10264d" text-anchor="end">10 k</text>
+<line x1="700" y1="260" x2="700" y2="290" stroke="#444" stroke-width="2"/>
+<line x1="290" y1="290" x2="700" y2="290" stroke="#000" stroke-width="2.5"/>
+<text x="430" y="177" font-size="12" font-weight="700" fill="#6d4c41" text-anchor="middle">node between LDR and 10 k</text>
+<text x="760" y="130" font-size="12" font-weight="400" fill="#10264d" text-anchor="start">bright = low resistance = higher voltage</text>
+<text x="760" y="150" font-size="12" font-weight="400" fill="#10264d" text-anchor="start">face it at the window, shield from the lamp</text>
+<text x="740" y="215" font-size="13" font-weight="700" fill="#10264d" text-anchor="start">Option B: digital LDR module</text>
+<text x="740" y="232" font-size="12" font-weight="400" fill="#10264d" text-anchor="start">(DAYLIGHT_SENSOR 1)</text>
+<text x="740" y="252" font-size="12" font-weight="400" fill="#10264d" text-anchor="start">VCC to 3V3, GND to GND, DO to PB10</text>
+<text x="740" y="270" font-size="12" font-weight="400" fill="#10264d" text-anchor="start">set DAYLIGHT_BRIGHT_LEVEL to match</text>
+<rect x="740" y="285" width="100" height="28" rx="5" fill="#6d4c41" stroke="#6d4c41" stroke-width="1"/>
+<text x="790" y="304" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">PB10 (B10)</text>
+<rect x="20" y="365" width="960" height="174" rx="8" fill="#fff6d6" stroke="#b58900" stroke-width="1"/>
+<text x="35" y="387" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">Bare LDR: 3V3 -&gt; LDR -&gt; PA7 -&gt; 10 k -&gt; GND, read with the ADC (12 bit). Open the debug serial (PA9, 9600) to print the ADC value every 5 s, note</text>
+<text x="35" y="407" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">   day and night,</text>
+<text x="35" y="427" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">then set LDR_BRIGHT_ADC and LDR_DARK_ADC between them (LDR_INVERT 1 if wired the other way). Many modules output LOW when bright: set</text>
+<text x="35" y="447" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">   DAYLIGHT_BRIGHT_LEVEL.</text>
+<text x="35" y="467" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">When the room is bright, a visit does not switch the light on, but the fan still runs. The sensor is read only while the lamp is off; a reading</text>
+<text x="35" y="487" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">   must hold for 10 s.</text>
+<text x="35" y="507" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">A missing sensor reads as dark, so the light keeps working. PA7 is an analog input: never feed it more than 3.3 V.</text>
+<text x="35" y="527" font-size="13" font-weight="400" fill="#6b4e00" text-anchor="start">Option A and B are alternatives: wire one of them.</text>
+</svg>
