@@ -2,6 +2,8 @@
 
 > **Not tested on real hardware.** The steps below are the standard approach for Cortex-M3 boards; items marked ⚠️ are specific to GD32 and unverified.
 
+> On the AutoBath custom PCB (HLK-5M05 supply): read [programming_on_custom_pcb.md](programming_on_custom_pcb.md) first. Never plug USB while mains is on.
+
 ## Do I need an ST-Link?
 Plan on **yes**. Do not assume the board's USB connector programs it: on most "minimum system" boards it only supplies power (or is wired to the MCU's USB pins for your own USB code). ⚠️ GD32F103 has a built-in serial bootloader (BOOT0 high + UART) which is a no-probe fallback, but it needs a USB-to-serial adapter, so a probe is simpler. A "ST-Link V2" clone (about the size of a USB stick) works over SWD.
 
