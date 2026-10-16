@@ -13,7 +13,7 @@ A drop-in part for anyone who wants to design a carrier board for a Blue Pill st
 | 3D model with header pins | `BluePill_GD32F103C8T6_WITH_header_*` | **solder-in** version: header plastic sits on the PCB, pins go down through it (like any through-hole part) and stick out only 1 mm above the module |
 | 3D model without header pins | `BluePill_GD32F103C8T6_WITHOUT_header_*` | use when your own socket / header part already draws the pins |
 | EasyEDA / EAGLE library | [`../eda/AutoBath_parts_and_BluePill.lbr`](../eda/) | Blue Pill symbol, footprint `BLUEPILL_40P` and device, plus the other parts of the AutoBath board |
-| EasyEDA Pro device export | [`../easyeda/`](../easyeda/) | `BluePill_GD32F103C8T6_device_rev3.elibz2` with device, symbol and footprint (3D model added separately, see its README) |
+| EasyEDA Pro device export | [`../easyeda/`](../easyeda/) | `BluePill_GD32F103C8T6_device_rev4.elibz2` with device, symbol and footprint (3D model added separately, see its README) |
 | KiCad footprint + symbol | [`../kicad/`](../kicad/) | `.kicad_mod` points at the `_kicad_scale.wrl` model |
 | Pin picture | `BluePill_pinout_all_pins.png` / `.svg` | every pin name and its role in this project |
 
@@ -40,7 +40,7 @@ Copy `../kicad/BluePill_GD32F103C8T6.kicad_mod` into a `.pretty` library next to
 Pins 1 to 20 are on the right, bottom to top (B12 up to 3.3). Pins 21 to 40 are on the left, bottom to top (GND up to VBAT). In the footprint, pin 1 and pin 21 are at the same end (the USB end of the model), pad 1 is square.
 
 ## Model coordinates
-Origin is the top surface of the host PCB under the module, board centre. USB at **+X**; the row with B12 at **+Y**. The module is a solder-in part: the header plastic stands on the PCB (z 0 to 2.5 mm), the module board is at z 2.5 to 4.1 mm, the pin tips end 1 mm above it, and the pins go down to z = -3.2 mm, through a 1.6 mm PCB. No Z offset is needed in the 3D model manager.
+Origin is the top surface of the host PCB under the module, board centre. USB at **+X**; the row with B12 at **+Y**. The module is a solder-in part: the header plastic stands on the PCB (z 0 to 2.5 mm), the module board is at z 2.5 to 4.1 mm, the pin tips end 1 mm above it, and the pins go down to z = -3.2 mm, through a 1.6 mm PCB. In the footprint's 3D Model Manager set the **Z offset to -3.2 mm**: EasyEDA puts the lowest point of a model on the board surface, so without it the pin tails do not show below the PCB.
 
 ## Still unverified
 - Row spacing and board size are measured from a photo (about +-0.4 mm). Put calipers on your own board before sending anything to a board house; edit the constants at the top of [`tools/gen_bluepill_3d.py`](../../../tools/gen_bluepill_3d.py) and [`tools/gen_eagle_schematic.py`](../../../tools/gen_eagle_schematic.py) and run them again.
