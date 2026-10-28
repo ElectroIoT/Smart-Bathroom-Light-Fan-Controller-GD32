@@ -6,7 +6,10 @@
   <img alt="MCU" src="https://img.shields.io/badge/MCU-GD32F103C8T6-1b4b8f">
   <img alt="Language" src="https://img.shields.io/badge/firmware-C-blue">
   <img alt="Tests" src="https://img.shields.io/badge/logic%20tests-470%20checks%20passing-brightgreen">
-  <img alt="Hardware" src="https://img.shields.io/badge/hardware%20test-pending-orange">
+  <img alt="Firmware" src="https://img.shields.io/badge/firmware-tested%20on%20own%20build-brightgreen">
+  <img alt="PCB" src="https://img.shields.io/badge/custom%20PCB-designed%2C%20not%20built-orange">
+  <img alt="Gerber" src="https://img.shields.io/badge/Gerber-included-5ee7ff">
+  <img alt="License" src="https://img.shields.io/badge/PCB%20license-CC%20BY%204.0-ff8fa3">
 </p>
 
 # Smart Bathroom Light & Exhaust Fan Controller
@@ -322,6 +325,8 @@ The PIR is an HC-SR501-type module; the relay module model and your lamp and fan
 ## 🧩 AutoBath-Light-Fan PCB (designed, EasyEDA, not built)
 
 <p align="center"><a href="docs/pcb/autobath-v1/README.md"><img src="docs/pcb/autobath-v1/banner.svg" alt="AutoBath PCB v1" width="100%"></a></p>
+
+<p align="center"><img src="docs/pcb/autobath-v1/pcb-iso-3d.png" alt="3D view of the AutoBath PCB" width="85%"></p>
 
 **Design files are ready:** [Gerber, EasyEDA project, schematic, BOM](docs/pcb/autobath-v1/README.md) (100 x 80 mm, DRC clean, mains clearance 3 mm). Not built or tested yet. The older planning notes follow.
 
