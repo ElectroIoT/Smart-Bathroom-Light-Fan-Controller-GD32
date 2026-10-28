@@ -319,7 +319,11 @@ Quantities are for **one controller**. *Required* = needed for the basic system,
 
 The PIR is an HC-SR501-type module; the relay module model and your lamp and fan ratings were not known when this list was written. Check them against [`docs/hardware_design.md`](docs/hardware_design.md) before buying or installing, and have a qualified electrician install or inspect the mains side. No prices are listed because they vary by seller.
 
-## 🧩 AutoBath-Light-Fan PCB (planned, EasyEDA)
+## 🧩 AutoBath-Light-Fan PCB (designed, EasyEDA, not built)
+
+<p align="center"><a href="docs/pcb/autobath-v1/README.md"><img src="docs/pcb/autobath-v1/banner.svg" alt="AutoBath PCB v1" width="100%"></a></p>
+
+**Design files are ready:** [Gerber, EasyEDA project, schematic, BOM](docs/pcb/autobath-v1/README.md) (100 x 80 mm, DRC clean, mains clearance 3 mm). Not built or tested yet. The older planning notes follow.
 
 A custom board is being designed: your Blue Pill plugs into sockets, and the PCB carries the two relays with mains terminals, fuses, a varistor, an on-board 5 V AC-DC module, the LED, button and sensor connectors, and the relay drivers. **Design draft only: not built, not reviewed.** See [`docs/pcb/README.md`](docs/pcb/README.md) for the decisions, [`netlist.csv`](docs/pcb/netlist.csv), [`bom.csv`](docs/pcb/bom.csv), the layout and safety rules, and the staged bring-up plan. On that board the relays are driven by NPN transistors, so set `RELAY_ACTIVE_LOW 0` in `config.h`. 3D models of the Blue Pill (with and without header pins) for the EasyEDA 3D preview are in [`docs/pcb/3d/`](docs/pcb/3d/README.md), with a footprint, symbol and device for EasyEDA Pro and KiCad. The PCB and Blue Pill part files are licensed CC BY 4.0, see [`docs/pcb/LICENSE.md`](docs/pcb/LICENSE.md).
 
