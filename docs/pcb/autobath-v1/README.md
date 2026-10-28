@@ -4,7 +4,7 @@
 
 Custom 100 x 80 mm, 2-layer board for the bathroom light (7 min) and exhaust fan (10 min) controller. A GD32F103C8T6 Blue Pill is soldered on, two **opto-isolated** relays switch the lamp and fan, and an HLK-5M05 makes 5 V from mains.
 
-> **Status: designed in EasyEDA, DRC clean, NOT built or tested.** The mains side must be checked by a qualified electrician. See "Checked / not checked" below.
+> **Status: designed in EasyEDA, DRC clean, NOT built or tested.** (The firmware has been tested by the author on their own build, not on this PCB.) The mains side must be checked by a qualified electrician. See "Checked / not checked" below.
 
 ![Top view](pcb-top-3d.png)
 ![3D view](pcb-iso-3d.png)
@@ -29,7 +29,7 @@ Default clearance 6 mil. The six mains nets (relay contacts and AC) use a **3 mm
 
 ## Checked / not checked
 - Checked: schematic DRC 0 errors; PCB DRC 0 errors with the 3 mm mains rule; every net routed; 3D view looks right.
-- **Not done:** no fuse on the AC input (your decision; the HLK-5M05 is believed to have a built-in varistor, not verified against its datasheet); no milled isolation slot between mains and low voltage (the layout is mixed, a slot would cut tracks); mains tracks are not widened; parts and LCSC numbers still need your final check; nothing is built, powered or tested.
+- **Not done:** no fuse on the AC input (your decision; the HLK-5M05 is believed to have a built-in varistor, not verified against its datasheet); no milled isolation slot between mains and low voltage (the layout is mixed, a slot would cut tracks); mains tracks are not widened; parts and LCSC numbers still need your final check; this PCB is not built, powered or tested (firmware was tested separately on the author's own build).
 - Blue Pill pin 3D model and HLK-5M05 dimensions come from [EasyEDA-3D-Parts](https://github.com/ElectroIoT/EasyEDA-3D-Parts) (not measured on real parts).
 - Before powering: read [`../../programming_on_custom_pcb.md`](../../programming_on_custom_pcb.md). Never plug USB while mains is connected.
 
