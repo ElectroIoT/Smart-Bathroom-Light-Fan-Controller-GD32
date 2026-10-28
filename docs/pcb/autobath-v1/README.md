@@ -14,7 +14,7 @@ Custom 100 x 80 mm, 2-layer board for the bathroom light (7 min) and exhaust fan
 |---|---|
 | [`AutoBath-Light-Fan_gerber.zip`](AutoBath-Light-Fan_gerber.zip) | Gerber + drill files, ready for a PCB maker (2 layers) |
 | [`AutoBath-Light-Fan.epro2`](AutoBath-Light-Fan.epro2) | full EasyEDA Pro project (schematic + PCB): File, Open |
-| [`AutoBath-Light-Fan_schematic.svg`](AutoBath-Light-Fan_schematic.svg) | schematic picture |
+| [`AutoBath-Light-Fan_schematic.pdf`](AutoBath-Light-Fan_schematic.pdf), [`.svg`](AutoBath-Light-Fan_schematic.svg) | schematic |
 | [`AutoBath-Light-Fan_BOM.csv`](AutoBath-Light-Fan_BOM.csv) | bill of materials (LCSC numbers as set in the project) |
 | [`AutoBath-Light-Fan_nets.csv`](AutoBath-Light-Fan_nets.csv), `.tel` | every net and its pins |
 
@@ -25,11 +25,11 @@ Top side: `PIR LDR DHT` (3-pin sensor headers: 1 GND, 2 signal, 3 supply), `LIT 
 Same as [`include/config.h`](../../../include/config.h): PA0 PIR, PA1 light relay (active LOW), PA2 fan relay (active LOW), PA3 to PA6 + PB11 + PB13 LEDs, PA7 LDR, PB0 / PB1 buttons, PB12 DHT. Set `RELAY_ACTIVE_LOW 1` (opto stage: pin LOW = relay ON). Part-by-part wiring: [`docs/img/*-bluepill.svg`](../../img/).
 
 ## Design rules used
-Default clearance 6 mil. The six mains nets (relay contacts and AC) use a **3 mm** clearance rule (`mains3mm`). GND is a copper pour on both layers.
+Default clearance 6 mil. The six mains nets (relay contacts and AC) use a **3 mm** clearance rule (`mains3mm`). GND is a copper pour on both layers, with a **no-copper region over the relay contact area** (both layers).
 
 ## Checked / not checked
 - Checked: schematic DRC 0 errors; PCB DRC 0 errors with the 3 mm mains rule; every net routed; 3D view looks right.
-- **Not done:** no fuse on the AC input (your decision, HLK-5M05 said to include a built-in varistor, not verified against its datasheet); no isolation slot between mains and low voltage; mains tracks are not widened; the GND pour also runs under the mains area; parts and LCSC numbers still need your final check; nothing is built, powered or tested.
+- **Not done:** no fuse on the AC input (your decision; the HLK-5M05 is believed to have a built-in varistor, not verified against its datasheet); no milled isolation slot between mains and low voltage (the layout is mixed, a slot would cut tracks); mains tracks are not widened; parts and LCSC numbers still need your final check; nothing is built, powered or tested.
 - Blue Pill pin 3D model and HLK-5M05 dimensions come from [EasyEDA-3D-Parts](https://github.com/ElectroIoT/EasyEDA-3D-Parts) (not measured on real parts).
 - Before powering: read [`../../programming_on_custom_pcb.md`](../../programming_on_custom_pcb.md). Never plug USB while mains is connected.
 
